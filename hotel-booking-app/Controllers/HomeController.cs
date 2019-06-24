@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace hotel-booking-app.Controllers
+namespace HotelBookingApp.Controllers
 {
     public class HomeController
 {

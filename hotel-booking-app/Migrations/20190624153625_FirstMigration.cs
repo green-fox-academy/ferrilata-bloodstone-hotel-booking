@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace hotelbookingapp.Migrations
+namespace HotelBookingApp.Migrations
 {
     public partial class FirstMigration : Migration
     {

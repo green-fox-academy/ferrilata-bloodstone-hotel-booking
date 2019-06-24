@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-namespace hotel_booking_app
+namespace HotelBookingApp
 {
     public class ApplicationContext : DbContext
     {
