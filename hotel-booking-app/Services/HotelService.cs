@@ -3,40 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HotelBookingApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingApp.Services
 {
     public class HotelService : IHotelService
     {
-        public ApplicationContext applicationContext { get; }
+        private ApplicationContext applicationContext { get; }
 
         public HotelService(ApplicationContext applicationContext)
         {
             this.applicationContext = applicationContext;
         }
 
-
-        public void AddHotel(HotelModel hotel)
+        public async Task Add(HotelModel hotel)
         {
-            applicationContext.Add(hotel);
+            await applicationContext.AddAsync(hotel);
             applicationContext.SaveChanges();
         }
 
-        public void DeleteHotelById(long hotelId)
+        public void Delete(long id)
         {
-            var hotel = applicationContext.Hotels.SingleOrDefault(h => h.Id == hotelId);
+            try
+            { 
+            var hotel = applicationContext.Hotels.SingleOrDefault(h => h.Id == id);
             applicationContext.Hotels.Remove(hotel);
             applicationContext.SaveChanges();
+            }
+            catch (KeyNotFoundException)
+            {
+                
+            }
         }
 
-        public IEnumerable<HotelModel> FindAll()
+        public async Task<IEnumerable<HotelModel>> FindAll()
         {
-            return applicationContext.Hotels.ToList();
+            return await applicationContext.Hotels.ToListAsync();
         }
 
-        public IEnumerable<HotelModel> ListAlphabetically()
+        public async Task<IEnumerable<HotelModel>> FindAllOrderByName()
         {
-            return applicationContext.Hotels.OrderBy(h => h.Name);
+            return await applicationContext.Hotels.OrderBy(h => h.Name).ToListAsync();
         }
     }
 }

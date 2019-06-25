@@ -8,9 +8,9 @@ namespace HotelBookingApp.Services
 {
     public interface IHotelService
     {
-        IEnumerable<HotelModel> FindAll();
-        IEnumerable<HotelModel> ListAlphabetically();
-        void AddHotel(HotelModel hotel);
-        void DeleteHotelById(long hotelId);
+        Task<IEnumerable<HotelModel>> FindAll();
+        Task<IEnumerable<HotelModel>> FindAllOrderByName();
+        Task Add(HotelModel hotel);
+        void Delete(long hotelId);
     }
 }
