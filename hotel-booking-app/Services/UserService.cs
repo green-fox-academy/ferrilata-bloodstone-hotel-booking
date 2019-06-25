@@ -18,9 +18,10 @@ namespace HotelBookingApp.Services
             throw new System.NotImplementedException();
         }
 
-        public void Delete(long id)
+        public async void Delete(long id)
         {
             applicationContext.Users.Remove(GetById(id).Result);
+            await applicationContext.SaveChangesAsync();
         }
 
         public IEnumerable<UserModel> GetAll()
