@@ -39,7 +39,7 @@ namespace HotelBookingApp.Services
         public async void Update(UserModel userParam)
         {
             applicationContext.Users.Update(userParam);
-            await applicationContext.SaveChangesAsync();
+            long id = await applicationContext.SaveChangesAsync();
         }
     }
 }
