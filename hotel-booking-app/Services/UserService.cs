@@ -13,7 +13,7 @@ namespace HotelBookingApp.Services
             this.applicationContext = context;
         }
 
-        public async void Create(UserModel user)
+        public async Task Create(UserModel user)
         {
             UserModel userInDb = await applicationContext.Users
                 .FindAsync(user.Email);
@@ -29,7 +29,7 @@ namespace HotelBookingApp.Services
             }
         }
 
-        public async void Delete(long id)
+        public async Task Delete(long id)
         {
             applicationContext.Users.Remove(GetById(id).Result);
             await applicationContext.SaveChangesAsync();
@@ -47,7 +47,7 @@ namespace HotelBookingApp.Services
                 ?? throw new KeyNotFoundException($"User with {id} is not found.");
         }
 
-        public async void Update(UserModel userParam)
+        public async Task Update(UserModel userParam)
         {
             applicationContext.Users.Update(userParam);
             long id = await applicationContext.SaveChangesAsync();
