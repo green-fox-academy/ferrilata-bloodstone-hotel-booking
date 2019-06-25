@@ -16,7 +16,7 @@ namespace HotelBookingApp.Services
 
         public async Task Create(UserModel user)
         {
-            if (checkUserByEmail(user.Email))
+            if (!checkUserByEmail(user.Email))
             {
                 await applicationContext.Users.AddAsync(user);
                 long id = await applicationContext.SaveChangesAsync();
