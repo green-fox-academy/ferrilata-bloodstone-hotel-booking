@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models;
+using HotelBookingApp.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,6 +27,13 @@ namespace HotelBookingApp.Services
             {
                 throw new System.Exception($"User with email {user.Email} already exists.");
             }
+        }
+
+        public bool checkUserByEmail(string email)
+        {
+            return applicationContext.Users
+                .Where(u => u.Email == email)
+                .FirstOrDefault() == null ? false : true;
         }
 
         public async Task Delete(long id)

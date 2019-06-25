@@ -11,5 +11,6 @@ namespace HotelBookingApp.Services
         Task Create(UserModel user);
         Task Update(UserModel userParam);
         Task Delete(long id);
+        bool checkUserByEmail(string email);
     }
 }
