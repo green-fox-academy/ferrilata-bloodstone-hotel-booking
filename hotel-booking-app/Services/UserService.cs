@@ -20,7 +20,7 @@ namespace HotelBookingApp.Services
 
         public void Delete(long id)
         {
-            throw new System.NotImplementedException();
+            applicationContext.Users.Remove(GetById(id).Result);
         }
 
         public IEnumerable<UserModel> GetAll()
