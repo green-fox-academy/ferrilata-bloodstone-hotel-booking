@@ -8,24 +8,35 @@ namespace HotelBookingApp.Services
 {
     public class HotelService : IHotelService
     {
-        public void AddHotel()
+        public ApplicationContext applicationContext { get; }
+
+        public HotelService(ApplicationContext applicationContext)
         {
-            throw new NotImplementedException();
+            this.applicationContext = applicationContext;
         }
 
-        public void DeleteHotel()
+
+        public void AddHotel(HotelModel hotel)
         {
-            throw new NotImplementedException();
+            applicationContext.Add(hotel);
+            applicationContext.SaveChanges();
+        }
+
+        public void DeleteHotelById(long hotelId)
+        {
+            var hotel = applicationContext.Hotels.SingleOrDefault(h => h.Id == hotelId);
+            applicationContext.Hotels.Remove(hotel);
+            applicationContext.SaveChanges();
         }
 
         public IEnumerable<HotelModel> FindAll()
         {
-            throw new NotImplementedException();
+            return applicationContext.Hotels.ToList();
         }
 
         public IEnumerable<HotelModel> ListAlphabetically()
         {
-            throw new NotImplementedException();
+            return applicationContext.Hotels.OrderBy(h => h.Name);
         }
     }
 }

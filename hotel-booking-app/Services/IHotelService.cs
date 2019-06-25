@@ -10,7 +10,7 @@ namespace HotelBookingApp.Services
     {
         IEnumerable<HotelModel> FindAll();
         IEnumerable<HotelModel> ListAlphabetically();
-        void AddHotel();
-        void DeleteHotel();
+        void AddHotel(HotelModel hotel);
+        void DeleteHotelById(long hotelId);
     }
 }
