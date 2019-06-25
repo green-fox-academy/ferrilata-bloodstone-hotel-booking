@@ -16,8 +16,7 @@ namespace HotelBookingApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login()
         {
-
-            return View();
+            return RedirectToAction();
         }
 
         [HttpPost]
