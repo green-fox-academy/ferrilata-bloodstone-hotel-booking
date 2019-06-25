@@ -8,7 +8,7 @@ namespace HotelBookingApp.Services
     {
         IEnumerable<UserModel> GetAll();
         Task<UserModel> GetById(long id);
-        UserModel Create(UserModel user);
+        void Create(UserModel user);
         void Update(UserModel userParam);
         void Delete(long id);
     }
