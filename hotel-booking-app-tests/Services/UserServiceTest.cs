@@ -1,11 +1,15 @@
-using HotelBookingApp;
+﻿using HotelBookingApp;
+using HotelBookingApp.Models;
+using HotelBookingApp.Services;
 using Microsoft.EntityFrameworkCore;
-
+using Moq;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace hotel_booking_app_tests.Services
 {
-    [TestClass]
-    class UserServiceTest
+    public class UserServiceTest
     {
         public static DbContextOptions<ApplicationContext> GetTestDbOptions()
         {
@@ -13,3 +17,26 @@ namespace hotel_booking_app_tests.Services
                 .UseInMemoryDatabase(databaseName: "hotel-booking-testdb")
                 .Options;
         }
+
+        [Fact]
+        public async Task Create_WithNewUser_ResultsOk()
+        {
+            using (var seedContext = new ApplicationContext(GetTestDbOptions()))
+            {
+                seedContext.Users.Add(new UserModel { Email = "testUser@example.com", Password = "asd" });
+                seedContext.SaveChanges();
+            }
+            var newUser = new UserModel { Email = "testUser@example.com", Password = "12344321" };
+            var context = new ApplicationContext(GetTestDbOptions());
+            var userService = new UserService(context);
+            var expected = 2;
+
+            // Act
+            await userService.Create(newUser);
+            var actual = context.Users.ToList().Count;
+
+            //Assert
+            Assert.Equal(expected, actual);
+        }
+    }
+}
