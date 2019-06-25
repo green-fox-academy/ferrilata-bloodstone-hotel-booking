@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace hotel_booking_app
+namespace HotelBookingApp
 {
     public class Program
     {
