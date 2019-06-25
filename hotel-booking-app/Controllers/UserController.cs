@@ -20,7 +20,12 @@ namespace HotelBookingApp.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginReq userReq)
         {
-            return RedirectToAction();
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Login", "Home", ModelState);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost("signup")]
@@ -28,10 +33,10 @@ namespace HotelBookingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return RedirectToAction("Signup", "Home", ModelState);
             }
             userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });
-            return RedirectToAction();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
