@@ -1,7 +1,9 @@
-﻿using HotelBookingApp.Models.User;
+﻿using System;
+using HotelBookingApp.Models.User;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using HotelBookingApp.Models;
 
 namespace HotelBookingApp.Controllers
 {
@@ -24,7 +26,12 @@ namespace HotelBookingApp.Controllers
         [HttpPost("signup")]
         public async Task<IActionResult> Signup(UserSignupReq userReq)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });
+            return RedirectToAction();
         }
     }
 }
