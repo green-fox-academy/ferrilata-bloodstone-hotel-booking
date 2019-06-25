@@ -1,4 +1,4 @@
-﻿using HotelBookingApp;
+using HotelBookingApp;
 using HotelBookingApp.Models;
 using HotelBookingApp.Services;
 using Microsoft.EntityFrameworkCore;
@@ -21,15 +21,11 @@ namespace hotel_booking_app_tests.Services
         [Fact]
         public async Task Create_WithNewUser_ResultsOk()
         {
-            using (var seedContext = new ApplicationContext(GetTestDbOptions()))
-            {
-                seedContext.Users.Add(new UserModel { Email = "testUser@example.com", Password = "asd" });
-                seedContext.SaveChanges();
-            }
+            // Arrange
             var newUser = new UserModel { Email = "testUser@example.com", Password = "12344321" };
             var context = new ApplicationContext(GetTestDbOptions());
             var userService = new UserService(context);
-            var expected = 2;
+            var expected = 1;
 
             // Act
             await userService.Create(newUser);
