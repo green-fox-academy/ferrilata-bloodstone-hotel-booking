@@ -1,4 +1,4 @@
-using HotelBookingApp.Models;
+﻿using HotelBookingApp.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,12 +25,14 @@ namespace HotelBookingApp.Services
 
         public IEnumerable<UserModel> GetAll()
         {
-            throw new System.NotImplementedException();
+            return applicationContext.Users;
         }
 
-        public UserModel GetById(long id)
+        public async Task<UserModel> GetById(long id)
         {
-            throw new System.NotImplementedException();
+            return await applicationContext.Users
+                .FindAsync(id) 
+                ?? throw new KeyNotFoundException($"User with {id} is not found.");
         }
 
         public void Update(UserModel userParam)
