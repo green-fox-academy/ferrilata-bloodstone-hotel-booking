@@ -1,5 +1,6 @@
-using HotelBookingApp.Models;
+﻿using HotelBookingApp.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Services
@@ -15,10 +16,7 @@ namespace HotelBookingApp.Services
 
         public async Task Create(UserModel user)
         {
-            UserModel userInDb = await applicationContext.Users
-                .FindAsync(user.Email);
-
-            if (userInDb == null)
+            if (checkUserByEmail(user.Email))
             {
                 await applicationContext.Users.AddAsync(user);
                 long id = await applicationContext.SaveChangesAsync();
