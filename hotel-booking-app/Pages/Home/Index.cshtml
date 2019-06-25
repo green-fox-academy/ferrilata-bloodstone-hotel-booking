@@ -1,0 +1,19 @@
+﻿@model List<HotelBookingApp.Models.HotelModel>
+
+<h1>List of Hotels</h1>
+<table class="table">
+    <tr>
+        <th>Hotel Name</th>
+        <th>Desription</th>
+        <th>Price(per night in HUF)</th>
+    </tr>
+
+    @foreach (var hotel in Model)
+    {
+        <tr>
+            <td>@hotel.Name</td>
+            <td>@hotel.Description</td>
+            <td>@hotel.Price</td>
+        </tr>
+    }
+</table>
