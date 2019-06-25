@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HotelBookingApp.Services
 {
-    interface IHotelService
+    public interface IHotelService
     {
     }
 }
