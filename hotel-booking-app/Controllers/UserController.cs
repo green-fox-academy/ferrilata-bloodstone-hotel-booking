@@ -7,7 +7,6 @@ using HotelBookingApp.Models;
 
 namespace HotelBookingApp.Controllers
 {
-    [Route("[controller]")]
     public class UserController : Controller
     {
         private readonly IUserService userService;
@@ -24,7 +23,6 @@ namespace HotelBookingApp.Controllers
             {
                 return RedirectToAction("Login", "Home", ModelState);
             }
-
             return RedirectToAction("Index", "Home");
         }
 
