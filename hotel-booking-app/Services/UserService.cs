@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models;
+using HotelBookingApp.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -35,9 +35,10 @@ namespace HotelBookingApp.Services
                 ?? throw new KeyNotFoundException($"User with {id} is not found.");
         }
 
-        public void Update(UserModel userParam)
+        public async void Update(UserModel userParam)
         {
-            throw new System.NotImplementedException();
+            applicationContext.Users.Update(userParam);
+            await applicationContext.SaveChangesAsync();
         }
     }
 }
