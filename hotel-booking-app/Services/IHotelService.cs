@@ -11,6 +11,6 @@ namespace HotelBookingApp.Services
         Task<IEnumerable<HotelModel>> FindAll();
         Task<IEnumerable<HotelModel>> FindAllOrderByName();
         Task Add(HotelModel hotel);
-        void Delete(long hotelId);
+        Task Delete(long hotelId);
     }
 }
