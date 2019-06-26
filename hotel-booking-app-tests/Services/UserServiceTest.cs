@@ -1,6 +1,6 @@
 ﻿using hotel_booking_app_tests.TestUtils;
 using HotelBookingApp;
-using HotelBookingApp.Models;
+using HotelBookingApp.Models.User;
 using HotelBookingApp.Services;
 using Microsoft.EntityFrameworkCore;
 using Moq;
