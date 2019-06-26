@@ -1,7 +1,7 @@
-﻿using hotel_booking_app_tests.TestUtils;
-using HotelBookingApp;
+﻿using HotelBookingApp;
 using HotelBookingApp.Models.User;
 using HotelBookingApp.Services;
+using HotelBookingAppTests.TestUtils;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
@@ -10,40 +10,44 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace hotel_booking_app_tests.Services
+namespace HotelBookingAppTests.Services
 {
     public class UserServiceTest
     {
         [Fact]
-        public async Task Create_WithNewUser_ResultsOk()
+        public async Task Exists_WithNewUser_ResultsOk()
         {
             // Arrange
-            var newUser = new UserModel { Email = "testUser@example.com", Password = "12344321" };
-            var context = new ApplicationContext(TestDbOptions.GetTestDbOptions());
-            var userService = new UserService(context);
-            var expected = 1;
+            var user = new UserModel { Id = 1, Email = "testUser@example.com", Password = "12344321" };
+            var userQueryableList = new List<UserModel>();
+            var mockContext = new ApplicationContext(TestDbOptions.GetTestDbOptions());
+            var userService = new UserService(mockContext);
 
             // Act
-            await userService.Create(newUser);
-            var actual = context.Users.ToList().Count;
+            await userService.Create(user);
+            var actual = mockContext.Users.ToList().Count;
 
             //Assert
-            Assert.Equal(expected, actual);
+            var expect = 1;
+            Assert.Equal(expect, actual);
         }
 
         [Fact]
-        public async Task Create_WithExistingUser_ThrowsException()
+        public async Task Exists_WithExistingUser_ThrowsException()
         {
-            using (var context = new ApplicationContext(TestDbOptions.GetTestDbOptions()))
-            {
-                var newUser = new UserModel { Email = "testUser@example.com", Password = "12344321" };
-                context.Add(new UserModel { Email = "testUser2@example.com", Password = "12344321" });
-                var userService = new UserService(context);
+            // Arrange
+            var user = new UserModel { Id = 1, Email = "testUser@example.com", Password = "12344321" };
+            var userQueryableList = new List<UserModel> { user };
+            var mockSet = GetDbSetForAsynctest.GetMockDbSetForAsyncMethodTest<UserModel>(userQueryableList);
 
-                // Act & Assert
-                Exception ex = await Assert.ThrowsAsync<Exception>(() => userService.Create(newUser));
-                Assert.Equal($"User with email {newUser.Email} already exists.", ex.Message);
-            }
+            var mockContext = new Mock<ApplicationContext>(TestDbOptions.GetTestDbOptions());
+            mockContext.Setup(c => c.Users).Returns(mockSet.Object);
+            var userService = new UserService(mockContext.Object);
+
+            // Act & Assert
+            Exception ex = await Assert.ThrowsAsync<Exception>(() => userService.Create(user));
+            Assert.Equal($"User with email {user.Email} already exists.", ex.Message);
+            
         }
 
         [Fact]
@@ -65,7 +69,7 @@ namespace hotel_booking_app_tests.Services
             var userService = new UserService(mockContext.Object);
 
             // Act & Assert
-            Assert.True(userService.CheckUserByEmail("testUser@example.com"));
+            Assert.True(userService.Exists("testUser@example.com"));
         }
 
         [Fact]
@@ -87,7 +91,7 @@ namespace hotel_booking_app_tests.Services
             var userService = new UserService(mockContext.Object);
 
             // Act & Assert
-            Assert.False(userService.CheckUserByEmail("not_exists@example.com"));
+            Assert.False(userService.Exists("not_exists@example.com"));
         }
 
         [Fact]
@@ -113,7 +117,7 @@ namespace hotel_booking_app_tests.Services
         }
 
         [Fact]
-        public async void GetById_WithValidID_ReturnsUser()
+        public async Task GetById_WithValidID_ReturnsUser()
         {
             // Arrange
             var user = new UserModel { Id = 1, Email = "testUser@example.com", Password = "12344321" };
