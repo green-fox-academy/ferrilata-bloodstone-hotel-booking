@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Services;
+using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -14,9 +15,9 @@ namespace HotelBookingApp.Controllers
         }
 
         [Route("/")]
-        public async Task<IActionResult> Index(string orderBy = "Name", bool desc = false, int currentPage = 1)
+        public async Task<IActionResult> Index(QueryParams queryParams)
         {
-            var hotels = await hotelService.FindAllPaginated(orderBy, desc, currentPage);
+            var hotels = await hotelService.FindAllPaginated(queryParams.OrderBy, queryParams.Desc, queryParams.currentPage);
             return View(hotels);
         }
     }
