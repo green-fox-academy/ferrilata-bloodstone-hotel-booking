@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models;
+using HotelBookingApp.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,7 +48,7 @@ namespace HotelBookingApp.Services
         {
             return await applicationContext.Users
                 .FindAsync(id)
-                ?? throw new KeyNotFoundException($"User with {id} is not found.");
+                ?? throw new KeyNotFoundException($"User with id: {id} is not found.");
         }
 
         public async Task Update(UserModel userParam)
