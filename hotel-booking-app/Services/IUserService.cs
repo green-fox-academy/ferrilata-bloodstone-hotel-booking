@@ -6,10 +6,11 @@ namespace HotelBookingApp.Services
 {
     public interface IUserService
     {
-        IEnumerable<UserModel> GetAll();
+        IEnumerable<UserModel> FindAll();
         Task<UserModel> GetById(long id);
-        UserModel Create(UserModel user);
-        void Update(UserModel userParam);
-        void Delete(long id);
+        Task Create(UserModel user);
+        Task Update(UserModel userParam);
+        Task Delete(long id);
+        bool Exists(string email);
     }
 }
