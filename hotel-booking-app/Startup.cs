@@ -1,3 +1,4 @@
+using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,8 @@ namespace HotelBookingApp
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<ApplicationContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IHotelService, HotelService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
