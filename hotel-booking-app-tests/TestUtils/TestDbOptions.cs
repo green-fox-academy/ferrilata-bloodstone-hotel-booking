@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace hotel_booking_app_tests.TestUtils
 {
-    class ContextMockingHelpers
+    class TestDbOptions
     {
         public static DbContextOptions<ApplicationContext> GetTestDbOptions()
         {
