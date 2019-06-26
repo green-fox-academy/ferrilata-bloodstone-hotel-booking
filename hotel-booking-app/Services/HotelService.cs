@@ -1,5 +1,6 @@
 ﻿using HotelBookingApp.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,10 +24,18 @@ namespace HotelBookingApp.Services
 
         public async Task Delete(long id)
         {
-            var hotel = applicationContext.Hotels
-                .SingleOrDefault(h => h.Id == id);
-            applicationContext.Hotels.Remove(hotel);
-            await applicationContext.SaveChangesAsync();
+            try
+            {
+                var hotel = applicationContext.Hotels
+                                .SingleOrDefault(h => h.Id == id);
+                applicationContext.Hotels.Remove(hotel);
+                await applicationContext.SaveChangesAsync();
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new Exception("Key not found");
+            }
+            
         }
 
         public async Task<IEnumerable<HotelModel>> FindAll()
