@@ -40,7 +40,7 @@ namespace HotelBookingApp.Services
             await applicationContext.SaveChangesAsync();
         }
 
-        public IEnumerable<UserModel> GetAll()
+        public IEnumerable<UserModel> FindAll()
         {
             return applicationContext.Users;
         }

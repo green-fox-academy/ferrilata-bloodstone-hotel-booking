@@ -6,7 +6,7 @@ namespace HotelBookingApp.Services
 {
     public interface IUserService
     {
-        IEnumerable<UserModel> GetAll();
+        IEnumerable<UserModel> FindAll();
         Task<UserModel> GetById(long id);
         Task Create(UserModel user);
         Task Update(UserModel userParam);
