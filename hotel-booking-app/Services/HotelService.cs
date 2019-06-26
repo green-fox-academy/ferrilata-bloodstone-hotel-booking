@@ -45,21 +45,8 @@ namespace HotelBookingApp.Services
 
         public async Task<IEnumerable<HotelModel>> FindAllPaginated(string orderBy, bool desc, int currentPage)
         {
-            var hotels = FindAllSorted(orderBy, desc);
+            var hotels = QueryableUtils<HotelModel>.OrderCustom(applicationContext.Hotels, orderBy, desc);
             return await PaginatedList<HotelModel>.CreateAsync(hotels, currentPage);
-        }
-
-        private IQueryable<HotelModel> FindAllSorted(string orderBy, bool desc)
-        {
-            var prop = typeof(HotelModel).GetProperty(orderBy);
-            if (prop == null)
-            {
-                return applicationContext.Hotels;
-            }
-
-            return desc
-                ? applicationContext.Hotels.OrderByDescending(h => prop.GetValue(h))
-                : applicationContext.Hotels.OrderBy(h => prop.GetValue(h));
         }
     }
 }
