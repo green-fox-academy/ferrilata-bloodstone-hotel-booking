@@ -1,4 +1,4 @@
-using HotelBookingApp.Models.User;
+﻿using HotelBookingApp.Models.User;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,15 +16,13 @@ namespace HotelBookingApp.Services
 
         public async Task Create(UserModel user)
         {
-            if (!CheckUserByEmail(user.Email))
-            {
-                await applicationContext.Users.AddAsync(user);
-                long id = await applicationContext.SaveChangesAsync();
-            }
-            else
+            var userList = applicationContext.Users.ToList();
+            if (Exists(user.Email))
             {
                 throw new System.Exception($"User with email {user.Email} already exists.");
             }
+            await applicationContext.Users.AddAsync(user);
+            long id = await applicationContext.SaveChangesAsync();
         }
 
         public bool Exists(string email)
