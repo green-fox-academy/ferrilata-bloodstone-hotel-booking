@@ -24,18 +24,11 @@ namespace HotelBookingApp.Services
 
         public async Task Delete(long id)
         {
-            try
-            {
-                var hotel = applicationContext.Hotels
-                                .SingleOrDefault(h => h.Id == id);
-                applicationContext.Hotels.Remove(hotel);
-                await applicationContext.SaveChangesAsync();
-            }
-            catch (KeyNotFoundException)
-            {
-                throw new Exception("Key not found");
-            }
-            
+            var hotel = applicationContext.Hotels
+                .SingleOrDefault(h => h.Id == id)
+                ?? throw new Exception($"Hotel {id} not found");
+            applicationContext.Hotels.Remove(hotel);
+            await applicationContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<HotelModel>> FindAll()
