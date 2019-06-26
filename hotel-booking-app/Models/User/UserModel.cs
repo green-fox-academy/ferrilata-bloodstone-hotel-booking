@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace HotelBookingApp.Models
+﻿namespace HotelBookingApp.Models.User
 {
     public class UserModel
     {

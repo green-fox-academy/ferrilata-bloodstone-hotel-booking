@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models;
+﻿using HotelBookingApp.Models.Hotel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,10 @@ namespace HotelBookingApp.Services
 {
     public interface IHotelService
     {
-        IEnumerable<HotelModel> FindAllPaginated(int currentPage = 1);
+        Task<IEnumerable<HotelModel>> FindAll();
+        Task<IEnumerable<HotelModel>> FindAllOrderByName();
+        Task<IEnumerable<HotelModel>> FindAllPaginated(int currentPage = 1);
+        Task Add(HotelModel hotel);
+        Task Delete(long hotelId);
     }
 }

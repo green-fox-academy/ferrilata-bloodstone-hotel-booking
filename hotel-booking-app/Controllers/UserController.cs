@@ -3,7 +3,6 @@ using HotelBookingApp.Models.User;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using HotelBookingApp.Models;
 
 namespace HotelBookingApp.Controllers
 {
@@ -16,14 +15,26 @@ namespace HotelBookingApp.Controllers
             this.userService = userService;
         }
 
+        [HttpGet("login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginReq userReq)
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Login", "Home", ModelState);
+                return RedirectToAction("Login", ModelState);
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet("signup")]
+        public IActionResult Signup()
+        {
+            return View();
         }
 
         [HttpPost("signup")]
@@ -31,7 +42,7 @@ namespace HotelBookingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Signup", "Home", ModelState);
+                return RedirectToAction("Signup", ModelState);
             }
             userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });
             return RedirectToAction("Index", "Home");
