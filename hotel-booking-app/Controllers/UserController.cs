@@ -26,7 +26,7 @@ namespace HotelBookingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Login", "Home", ModelState);
+                return RedirectToAction("Login", ModelState);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -42,7 +42,7 @@ namespace HotelBookingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Signup", "Home", ModelState);
+                return RedirectToAction("Signup", ModelState);
             }
             userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });
             return RedirectToAction("Index", "Home");
