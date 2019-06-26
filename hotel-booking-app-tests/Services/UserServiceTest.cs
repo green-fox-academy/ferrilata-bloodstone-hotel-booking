@@ -1,4 +1,4 @@
-﻿using HotelBookingApp;
+using HotelBookingApp;
 using HotelBookingApp.Models;
 using HotelBookingApp.Services;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +48,28 @@ namespace hotel_booking_app_tests.Services
                 Exception ex = await Assert.ThrowsAsync<Exception>(() => userService.Create(newUser));
                 Assert.Equal($"User with email {newUser.Email} already exists.", ex.Message);
             }
+        }
+
+        [Fact]
+        public void CheckUserByEmail_ReturnsTrue()
+        {
+            // Arrange
+            var data = new List<UserModel>
+            {
+                new UserModel { Email = "testUser@example.com", Password = "12344321" }
+            }.AsQueryable();
+            var mockSet = new Mock<DbSet<UserModel>>();
+            mockSet.As<IQueryable<UserModel>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<UserModel>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<UserModel>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<UserModel>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            var mockContext = new Mock<ApplicationContext>(GetTestDbOptions());
+            mockContext.Setup(m => m.Users)
+                    .Returns(mockSet.Object);
+            var userService = new UserService(mockContext.Object);
+
+            // Act & Assert
+            Assert.True(userService.CheckUserByEmail("testUser@example.com"));
         }
 
         [Fact]
