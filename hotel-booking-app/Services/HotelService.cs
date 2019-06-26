@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Models.Hotel;
+using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,15 +32,20 @@ namespace HotelBookingApp.Services
 
         public async Task<IEnumerable<HotelModel>> FindAll()
         {
-            return await applicationContext.Hotels
-                    .ToListAsync();
+            return await applicationContext.Hotels.ToListAsync();
         }
 
         public async Task<IEnumerable<HotelModel>> FindAllOrderByName()
         {
             return await applicationContext.Hotels
-                    .OrderBy(h => h.Name)
-                    .ToListAsync();
+                .OrderBy(h => h.Name)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<HotelModel>> FindWithQuery(QueryParams queryParams)
+        {
+            var hotels = QueryableUtils<HotelModel>.OrderCustom(applicationContext.Hotels, queryParams);
+            return await PaginatedList<HotelModel>.CreateAsync(hotels, queryParams.CurrentPage);
         }
     }
 }
