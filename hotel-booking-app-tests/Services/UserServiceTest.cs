@@ -49,5 +49,19 @@ namespace hotel_booking_app_tests.Services
                 Assert.Equal($"User with email {newUser.Email} already exists.", ex.Message);
             }
         }
+
+        [Fact]
+        public void checkUserByEmail_ReturnsFalse()
+        {
+            using (var context = new ApplicationContext(GetTestDbOptions()))
+            {
+                var newUser = new UserModel { Email = "testUser@example.com", Password = "12344321" };
+                context.Add(new UserModel { Email = "testUser2@example.com", Password = "12344321" });
+                var userService = new UserService(context);
+
+                // Act & Assert
+                Assert.False(userService.checkUserByEmail("testString"));
+            }
+        }
     }
 }
