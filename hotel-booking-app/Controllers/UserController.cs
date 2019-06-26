@@ -15,6 +15,12 @@ namespace HotelBookingApp.Controllers
             this.userService = userService;
         }
 
+        [HttpGet("login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginReq userReq)
         {
@@ -23,6 +29,12 @@ namespace HotelBookingApp.Controllers
                 return RedirectToAction("Login", "Home", ModelState);
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet("signup")]
+        public IActionResult Signup()
+        {
+            return View();
         }
 
         [HttpPost("signup")]
