@@ -10,7 +10,7 @@ namespace HotelBookingApp.Services
     {
         Task<IEnumerable<HotelModel>> FindAll();
         Task<IEnumerable<HotelModel>> FindAllOrderByName();
-        Task<IEnumerable<HotelModel>> FindAllPaginated(string orderBy, int currentPage);
+        Task<IEnumerable<HotelModel>> FindAllPaginated(string orderBy, bool desc, int currentPage);
         Task Add(HotelModel hotel);
         Task Delete(long hotelId);
     }

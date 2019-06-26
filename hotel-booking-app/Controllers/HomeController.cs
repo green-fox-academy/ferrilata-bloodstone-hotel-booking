@@ -14,9 +14,9 @@ namespace HotelBookingApp.Controllers
         }
 
         [Route("/")]
-        public async Task<IActionResult> Index(string orderBy = "", int currentPage = 1)
+        public async Task<IActionResult> Index(string orderBy = "Name", bool desc = false, int currentPage = 1)
         {
-            var hotels = await hotelService.FindAllPaginated(orderBy, currentPage);
+            var hotels = await hotelService.FindAllPaginated(orderBy, desc, currentPage);
             return View(hotels);
         }
     }
