@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models;
+﻿using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Models.User;
 using Microsoft.EntityFrameworkCore;
 namespace HotelBookingApp
