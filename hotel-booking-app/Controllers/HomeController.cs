@@ -1,4 +1,5 @@
-﻿using HotelBookingApp.Services;
+﻿using HotelBookingApp.Exceptions;
+using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -16,8 +17,15 @@ namespace HotelBookingApp.Controllers
         [Route("/")]
         public async Task<IActionResult> Index()
         {
-            var hotels = await hotelService.FindAllOrderByName();
-            return View(hotels);
+            try
+            {
+                var hotels = await hotelService.FindAllOrderByName();
+                return View(hotels);
+            }
+            catch
+            {
+                throw new ItemNotFoundException();
+            }
         }
     }
 }
