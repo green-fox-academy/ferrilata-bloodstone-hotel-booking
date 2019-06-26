@@ -17,7 +17,6 @@ namespace HotelBookingApp.Controllers
         public async Task<IActionResult> Index()
         {
             var hotels = await hotelService.FindAllOrderByName();
-            ViewData["hotels"] = hotels;
             return View(hotels);
         }
     }
