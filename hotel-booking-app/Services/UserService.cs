@@ -1,4 +1,4 @@
-using HotelBookingApp.Models;
+﻿using HotelBookingApp.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,7 +35,10 @@ namespace HotelBookingApp.Services
 
         public async Task Delete(long id)
         {
-            applicationContext.Users.Remove(GetById(id).Result);
+            UserModel user = applicationContext.Users
+                .Where(u => u.Id == id)
+                .SingleOrDefault();
+            applicationContext.Users.Remove(user);
             await applicationContext.SaveChangesAsync();
         }
 
