@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models;
+﻿using HotelBookingApp.Models.Hotel;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;

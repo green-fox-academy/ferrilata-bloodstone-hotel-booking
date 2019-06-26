@@ -1,12 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HotelBookingApp.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
 namespace HotelBookingApp.Controllers
 {
     public class HomeController : Controller
     {
-        [Route("/")]
-        public IActionResult Index()
+        private readonly IHotelService hotelService;
+
+        public HomeController(IHotelService hotelService)
         {
-            return View();
+            this.hotelService = hotelService;
+        }
+
+        [Route("/")]
+        public async Task<IActionResult> Index()
+        {
+            var hotels = await hotelService.FindAllOrderByName();
+            return View(hotels);
         }
     }
 }
