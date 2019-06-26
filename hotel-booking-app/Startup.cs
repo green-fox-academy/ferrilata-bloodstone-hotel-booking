@@ -23,6 +23,7 @@ namespace HotelBookingApp
             services.AddDbContext<ApplicationContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IHotelService, HotelService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

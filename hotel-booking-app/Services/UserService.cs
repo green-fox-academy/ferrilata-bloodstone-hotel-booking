@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models;
+﻿using HotelBookingApp.Models.User;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
