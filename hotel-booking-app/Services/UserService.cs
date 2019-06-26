@@ -16,7 +16,7 @@ namespace HotelBookingApp.Services
 
         public async Task Create(UserModel user)
         {
-            if (!checkUserByEmail(user.Email))
+            if (!CheckUserByEmail(user.Email))
             {
                 await applicationContext.Users.AddAsync(user);
                 long id = await applicationContext.SaveChangesAsync();
@@ -27,10 +27,9 @@ namespace HotelBookingApp.Services
             }
         }
 
-        public bool checkUserByEmail(string email)
+        public bool CheckUserByEmail(string email)
         {
-            return applicationContext.Users
-                .Where(u => u.Email == email)
+            return applicationContext.Users.Where(u => u.Email == email)
                 .FirstOrDefault() == null ? false : true;
         }
 
