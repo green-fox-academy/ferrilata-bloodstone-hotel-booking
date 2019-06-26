@@ -1,7 +1,7 @@
 ﻿using HotelBookingApp;
 using Microsoft.EntityFrameworkCore;
 
-namespace hotel_booking_app_tests.TestUtils
+namespace HotelBookingAppTests.TestUtils
 {
     class TestDbOptions
     {

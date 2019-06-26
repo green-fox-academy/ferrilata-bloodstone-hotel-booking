@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace hotel_booking_app_tests.TestUtils
+namespace HotelBookingAppTests.TestUtils
 {
     class GetDbSetForAsynctest
     {
