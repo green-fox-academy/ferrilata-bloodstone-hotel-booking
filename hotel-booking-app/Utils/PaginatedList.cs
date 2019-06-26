@@ -20,7 +20,7 @@ namespace HotelBookingApp.Utils
             PageSize = pageSize;
         }
 
-        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int currentPage = 1, int pageSize = 10)
+        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int currentPage, int pageSize = 10)
         {
             var count = await source.CountAsync();
             var items = await source.Skip((currentPage - 1) * pageSize).Take(pageSize).ToListAsync();
