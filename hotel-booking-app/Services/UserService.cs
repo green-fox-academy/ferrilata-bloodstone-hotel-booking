@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models.User;
+using HotelBookingApp.Models.User;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +27,7 @@ namespace HotelBookingApp.Services
             }
         }
 
-        public bool CheckUserByEmail(string email)
+        public bool Exists(string email)
         {
             return applicationContext.Users.Where(u => u.Email == email)
                 .FirstOrDefault() == null ? false : true;
