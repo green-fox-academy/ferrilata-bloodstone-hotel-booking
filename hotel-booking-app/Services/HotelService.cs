@@ -1,7 +1,6 @@
 ﻿using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,10 +42,10 @@ namespace HotelBookingApp.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<HotelModel>> FindAllPaginated(string orderBy, bool desc, int currentPage)
+        public async Task<IEnumerable<HotelModel>> FindWithQuery(QueryParams queryParams)
         {
-            var hotels = QueryableUtils<HotelModel>.OrderCustom(applicationContext.Hotels, orderBy, desc);
-            return await PaginatedList<HotelModel>.CreateAsync(hotels, currentPage);
+            var hotels = QueryableUtils<HotelModel>.OrderCustom(applicationContext.Hotels, queryParams);
+            return await PaginatedList<HotelModel>.CreateAsync(hotels, queryParams.CurrentPage);
         }
     }
 }
