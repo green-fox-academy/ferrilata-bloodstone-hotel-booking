@@ -24,7 +24,7 @@ namespace HotelBookingApp
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
                 services.AddDbContext<ApplicationContext>(options =>
-                                        options.UseSqlServer(Configuration.GetConnectionString("MyDbConnection")));
+                                        options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
             }
             else
             {
