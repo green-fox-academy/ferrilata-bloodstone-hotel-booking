@@ -27,7 +27,7 @@ namespace HotelBookingApp.Services
         {
             var hotel = applicationContext.Hotels
                 .SingleOrDefault(h => h.Id == id)
-                ?? throw new ItemNotFoundException($"User with id: {id} is not found.");
+                ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
             applicationContext.Hotels.Remove(hotel);
             await applicationContext.SaveChangesAsync();
         }
