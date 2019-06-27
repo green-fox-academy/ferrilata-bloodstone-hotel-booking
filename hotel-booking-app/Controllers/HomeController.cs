@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Services;
+using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -14,9 +15,9 @@ namespace HotelBookingApp.Controllers
         }
 
         [Route("/")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(QueryParams queryParams)
         {
-            var hotels = await hotelService.FindAllOrderByName();
+            var hotels = await hotelService.FindWithQuery(queryParams);
             return View(hotels);
         }
     }
