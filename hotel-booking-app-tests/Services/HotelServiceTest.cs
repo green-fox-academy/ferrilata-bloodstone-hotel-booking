@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace hotel_booking_app_tests.Services
+namespace HotelBookingAppTests.Services
 {
     public class HotelServiceTest
     {
