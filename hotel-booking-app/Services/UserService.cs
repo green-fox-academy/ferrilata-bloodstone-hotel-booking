@@ -1,4 +1,5 @@
-﻿using HotelBookingApp.Models.User;
+﻿using HotelBookingApp.Exceptions;
+using HotelBookingApp.Models.User;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace HotelBookingApp.Services
             var userList = applicationContext.Users.ToList();
             if (Exists(user.Email))
             {
-                throw new System.Exception($"User with email {user.Email} already exists.");
+                throw new ResourceAlreadyExistsException($"User with email {user.Email} already exists.");
             }
             await applicationContext.Users.AddAsync(user);
             long id = await applicationContext.SaveChangesAsync();
@@ -49,7 +50,7 @@ namespace HotelBookingApp.Services
         {
             return await applicationContext.Users
                 .FindAsync(id)
-                ?? throw new KeyNotFoundException($"User with id: {id} is not found.");
+                ?? throw new ItemNotFoundException($"User with id: {id} is not found.");
         }
 
         public async Task Update(UserModel userParam)
