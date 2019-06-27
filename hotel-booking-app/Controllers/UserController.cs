@@ -18,7 +18,7 @@ namespace HotelBookingApp.Controllers
         [HttpGet("login")]
         public IActionResult Login()
         {
-            return View();
+            return View(new UserLoginReq());
         }
 
         [HttpPost("login")]
@@ -26,9 +26,9 @@ namespace HotelBookingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Login", ModelState);
+                return View(userReq);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpGet("signup")]
