@@ -1,18 +1,25 @@
-﻿<h1>Hotel Booking</h1>
+﻿@model UserSignupReq
+
 <h2>Please sign up</h2>
 
 <form asp-controller="User" asp-action="Signup" method="post">
     <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" name="email" required/>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" name="password" required/>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="verifypassword">Confirm your password</label>
-        <input type="password" name="verifypassword" required/>
+        <label asp-for="VerifyPassword"></label>
+        <input asp-for="VerifyPassword" type="password" class="form-control" />
+        <span asp-validation-for="VerifyPassword" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Sign up</button>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Sign up</button>
+    </div>
+    <span class="text-danger">@Model.ErrorMessage</span>
 </form>
