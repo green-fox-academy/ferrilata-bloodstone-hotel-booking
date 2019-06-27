@@ -1,4 +1,5 @@
-﻿using HotelBookingApp.Services;
+﻿using HotelBookingApp.Pages;
+using HotelBookingApp.Services;
 using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -18,8 +19,11 @@ namespace HotelBookingApp.Controllers
         public async Task<IActionResult> Index(QueryParams queryParams)
         {
             var hotels = await hotelService.FindWithQuery(queryParams);
-            ViewBag.QueryParams = queryParams;
-            return View(hotels);
+
+            return View(new IndexPageView {
+                Hotels = hotels,
+                QueryParams = queryParams
+            });
         }
     }
 }

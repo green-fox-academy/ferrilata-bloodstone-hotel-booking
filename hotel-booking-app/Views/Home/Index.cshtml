@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HotelModel>
+﻿@model IndexPageView
 
 @{
     ViewData["Title"] = "Home";
@@ -9,31 +9,31 @@
     <tr>
         <th>
             <a asp-action="Index" 
-               asp-route-orderBy="Name" 
-               asp-route-desc="@ViewBag.QueryParams.NextDesc" 
-               asp-route-currentPage="@ViewBag.QueryParams.CurrentPage">
-                @Html.DisplayNameFor(model => model.Name)
+               asp-route-orderBy="Name"
+               asp-route-desc="@Model.QueryParams.NextDesc" 
+               asp-route-currentPage="@Model.QueryParams.CurrentPage">
+                @Html.DisplayNameFor(model => model.Hotels.First().Name)
             </a>
         </th>
         <th>
             <a asp-action="Index"
                asp-route-orderBy="Description"
-               asp-route-desc="@ViewBag.QueryParams.NextDesc"
-               asp-route-currentPage="@ViewBag.QueryParams.CurrentPage">
-                @Html.DisplayNameFor(model => model.Description)
+               asp-route-desc="@Model.QueryParams.NextDesc"
+               asp-route-currentPage="@Model.QueryParams.CurrentPage">
+                @Html.DisplayNameFor(model => model.Hotels.First().Description)
             </a>
         </th>
         <th>
             <a asp-action="Index"
                asp-route-orderBy="Price"
-               asp-route-desc="@ViewBag.QueryParams.NextDesc"
-               asp-route-currentPage="@ViewBag.QueryParams.CurrentPage">
-                @Html.DisplayNameFor(model => model.Price)
+               asp-route-desc="@Model.QueryParams.NextDesc"
+               asp-route-currentPage="@Model.QueryParams.CurrentPage">
+                @Html.DisplayNameFor(model => model.Hotels.First().Price)
             </a>
         </th>
     </tr>
 
-    @foreach (var hotel in Model)
+    @foreach (var hotel in Model.Hotels)
     {
         <tr>
             <td>@hotel.Name</td>
