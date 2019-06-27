@@ -15,7 +15,7 @@ namespace HotelBookingApp.Controllers
             this.hotelService = hotelService;
         }
 
-        [Route("/")]
+        [HttpGet("/")]
         public async Task<IActionResult> Index(QueryParams queryParams)
         {
             return View(new IndexPageView {
