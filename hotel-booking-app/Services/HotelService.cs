@@ -42,10 +42,10 @@ namespace HotelBookingApp.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<HotelModel>> FindWithQuery(QueryParams queryParams)
+        public async Task<PaginatedList<HotelModel>> FindWithQuery(QueryParams queryParams)
         {
             var hotels = QueryableUtils<HotelModel>.OrderCustom(applicationContext.Hotels, queryParams);
-            return await PaginatedList<HotelModel>.CreateAsync(hotels, queryParams.CurrentPage);
+            return await PaginatedList<HotelModel>.CreateAsync(hotels, queryParams.CurrentPage, queryParams.PageSize);
         }
     }
 }

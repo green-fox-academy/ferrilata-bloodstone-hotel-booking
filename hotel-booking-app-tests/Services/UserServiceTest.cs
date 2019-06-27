@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp;
+using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.User;
 using HotelBookingApp.Services;
 using HotelBookingAppTests.TestUtils;
@@ -45,8 +46,7 @@ namespace HotelBookingAppTests.Services
             var userService = new UserService(mockContext.Object);
 
             // Act & Assert
-            Exception ex = await Assert.ThrowsAsync<Exception>(() => userService.Create(user));
-            Assert.Equal($"User with email {user.Email} already exists.", ex.Message);
+            await Assert.ThrowsAsync<ResourceAlreadyExistsException>(() => userService.Create(user));
             
         }
 
@@ -149,8 +149,8 @@ namespace HotelBookingAppTests.Services
             var userService = new UserService(mockContext.Object);
 
             // Act & Assert
-            KeyNotFoundException ex = await Assert.ThrowsAsync<KeyNotFoundException>(() => userService.GetById(1));
-            Assert.Equal("User with id: 1 is not found.", ex.Message);
+            await Assert.ThrowsAsync<ItemNotFoundException>(() => userService.GetById(1));
+            
         }
 
         [Fact]
