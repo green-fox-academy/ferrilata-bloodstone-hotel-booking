@@ -8,9 +8,10 @@
 <table class="table">
     <tr>
         <th>
-            <a asp-action="Index" 
+            <a asp-action="Index"
                asp-route-orderBy="Name"
-               asp-route-desc="@Model.QueryParams.NextDesc" 
+               asp-route-desc="@Model.QueryParams.NextDesc"
+               asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage">
                 @Html.DisplayNameFor(model => model.Hotels.First().Name)
             </a>
@@ -19,6 +20,7 @@
             <a asp-action="Index"
                asp-route-orderBy="Description"
                asp-route-desc="@Model.QueryParams.NextDesc"
+               asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage">
                 @Html.DisplayNameFor(model => model.Hotels.First().Description)
             </a>
@@ -27,6 +29,7 @@
             <a asp-action="Index"
                asp-route-orderBy="Price"
                asp-route-desc="@Model.QueryParams.NextDesc"
+               asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage">
                 @Html.DisplayNameFor(model => model.Hotels.First().Price)
             </a>
@@ -45,14 +48,13 @@
 </table>
 
 <div class="pagintaion-row">
-    <a role="button" class="btn btn-primary"
-       asp-action="Index"
-       asp-route-orderBy="@Model.QueryParams.OrderBy"
-       asp-route-desc="@Model.QueryParams.Desc"
-       asp-route-currentPage="1">1</a>
-    <a role="button" class="btn btn-primary"
-       asp-action="Index"
-       asp-route-orderBy="@Model.QueryParams.OrderBy"
-       asp-route-desc="@Model.QueryParams.Desc"
-       asp-route-currentPage="2">2</a>
+    @for (int i = 1; i <= Model.Hotels.TotalPages; i++)
+    {
+        <a role="button" class="btn btn-primary"
+           asp-action="Index"
+           asp-route-orderBy="@Model.QueryParams.OrderBy"
+           asp-route-desc="@Model.QueryParams.Desc"
+           asp-route-pageSize="@Model.QueryParams.PageSize"
+           asp-route-currentPage="@i">@i</a>
+    }
 </div>
