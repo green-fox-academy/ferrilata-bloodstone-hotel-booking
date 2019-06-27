@@ -47,11 +47,45 @@ steps:
   condition: succeededOrFailed()
 
 - task: SqlAzureDacpacDeployment@1
-  displayName: 'DacpacTask'
   inputs:
-    azureSubscription: '472b8a7d-4066-4530-b302-cea406ca537c'
+    azureSubscription: 'Ingyenes próba (472b8a7d-4066-4530-b302-cea406ca537c)'
+    AuthenticationType: 'server'
     ServerName: 'bloodstone-hotel-booking.database.windows.net'
     DatabaseName: 'hotel-booking-db'
     SqlUsername: 'bloodstone'
-    SqlPassword: '$(SQL_PASSWORD)'
-    DacpacFile: '$(Build.SourcesDirectory)'
+    SqlPassword: 'Otter2019'
+    deployType: 'InlineSqlTask'
+    SqlInline: 'USE [hotel-booking-db]
+      GO
+      /****** Object:  Table [dbo].[Hotels]    Script Date: 2019. 06. 27. 10:23:46 ******/
+      SET ANSI_NULLS ON
+      GO
+      SET QUOTED_IDENTIFIER ON
+      GO
+      CREATE TABLE [dbo].[Hotels](
+      	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+      	[Name] [nvarchar](max) NULL,
+      	[Description] [nvarchar](max) NULL,
+      	[Price] [int] NOT NULL,
+       CONSTRAINT [PK_Hotels] PRIMARY KEY CLUSTERED 
+      (
+      	[Id] ASC
+      )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+      ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+      GO
+      /****** Object:  Table [dbo].[Users]    Script Date: 2019. 06. 27. 10:23:46 ******/
+      SET ANSI_NULLS ON
+      GO
+      SET QUOTED_IDENTIFIER ON
+      GO
+      CREATE TABLE [dbo].[Users](
+      	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+      	[Email] [nvarchar](max) NULL,
+      	[Password] [nvarchar](max) NULL,
+       CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+      (
+      	[Id] ASC
+      )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+      ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+      GO'
+    IpDetectionMethod: 'AutoDetect'
