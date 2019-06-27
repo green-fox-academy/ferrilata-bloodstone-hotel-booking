@@ -18,7 +18,7 @@ namespace HotelBookingApp.Controllers
         public async Task<IActionResult> Index(QueryParams queryParams)
         {
             var hotels = await hotelService.FindWithQuery(queryParams);
-            ViewBag.NextDesc = !queryParams.Desc;
+            ViewBag.QueryParams = queryParams;
             return View(hotels);
         }
     }

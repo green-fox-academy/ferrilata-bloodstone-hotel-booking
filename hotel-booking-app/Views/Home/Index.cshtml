@@ -8,17 +8,26 @@
 <table class="table">
     <tr>
         <th>
-            <a asp-action="Index" asp-route-orderBy="Name" asp-route-desc="@ViewBag.NextDesc">
+            <a asp-action="Index" 
+               asp-route-orderBy="Name" 
+               asp-route-desc="@ViewBag.QueryParams.NextDesc" 
+               asp-route-currentPage="@ViewBag.QueryParams.CurrentPage">
                 @Html.DisplayNameFor(model => model.Name)
             </a>
         </th>
         <th>
-            <a asp-action="Index" asp-route-orderBy="Description" asp-route-desc="@ViewBag.NextDesc">
+            <a asp-action="Index"
+               asp-route-orderBy="Description"
+               asp-route-desc="@ViewBag.QueryParams.NextDesc"
+               asp-route-currentPage="@ViewBag.QueryParams.CurrentPage">
                 @Html.DisplayNameFor(model => model.Description)
             </a>
         </th>
         <th>
-            <a asp-action="Index" asp-route-orderBy="Price" asp-route-desc="@ViewBag.NextDesc">
+            <a asp-action="Index"
+               asp-route-orderBy="Price"
+               asp-route-desc="@ViewBag.QueryParams.NextDesc"
+               asp-route-currentPage="@ViewBag.QueryParams.CurrentPage">
                 @Html.DisplayNameFor(model => model.Price)
             </a>
         </th>
