@@ -44,7 +44,7 @@ namespace HotelBookingApp.Controllers
             {
                 return RedirectToAction("Signup", ModelState);
             }
-            userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });    
+            await userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });    
             return RedirectToAction("Index", "Home");
         }
     }
