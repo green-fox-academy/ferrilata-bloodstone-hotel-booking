@@ -4,6 +4,8 @@
     {
         public string OrderBy { get; set; } = "Name";
         public bool Desc { get; set; } = false;
+        public bool NextDesc { get { return !Desc; } }
         public int CurrentPage { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
     }
 }

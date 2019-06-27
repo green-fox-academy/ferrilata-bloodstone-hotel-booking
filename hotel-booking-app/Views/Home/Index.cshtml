@@ -1,14 +1,42 @@
-﻿@model IEnumerable<HotelModel>
+﻿@model IndexPageView
 
-<h1>List of Hotels</h1>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h2>List of Hotels</h2>
 <table class="table">
     <tr>
-        <th>Hotel Name</th>
-        <th>Desription</th>
-        <th>Price(per night in HUF)</th>
+        <th>
+            <a asp-action="Index"
+               asp-route-orderBy="Name"
+               asp-route-desc="@Model.QueryParams.NextDesc"
+               asp-route-pageSize="@Model.QueryParams.PageSize"
+               asp-route-currentPage="@Model.QueryParams.CurrentPage">
+                @Html.DisplayNameFor(model => model.Hotels.First().Name)
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index"
+               asp-route-orderBy="Description"
+               asp-route-desc="@Model.QueryParams.NextDesc"
+               asp-route-pageSize="@Model.QueryParams.PageSize"
+               asp-route-currentPage="@Model.QueryParams.CurrentPage">
+                @Html.DisplayNameFor(model => model.Hotels.First().Description)
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index"
+               asp-route-orderBy="Price"
+               asp-route-desc="@Model.QueryParams.NextDesc"
+               asp-route-pageSize="@Model.QueryParams.PageSize"
+               asp-route-currentPage="@Model.QueryParams.CurrentPage">
+                @Html.DisplayNameFor(model => model.Hotels.First().Price)
+            </a>
+        </th>
     </tr>
 
-    @foreach (var hotel in Model)
+    @foreach (var hotel in Model.Hotels)
     {
         <tr>
             <td>@hotel.Name</td>
@@ -16,4 +44,17 @@
             <td>@hotel.Price</td>
         </tr>
     }
+
 </table>
+
+<div class="pagintaion-row">
+    @for (int i = 1; i <= Model.Hotels.TotalPages; i++)
+    {
+        <a role="button" class="btn btn-primary"
+           asp-action="Index"
+           asp-route-orderBy="@Model.QueryParams.OrderBy"
+           asp-route-desc="@Model.QueryParams.Desc"
+           asp-route-pageSize="@Model.QueryParams.PageSize"
+           asp-route-currentPage="@i">@i</a>
+    }
+</div>

@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>hotel_booking_app_tests</RootNamespace>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
