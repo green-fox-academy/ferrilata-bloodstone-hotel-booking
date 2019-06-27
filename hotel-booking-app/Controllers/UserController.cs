@@ -34,7 +34,7 @@ namespace HotelBookingApp.Controllers
         [HttpGet("signup")]
         public IActionResult Signup()
         {
-            return View();
+            return View(new UserSignupReq());
         }
 
         [HttpPost("signup")]
@@ -42,10 +42,10 @@ namespace HotelBookingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Signup", ModelState);
+                return View(userReq);
             }
             await userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });    
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }
