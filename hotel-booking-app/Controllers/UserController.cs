@@ -3,6 +3,7 @@ using HotelBookingApp.Models.User;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using HotelBookingApp.Exceptions;
 
 namespace HotelBookingApp.Controllers
 {
@@ -44,8 +45,16 @@ namespace HotelBookingApp.Controllers
             {
                 return View(userReq);
             }
-            await userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });    
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            try
+            {
+                await userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+            catch (ResourceAlreadyExistsException ex)
+            {
+                userReq.ErrorMessage = ex.Message;
+                return View(userReq);
+            }
         }
     }
 }
