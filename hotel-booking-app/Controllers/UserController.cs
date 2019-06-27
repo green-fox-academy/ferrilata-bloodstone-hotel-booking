@@ -48,7 +48,7 @@ namespace HotelBookingApp.Controllers
             try
             {
                 await userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(Login));
             }
             catch (ResourceAlreadyExistsException ex)
             {
