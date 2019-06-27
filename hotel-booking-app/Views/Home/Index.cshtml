@@ -41,4 +41,18 @@
             <td>@hotel.Price</td>
         </tr>
     }
+
 </table>
+
+<div class="pagintaion-row">
+    <a role="button" class="btn btn-primary"
+       asp-action="Index"
+       asp-route-orderBy="@Model.QueryParams.OrderBy"
+       asp-route-desc="@Model.QueryParams.Desc"
+       asp-route-currentPage="1">1</a>
+    <a role="button" class="btn btn-primary"
+       asp-action="Index"
+       asp-route-orderBy="@Model.QueryParams.OrderBy"
+       asp-route-desc="@Model.QueryParams.Desc"
+       asp-route-currentPage="2">2</a>
+</div>
