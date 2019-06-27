@@ -1,4 +1,5 @@
-﻿using HotelBookingApp.Models.Hotel;
+﻿using HotelBookingApp.Exceptions;
+using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -25,7 +26,8 @@ namespace HotelBookingApp.Services
         public async Task Delete(long id)
         {
             var hotel = applicationContext.Hotels
-                .SingleOrDefault(h => h.Id == id);
+                .SingleOrDefault(h => h.Id == id)
+                ?? throw new ItemNotFoundException($"User with id: {id} is not found.");
             applicationContext.Hotels.Remove(hotel);
             await applicationContext.SaveChangesAsync();
         }
