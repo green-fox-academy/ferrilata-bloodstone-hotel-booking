@@ -1,11 +1,27 @@
 ﻿@model IEnumerable<HotelModel>
 
-<h1>List of Hotels</h1>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h2>List of Hotels</h2>
 <table class="table">
     <tr>
-        <th>Hotel Name</th>
-        <th>Desription</th>
-        <th>Price(per night in HUF)</th>
+        <th>
+            <a asp-action="Index" asp-route-orderBy="Name" asp-route-desc="@ViewBag.NextDesc">
+                @Html.DisplayNameFor(model => model.Name)
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-orderBy="Description" asp-route-desc="@ViewBag.NextDesc">
+                @Html.DisplayNameFor(model => model.Description)
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-orderBy="Price" asp-route-desc="@ViewBag.NextDesc">
+                @Html.DisplayNameFor(model => model.Price)
+            </a>
+        </th>
     </tr>
 
     @foreach (var hotel in Model)
