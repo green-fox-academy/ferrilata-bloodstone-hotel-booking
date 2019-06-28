@@ -1,3 +1,4 @@
+using HotelBookingApp.Configs;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,16 +22,7 @@ namespace HotelBookingApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-            {
-                services.AddDbContext<ApplicationContext>(options =>
-                                        options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationContext>(opt =>
-                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            }
+            services.AddCustomDatabase(Configuration);
             services.AddTransient<IUserService, UserService>();
             services.AddScoped<IHotelService, HotelService>();
         }
