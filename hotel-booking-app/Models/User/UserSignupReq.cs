@@ -17,5 +17,6 @@ namespace HotelBookingApp.Models.User
 
         [Compare("Password")]
         public string VerifyPassword { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using HotelBookingApp.Models.User;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using HotelBookingApp.Exceptions;
 
 namespace HotelBookingApp.Controllers
 {
@@ -18,7 +19,7 @@ namespace HotelBookingApp.Controllers
         [HttpGet("login")]
         public IActionResult Login()
         {
-            return View();
+            return View(new UserLoginReq());
         }
 
         [HttpPost("login")]
@@ -26,15 +27,15 @@ namespace HotelBookingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Login", ModelState);
+                return View(userReq);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpGet("signup")]
         public IActionResult Signup()
         {
-            return View();
+            return View(new UserSignupReq());
         }
 
         [HttpPost("signup")]
@@ -42,10 +43,18 @@ namespace HotelBookingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Signup", ModelState);
+                return View(userReq);
             }
-            userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });    
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                await userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });
+                return RedirectToAction(nameof(Login));
+            }
+            catch (ResourceAlreadyExistsException ex)
+            {
+                userReq.ErrorMessage = ex.Message;
+                return View(userReq);
+            }
         }
     }
 }

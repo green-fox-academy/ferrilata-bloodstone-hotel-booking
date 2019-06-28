@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace HotelBookingApp
 {
@@ -20,8 +21,16 @@ namespace HotelBookingApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<ApplicationContext>(opt =>
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            {
+                services.AddDbContext<ApplicationContext>(options =>
+                                        options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
             services.AddTransient<IUserService, UserService>();
             services.AddScoped<IHotelService, HotelService>();
         }
@@ -34,7 +43,6 @@ namespace HotelBookingApp
             }
             else
             {
-                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
