@@ -45,12 +45,23 @@ namespace HotelBookingAppTests.Utils
         [Fact]
         public async Task PaginatedList_WhenAccessingNonExistingPage_ShouldReturnEmpty()
         {
-            int currentPage = 10;
+            int currentPage = 100;
 
             var paginatedList = await PaginatedList<Model>
                 .CreateAsync(source, currentPage);
 
             Assert.Empty(paginatedList);
+        }
+
+        [Fact]
+        public async Task PaginatedList_WhenCreating_ShouldRetainOrder()
+        {
+            int currentPage = 1;
+
+            var paginatedList = await PaginatedList<Model>
+                .CreateAsync(source, currentPage);
+
+            Assert.Equal(source.First(), paginatedList[0]);
         }
 
         private IQueryable<Model> InitSource()
