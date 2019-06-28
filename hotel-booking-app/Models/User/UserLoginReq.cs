@@ -10,5 +10,7 @@ namespace HotelBookingApp.Models.User
 
         [Required]
         public string Password { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }
