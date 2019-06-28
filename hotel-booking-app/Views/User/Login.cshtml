@@ -1,14 +1,30 @@
-﻿<h1>Hotel Booking</h1>
-<h2>Please login</h2>
+﻿@model UserLoginReq
 
-<form asp-controller="User" asp-action="Login" method="post">
-    <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" name="email" required/>
+@{
+    ViewData["Title"] = "Login";
+}
+<div class="mx-auto col-md-6 p-3">
+    <div class="card">
+        <div class="card-header">
+            <h2>Please login</h2>
+        </div>
+        <div class="card-body">
+            <form asp-controller="User" asp-action="Login" method="post">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" placeholder="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+                <span class="text-danger">@Model.ErrorMessage</span>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" name="password" required/>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+</div>
