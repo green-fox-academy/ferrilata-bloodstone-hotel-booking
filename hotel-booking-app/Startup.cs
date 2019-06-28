@@ -1,5 +1,3 @@
-using AutoMapper;
-using HotelBookingApp.Models.User;
 using HotelBookingApp.Configs;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
@@ -22,14 +20,8 @@ namespace HotelBookingApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            // Auto Mapper Configurations
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new UserMappingProfile());
-            });
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
             services.AddCustomDatabase(Configuration);
+            services.AddAutoMapper();
             services.AddTransient<IUserService, UserService>();
             services.AddScoped<IHotelService, HotelService>();
         }
