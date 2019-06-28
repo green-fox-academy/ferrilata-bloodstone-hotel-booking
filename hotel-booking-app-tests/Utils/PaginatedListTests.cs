@@ -9,22 +9,30 @@ namespace HotelBookingAppTests.Utils
 {
     public class PaginatedListTests
     {
-        private IEnumerable<Model> source;
+        private readonly IQueryable<Model> source;
 
-        [Fact]
-        public async Task PaginatedList_WhenCreating_PropertiesShouldBeOk()
+        public PaginatedListTests()
         {
             source = InitSource();
-            var mockSet = MockProvider.GetQueriable(source);
-
-            var paginatedList = await PaginatedList<Model>.CreateAsync(mockSet.Object, 1, 1);
-
-            Assert.Equal(1, paginatedList.CurrentPage);
         }
 
-        private IEnumerable<Model> InitSource()
+        [Fact]
+        public async Task PaginatedList_WhenCreating_SizeShuldBeOk()
         {
-            return new List<Model> {
+            int currentPage = 1;
+            int pageSize = 1;
+         
+            var paginatedList = await PaginatedList<Model>
+                .CreateAsync(source, currentPage, pageSize);
+
+            Assert.Equal(currentPage, paginatedList.CurrentPage);
+            Assert.Equal(pageSize, paginatedList.PageSize);
+            Assert.Equal(pageSize, paginatedList.Count);
+        }
+
+        private IQueryable<Model> InitSource()
+        {
+            var dataList = new List<Model> {
                 new Model { Name = "Krisz" },
                 new Model { Name = "Geri" },
                 new Model { Name = "Orsi" },
@@ -38,6 +46,8 @@ namespace HotelBookingAppTests.Utils
                 new Model { Name = "Roza" },
                 new Model { Name = "Anna" },
             };
+            var mockSet = MockProvider.GetQueriable(dataList);
+            return mockSet.Object;
         }
 
         public class Model
