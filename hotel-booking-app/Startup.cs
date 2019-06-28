@@ -21,6 +21,7 @@ namespace HotelBookingApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCustomDatabase(Configuration);
+            services.AddAutoMapper();
             services.AddTransient<IUserService, UserService>();
             services.AddScoped<IHotelService, HotelService>();
         }

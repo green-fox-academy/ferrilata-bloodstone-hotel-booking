@@ -1,4 +1,5 @@
-﻿using HotelBookingApp.Exceptions;
+using AutoMapper;
+using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.User;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,12 @@ namespace HotelBookingApp.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
+        private readonly IMapper mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             this.userService = userService;
+            this.mapper = mapper;
         }
 
         [HttpGet("login")]
@@ -46,7 +49,7 @@ namespace HotelBookingApp.Controllers
             }
             try
             {
-                await userService.Create(new UserModel() { Email = userReq.Email, Password = userReq.Password });
+                await userService.Create(mapper.Map<UserSignupReq, UserModel>(userReq));
                 return RedirectToAction(nameof(Login));
             }
             catch (ResourceAlreadyExistsException ex)
