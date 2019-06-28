@@ -4,26 +4,33 @@
     ViewData["Title"] = "Signup";
 }
 
-<h2>Please sign up</h2>
-
-<form asp-controller="User" asp-action="Signup" method="post">
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+<div class="mx-auto col-md-6 p-3">
+    <div class="card">
+        <div class="card-header">
+            <h2>Please sign up</h2>
+        </div>
+        <div class="card-body">
+            <form asp-controller="User" asp-action="Signup" method="post">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" placeholder="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VerifyPassword"></label>
+                    <input asp-for="VerifyPassword" type="password" class="form-control" placeholder="VerifyPassword" />
+                    <span asp-validation-for="VerifyPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </div>
+                <span class="text-danger">@Model.ErrorMessage</span>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="VerifyPassword"></label>
-        <input asp-for="VerifyPassword" type="password" class="form-control" />
-        <span asp-validation-for="VerifyPassword" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Sign up</button>
-    </div>
-    <span class="text-danger">@Model.ErrorMessage</span>
-</form>
+</div>
