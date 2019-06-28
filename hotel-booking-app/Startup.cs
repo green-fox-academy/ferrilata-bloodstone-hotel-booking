@@ -1,13 +1,12 @@
 using AutoMapper;
 using HotelBookingApp.Models.User;
+using HotelBookingApp.Configs;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace HotelBookingApp
 {
@@ -23,16 +22,6 @@ namespace HotelBookingApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-            {
-                services.AddDbContext<ApplicationContext>(options =>
-                                        options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationContext>(opt =>
-                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            }
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -40,6 +29,7 @@ namespace HotelBookingApp
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+            services.AddCustomDatabase(Configuration);
             services.AddTransient<IUserService, UserService>();
             services.AddScoped<IHotelService, HotelService>();
         }

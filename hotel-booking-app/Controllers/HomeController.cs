@@ -18,7 +18,8 @@ namespace HotelBookingApp.Controllers
         [HttpGet("/")]
         public async Task<IActionResult> Index(QueryParams queryParams)
         {
-            return View(new IndexPageView {
+            return View(new IndexPageView
+            {
                 Hotels = await hotelService.FindWithQuery(queryParams),
                 QueryParams = queryParams
             });
