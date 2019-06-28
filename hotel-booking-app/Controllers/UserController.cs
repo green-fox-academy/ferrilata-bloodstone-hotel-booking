@@ -1,9 +1,8 @@
-﻿using System;
+﻿using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.User;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using HotelBookingApp.Exceptions;
 
 namespace HotelBookingApp.Controllers
 {
