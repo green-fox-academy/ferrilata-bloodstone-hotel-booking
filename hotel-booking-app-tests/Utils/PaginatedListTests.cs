@@ -30,6 +30,29 @@ namespace HotelBookingAppTests.Utils
             Assert.Equal(pageSize, paginatedList.Count);
         }
 
+        [Fact]
+        public async Task PaginatedList_WhenCreatingWith12Item_TotalPagesShouldBe3()
+        {
+            int currentPage = 1;
+            int pageSize = 4;
+
+            var paginatedList = await PaginatedList<Model>
+                .CreateAsync(source, currentPage, pageSize);
+
+            Assert.Equal(3, paginatedList.TotalPages);
+        }
+
+        [Fact]
+        public async Task PaginatedList_WhenAccessingNonExistingPage_ShouldReturnEmpty()
+        {
+            int currentPage = 10;
+
+            var paginatedList = await PaginatedList<Model>
+                .CreateAsync(source, currentPage);
+
+            Assert.Empty(paginatedList);
+        }
+
         private IQueryable<Model> InitSource()
         {
             var dataList = new List<Model> {
