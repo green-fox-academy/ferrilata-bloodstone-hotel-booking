@@ -6,7 +6,6 @@ namespace HotelBookingApp.Models.User
     {
         [Required]
         [EmailAddress]
-        [StringLength(20, MinimumLength = 6)]
         public string Email { get; set; }
 
         [Required]
