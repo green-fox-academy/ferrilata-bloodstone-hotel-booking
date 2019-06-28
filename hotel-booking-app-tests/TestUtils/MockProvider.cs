@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace HotelBookingAppTests.TestUtils
 {
-    class GetDbSetForAsynctest
+    class MockProvider
     {
-        public static Mock<DbSet<T>> GetMockDbSetForAsyncMethodTest<T>(IEnumerable<T> dataList) where T : class
+        public static Mock<DbSet<T>> GetDbSet<T>(IEnumerable<T> dataList) where T : class
         {
             var data = dataList.AsQueryable(); 
             var mockSet = new Mock<DbSet<T>>();
@@ -30,21 +30,22 @@ namespace HotelBookingAppTests.TestUtils
             return mockSet;
         }
 
-        public static Mock<IQueryable<T>> GetQueriable<T>(IQueryable<T> source) where T : class
+        public static Mock<IQueryable<T>> GetQueriable<T>(IEnumerable<T> dataList) where T : class
         {
+            var data = dataList.AsQueryable();
             var mockSet = new Mock<IQueryable<T>>();
 
             mockSet.As<IAsyncEnumerable<T>>()
                 .Setup(m => m.GetEnumerator())
-                .Returns(new TestAsyncEnumerator<T>(source.GetEnumerator()));
+                .Returns(new TestAsyncEnumerator<T>(data.GetEnumerator()));
 
             mockSet.As<IQueryable<T>>()
                 .Setup(m => m.Provider)
-                .Returns(new TestAsyncQueryProvider<T>(source.Provider));
+                .Returns(new TestAsyncQueryProvider<T>(data.Provider));
 
-            mockSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(source.Expression);
-            mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(source.ElementType);
-            mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => source.GetEnumerator());
+            mockSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => data.GetEnumerator());
             return mockSet;
         }
     }

@@ -39,7 +39,7 @@ namespace HotelBookingAppTests.Services
             // Arrange
             var user = new UserModel { Id = 1, Email = "testUser@example.com", Password = "12344321" };
             var userQueryableList = new List<UserModel> { user };
-            var mockSet = GetDbSetForAsynctest.GetMockDbSetForAsyncMethodTest<UserModel>(userQueryableList);
+            var mockSet = MockProvider.GetDbSet<UserModel>(userQueryableList);
 
             var mockContext = new Mock<ApplicationContext>(TestDbOptions.GetTestDbOptions());
             mockContext.Setup(c => c.Users).Returns(mockSet.Object);
@@ -100,7 +100,7 @@ namespace HotelBookingAppTests.Services
             // Arrange
             var user = new UserModel { Id = 1, Email = "testUser@example.com", Password = "12344321" };
             var userQueryableList = new List<UserModel> { user };
-            var mockSet = GetDbSetForAsynctest.GetMockDbSetForAsyncMethodTest<UserModel>(userQueryableList);
+            var mockSet = MockProvider.GetDbSet<UserModel>(userQueryableList);
             var mockContext = new Mock<ApplicationContext>(TestDbOptions.GetTestDbOptions());
             mockContext.Setup(c => c.Users).Returns(mockSet.Object);
             var userService = new UserService(mockContext.Object);
@@ -122,7 +122,7 @@ namespace HotelBookingAppTests.Services
             // Arrange
             var user = new UserModel { Id = 1, Email = "testUser@example.com", Password = "12344321" };
             var userQueryableList = new List<UserModel> { user };
-            var mockSet = GetDbSetForAsynctest.GetMockDbSetForAsyncMethodTest<UserModel>(userQueryableList);
+            var mockSet = MockProvider.GetDbSet<UserModel>(userQueryableList);
             var mockContext = new Mock<ApplicationContext>(TestDbOptions.GetTestDbOptions());
             mockContext.Setup(c => c.Users).Returns(mockSet.Object);
             mockContext.Setup(c => c.Users.FindAsync(It.IsAny<long>())).ReturnsAsync(user);
@@ -141,7 +141,7 @@ namespace HotelBookingAppTests.Services
             // Arrange
             var user = new UserModel { Id = 1, Email = "testUser@example.com", Password = "12344321" };
             var userQueryableList = new List<UserModel> { user };
-            var mockSet = GetDbSetForAsynctest.GetMockDbSetForAsyncMethodTest<UserModel>(userQueryableList);
+            var mockSet = MockProvider.GetDbSet<UserModel>(userQueryableList);
 
             var mockContext = new Mock<ApplicationContext>(TestDbOptions.GetTestDbOptions());
             mockContext.Setup(c => c.Users).Returns(mockSet.Object);
@@ -159,7 +159,7 @@ namespace HotelBookingAppTests.Services
             // Arrange
             var user = new UserModel { Id = 1, Email = "testUser@example.com", Password = "12344321" };
             var userQueryableList = new List<UserModel> { user };
-            var mockSet = GetDbSetForAsynctest.GetMockDbSetForAsyncMethodTest<UserModel>(userQueryableList);
+            var mockSet = MockProvider.GetDbSet<UserModel>(userQueryableList);
 
             var mockContext = new Mock<ApplicationContext>(TestDbOptions.GetTestDbOptions());
             mockContext.Setup(c => c.Users).Returns(mockSet.Object);
