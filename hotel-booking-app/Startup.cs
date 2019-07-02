@@ -34,6 +34,7 @@ namespace HotelBookingApp
             services.ConfigureApplicationCookie(opt =>
             {
                 opt.LoginPath = "/login";
+                opt.AccessDeniedPath = "/access-denied";
             });
             services.AddAutoMapper();
             services.AddScoped<IHotelService, HotelService>();

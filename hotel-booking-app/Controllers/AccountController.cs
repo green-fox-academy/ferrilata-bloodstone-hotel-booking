@@ -77,5 +77,11 @@ namespace HotelBookingApp.Controllers
             }
             return View(request);
         }
+
+        [HttpGet("access-denied")]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
