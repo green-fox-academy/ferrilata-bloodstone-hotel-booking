@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelBookingApp.Migrations
 {
-    public partial class initial : Migration
+    public partial class newModelsSecond : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,7 +68,7 @@ namespace HotelBookingApp.Migrations
                 name: "Hotels",
                 columns: table => new
                 {
-                    HotelModelId = table.Column<int>(nullable: false)
+                    HotelId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
@@ -79,7 +79,7 @@ namespace HotelBookingApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Hotels", x => x.HotelModelId);
+                    table.PrimaryKey("PK_Hotels", x => x.HotelId);
                     table.ForeignKey(
                         name: "FK_Hotels_Locations_LocationId",
                         column: x => x.LocationId,
@@ -102,16 +102,16 @@ namespace HotelBookingApp.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Price = table.Column<double>(nullable: false),
-                    HotelModelId = table.Column<int>(nullable: true)
+                    HotelId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rooms", x => x.RoomId);
                     table.ForeignKey(
-                        name: "FK_Rooms_Hotels_HotelModelId",
-                        column: x => x.HotelModelId,
+                        name: "FK_Rooms_Hotels_HotelId",
+                        column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "HotelModelId",
+                        principalColumn: "HotelId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -156,9 +156,9 @@ namespace HotelBookingApp.Migrations
                 column: "BedId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_HotelModelId",
+                name: "IX_Rooms_HotelId",
                 table: "Rooms",
-                column: "HotelModelId");
+                column: "HotelId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

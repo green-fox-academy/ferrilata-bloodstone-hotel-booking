@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelBookingApp.Models.Hotel
 {
-    public class HotelModel
+    public class Hotel
     {
-        public int HotelModelId { get; set; }
+        public int HotelId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }

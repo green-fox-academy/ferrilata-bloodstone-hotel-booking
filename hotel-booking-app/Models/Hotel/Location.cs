@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace HotelBookingApp.Models.Hotel
+﻿namespace HotelBookingApp.Models.Hotel
 {
     public class Location
     {
@@ -14,7 +8,6 @@ namespace HotelBookingApp.Models.Hotel
         public string City { get; set; }
         public string Address { get; set; }
 
-        public HotelModel HotelModel { get; set; }
-        
+        public Hotel Hotel { get; set; }
     }
 }

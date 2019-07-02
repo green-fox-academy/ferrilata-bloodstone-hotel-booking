@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace HotelBookingApp.Models.Hotel
 {
@@ -12,6 +9,6 @@ namespace HotelBookingApp.Models.Hotel
         public double Price { get; set; }
 
         public IEnumerable<RoomBed> RoomBeds { get; set; }
-        public HotelModel Hotel { get; set; }
+        public Hotel Hotel { get; set; }
     }
 }

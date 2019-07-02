@@ -6,7 +6,7 @@ namespace HotelBookingApp
     public class ApplicationContext : DbContext
     {
         public virtual DbSet<Bed> Beds { get; set; }
-        public virtual DbSet<HotelModel> Hotels { get; set; }
+        public virtual DbSet<Hotel> Hotels { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<PropertyType> PropertyTypes { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }

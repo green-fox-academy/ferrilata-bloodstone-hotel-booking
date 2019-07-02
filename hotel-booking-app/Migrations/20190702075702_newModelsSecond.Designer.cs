@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingApp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190701160441_initial")]
-    partial class initial
+    [Migration("20190702075702_newModelsSecond")]
+    partial class newModelsSecond
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,9 +36,9 @@ namespace HotelBookingApp.Migrations
                     b.ToTable("Beds");
                 });
 
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.HotelModel", b =>
+            modelBuilder.Entity("HotelBookingApp.Models.Hotel.Hotel", b =>
                 {
-                    b.Property<int>("HotelModelId")
+                    b.Property<int>("HotelId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -54,7 +54,7 @@ namespace HotelBookingApp.Migrations
 
                     b.Property<int>("StarRating");
 
-                    b.HasKey("HotelModelId");
+                    b.HasKey("HotelId");
 
                     b.HasIndex("LocationId")
                         .IsUnique();
@@ -102,7 +102,7 @@ namespace HotelBookingApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("HotelModelId");
+                    b.Property<int?>("HotelId");
 
                     b.Property<string>("Name");
 
@@ -110,7 +110,7 @@ namespace HotelBookingApp.Migrations
 
                     b.HasKey("RoomId");
 
-                    b.HasIndex("HotelModelId");
+                    b.HasIndex("HotelId");
 
                     b.ToTable("Rooms");
                 });
@@ -143,11 +143,11 @@ namespace HotelBookingApp.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.HotelModel", b =>
+            modelBuilder.Entity("HotelBookingApp.Models.Hotel.Hotel", b =>
                 {
                     b.HasOne("HotelBookingApp.Models.Hotel.Location", "Location")
-                        .WithOne("HotelModel")
-                        .HasForeignKey("HotelBookingApp.Models.Hotel.HotelModel", "LocationId")
+                        .WithOne("Hotel")
+                        .HasForeignKey("HotelBookingApp.Models.Hotel.Hotel", "LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HotelBookingApp.Models.Hotel.PropertyType", "PropertyType")
@@ -158,9 +158,9 @@ namespace HotelBookingApp.Migrations
 
             modelBuilder.Entity("HotelBookingApp.Models.Hotel.Room", b =>
                 {
-                    b.HasOne("HotelBookingApp.Models.Hotel.HotelModel", "Hotel")
+                    b.HasOne("HotelBookingApp.Models.Hotel.Hotel", "Hotel")
                         .WithMany("Rooms")
-                        .HasForeignKey("HotelModelId");
+                        .HasForeignKey("HotelId");
                 });
 
             modelBuilder.Entity("HotelBookingApp.Models.Hotel.RoomBed", b =>
