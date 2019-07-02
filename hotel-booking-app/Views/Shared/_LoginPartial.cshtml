@@ -7,14 +7,14 @@
         {
             <li class="nav-item">
                 <span class="navbar-text">
-                    Hello @User.Identity.Name
+                    @User.Identity.Name
                 </span>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
             </li>
             <li class="nav-item">
-                <form class="form-inline" asp-controller="User" asp-action="Logout" method="post">
+                <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
                     <button type="submit" class="nav-link btn btn-link">Logout</button>
                 </form>
             </li>
@@ -22,10 +22,10 @@
         else
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="User" asp-action="Login">Login</a>
+                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="User" asp-action="Signup">Signup</a>
+                <a class="nav-link" asp-controller="Account" asp-action="Signup">Signup</a>
             </li>
         }
     </ul>
