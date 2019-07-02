@@ -1,7 +1,9 @@
 using HotelBookingApp.Configs;
+using HotelBookingApp.Models.Account;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,8 +23,17 @@ namespace HotelBookingApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCustomDatabase(Configuration);
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationContext>();
+            services.Configure<IdentityOptions>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric = false;
+            });
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.LoginPath = "/login";
+            });
             services.AddAutoMapper();
-            services.AddTransient<IUserService, UserService>();
             services.AddScoped<IHotelService, HotelService>();
         }
 
@@ -38,6 +49,7 @@ namespace HotelBookingApp
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

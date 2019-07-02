@@ -1,4 +1,4 @@
-﻿@model UserLoginReq
+﻿@model LoginRequest
 
 @{
     ViewData["Title"] = "Login";
@@ -19,6 +19,10 @@
                     <label asp-for="Password"></label>
                     <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
                     <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <input class="form-check-input" type="checkbox" asp-for="RememberMe">
+                    <label class="form-check-label" asp-for="RememberMe"></label>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Login</button>
