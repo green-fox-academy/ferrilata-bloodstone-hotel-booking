@@ -26,10 +26,12 @@ namespace HotelBookingApp.Configs
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
+
             services.Configure<IdentityOptions>(opt =>
             {
                 opt.Password.RequireNonAlphanumeric = false;
             });
+
             services.ConfigureApplicationCookie(opt =>
             {
                 opt.LoginPath = "/login";
