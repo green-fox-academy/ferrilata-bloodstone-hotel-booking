@@ -25,6 +25,10 @@ namespace HotelBookingApp
             services.AddCustomDatabase(Configuration);
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
+            services.Configure<IdentityOptions>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric = false;
+            });
             services.AddAutoMapper();
             services.AddScoped<IHotelService, HotelService>();
         }

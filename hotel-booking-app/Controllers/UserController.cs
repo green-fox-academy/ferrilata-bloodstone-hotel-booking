@@ -43,6 +43,13 @@ namespace HotelBookingApp.Controllers
             return View(userReq);
         }
 
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
         [HttpGet("signup")]
         public IActionResult Signup()
         {
@@ -65,7 +72,7 @@ namespace HotelBookingApp.Controllers
             }
             foreach (var err in result.Errors)
             {
-                userReq.ErrorMessage += err;
+                userReq.ErrorMessage += err.Description;
             }
             return View(userReq);
         }
