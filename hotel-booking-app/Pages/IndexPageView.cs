@@ -5,7 +5,7 @@ namespace HotelBookingApp.Pages
 {
     public class IndexPageView
     {
-        public PaginatedList<HotelModel> Hotels { get; set; }
+        public PaginatedList<Hotel> Hotels { get; set; }
         public QueryParams QueryParams { get; set; }
     }
 }

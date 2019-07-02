@@ -17,7 +17,7 @@ namespace HotelBookingApp.Services
             this.applicationContext = applicationContext;
         }
 
-        public async Task Add(HotelModel hotel)
+        public async Task Add(Hotel hotel)
         {
             await applicationContext.AddAsync(hotel);
             await applicationContext.SaveChangesAsync();
@@ -26,28 +26,28 @@ namespace HotelBookingApp.Services
         public async Task Delete(long id)
         {
             var hotel = applicationContext.Hotels
-                .SingleOrDefault(h => h.Id == id)
+                .SingleOrDefault(h => h.HotelId == id)
                 ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
             applicationContext.Hotels.Remove(hotel);
             await applicationContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<HotelModel>> FindAll()
+        public async Task<IEnumerable<Hotel>> FindAll()
         {
             return await applicationContext.Hotels.ToListAsync();
         }
 
-        public async Task<IEnumerable<HotelModel>> FindAllOrderByName()
+        public async Task<IEnumerable<Hotel>> FindAllOrderByName()
         {
             return await applicationContext.Hotels
                 .OrderBy(h => h.Name)
                 .ToListAsync();
         }
 
-        public async Task<PaginatedList<HotelModel>> FindWithQuery(QueryParams queryParams)
+        public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
         {
-            var hotels = QueryableUtils<HotelModel>.OrderCustom(applicationContext.Hotels, queryParams);
-            return await PaginatedList<HotelModel>.CreateAsync(hotels, queryParams.CurrentPage, queryParams.PageSize);
+            var hotels = QueryableUtils<Hotel>.OrderCustom(applicationContext.Hotels, queryParams);
+            return await PaginatedList<Hotel>.CreateAsync(hotels, queryParams.CurrentPage, queryParams.PageSize);
         }
     }
 }
