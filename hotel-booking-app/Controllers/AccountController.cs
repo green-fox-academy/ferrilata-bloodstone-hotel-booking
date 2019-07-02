@@ -24,7 +24,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest request)
+        public async Task<IActionResult> Login(LoginRequest request, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -33,7 +33,8 @@ namespace HotelBookingApp.Controllers
             var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, true, true);
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                returnUrl = returnUrl ?? Url.Content("~/");
+                return LocalRedirect(returnUrl);
             }
             if (result.IsLockedOut)
             {
