@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IHotelService hotelService;
