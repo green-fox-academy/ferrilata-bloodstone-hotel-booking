@@ -68,6 +68,7 @@ namespace HotelBookingApp.Controllers
             var result = await userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
+                await userManager.AddToRoleAsync(user, "User");
                 await signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
