@@ -12,5 +12,6 @@ namespace HotelBookingApp.Services
         Task<PaginatedList<HotelModel>> FindWithQuery(QueryParams queryParams);
         Task Add(HotelModel hotel);
         Task Delete(long hotelId);
+        Task<HotelModel> FindById(long hotelId);
     }
 }

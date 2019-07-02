@@ -44,6 +44,12 @@ namespace HotelBookingApp.Services
                 .ToListAsync();
         }
 
+        public async Task<HotelModel> FindById(long hotelId)
+        {
+            var hotel = await applicationContext.Hotels.FindAsync(hotelId);
+            return hotel;
+        }
+
         public async Task<PaginatedList<HotelModel>> FindWithQuery(QueryParams queryParams)
         {
             var hotels = QueryableUtils<HotelModel>.OrderCustom(applicationContext.Hotels, queryParams);
