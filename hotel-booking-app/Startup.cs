@@ -25,6 +25,7 @@ namespace HotelBookingApp
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCustomDatabase(Configuration);
             services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
             services.Configure<IdentityOptions>(opt =>
             {
@@ -38,7 +39,8 @@ namespace HotelBookingApp
             services.AddScoped<IHotelService, HotelService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -49,8 +51,9 @@ namespace HotelBookingApp
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
             app.UseAuthentication();
+            ApplicationDbInitializer.SeedData(userManager, roleManager);
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
