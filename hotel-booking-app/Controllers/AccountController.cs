@@ -24,23 +24,23 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest userReq)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return View(userReq);
+                return View(request);
             }
-            var result = await signInManager.PasswordSignInAsync(userReq.Email, userReq.Password, true, true);
+            var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, true, true);
             if (result.Succeeded)
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
             if (result.IsLockedOut)
             {
-                userReq.ErrorMessage = "User account locked out.";
+                request.ErrorMessage = "User account locked out.";
             }
-            userReq.ErrorMessage = "Invalid login attempt.";
-            return View(userReq);
+            request.ErrorMessage = "Invalid login attempt.";
+            return View(request);
         }
 
         [HttpPost("logout")]
@@ -57,14 +57,14 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<IActionResult> Signup(SignupRequest userReq)
+        public async Task<IActionResult> Signup(SignupRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return View(userReq);
+                return View(request);
             }
-            var user = new ApplicationUser { UserName = userReq.Email, Email = userReq.Email };
-            var result = await userManager.CreateAsync(user, userReq.Password);
+            var user = new ApplicationUser { UserName = request.Email, Email = request.Email };
+            var result = await userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
                 await signInManager.SignInAsync(user, isPersistent: false);
@@ -72,9 +72,9 @@ namespace HotelBookingApp.Controllers
             }
             foreach (var err in result.Errors)
             {
-                userReq.ErrorMessage += err.Description;
+                request.ErrorMessage += err.Description;
             }
-            return View(userReq);
+            return View(request);
         }
     }
 }
