@@ -1,5 +1,5 @@
-﻿using HotelBookingApp.Models.Hotel;
-using HotelBookingApp.Models.User;
+﻿using HotelBookingApp.Models.Account;
+using HotelBookingApp.Models.Hotel;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace HotelBookingApp

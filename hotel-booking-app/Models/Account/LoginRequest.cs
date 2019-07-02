@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HotelBookingApp.Models.User
+namespace HotelBookingApp.Models.Account
 {
-    public class UserLoginReq
+    public class LoginRequest
     {
         [Required]
         [EmailAddress]

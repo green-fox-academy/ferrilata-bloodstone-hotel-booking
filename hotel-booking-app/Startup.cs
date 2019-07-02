@@ -1,5 +1,5 @@
 using HotelBookingApp.Configs;
-using HotelBookingApp.Models.User;
+using HotelBookingApp.Models.Account;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

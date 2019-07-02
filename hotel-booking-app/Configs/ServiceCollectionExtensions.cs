@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HotelBookingApp.Models.User;
+using HotelBookingApp.Models.Account;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +23,6 @@ namespace HotelBookingApp.Configs
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new UserMappingProfile());
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);

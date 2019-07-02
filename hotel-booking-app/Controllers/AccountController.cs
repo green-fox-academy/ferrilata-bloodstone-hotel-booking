@@ -1,5 +1,5 @@
 using HotelBookingApp.Exceptions;
-using HotelBookingApp.Models.User;
+using HotelBookingApp.Models.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -20,11 +20,11 @@ namespace HotelBookingApp.Controllers
         [HttpGet("login")]
         public IActionResult Login()
         {
-            return View(new UserLoginReq());
+            return View(new LoginRequest());
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginReq userReq)
+        public async Task<IActionResult> Login(LoginRequest userReq)
         {
             if (!ModelState.IsValid)
             {
@@ -53,11 +53,11 @@ namespace HotelBookingApp.Controllers
         [HttpGet("signup")]
         public IActionResult Signup()
         {
-            return View(new UserSignupReq());
+            return View(new SignupRequest());
         }
 
         [HttpPost("signup")]
-        public async Task<IActionResult> Signup(UserSignupReq userReq)
+        public async Task<IActionResult> Signup(SignupRequest userReq)
         {
             if (!ModelState.IsValid)
             {
