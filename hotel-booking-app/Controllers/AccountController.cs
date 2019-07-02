@@ -30,7 +30,7 @@ namespace HotelBookingApp.Controllers
             {
                 return View(request);
             }
-            var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, true, true);
+            var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, lockoutOnFailure: true);
             if (result.Succeeded)
             {
                 returnUrl = returnUrl ?? Url.Content("~/");
