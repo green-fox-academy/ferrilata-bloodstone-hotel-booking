@@ -24,18 +24,7 @@ namespace HotelBookingApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCustomDatabase(Configuration);
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationContext>();
-            services.Configure<IdentityOptions>(opt =>
-            {
-                opt.Password.RequireNonAlphanumeric = false;
-            });
-            services.ConfigureApplicationCookie(opt =>
-            {
-                opt.LoginPath = "/login";
-                opt.AccessDeniedPath = "/access-denied";
-            });
+            services.AddCustomIdentity();
             services.AddAutoMapper();
             services.AddScoped<IHotelService, HotelService>();
         }
