@@ -9,12 +9,10 @@ namespace HotelBookingApp.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IUserService userService;
         private readonly IMapper mapper;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(IMapper mapper)
         {
-            this.userService = userService;
             this.mapper = mapper;
         }
 
@@ -49,7 +47,7 @@ namespace HotelBookingApp.Controllers
             }
             try
             {
-                await userService.Create(mapper.Map<UserSignupReq, UserModel>(userReq));
+                // await userService.Create(mapper.Map<UserSignupReq, UserModel>(userReq));
                 return RedirectToAction(nameof(Login));
             }
             catch (ResourceAlreadyExistsException ex)
