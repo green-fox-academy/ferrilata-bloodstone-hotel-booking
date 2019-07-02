@@ -52,11 +52,11 @@ namespace HotelBookingAppTests.TestUtils
 
     internal class TestDbAsyncQueryProvider<TEntity> : IDbAsyncQueryProvider
     {
-        private readonly IQueryProvider _inner;
+        private readonly IQueryProvider inner;
 
         internal TestDbAsyncQueryProvider(IQueryProvider inner)
         {
-            _inner = inner;
+            this.inner = inner;
         }
 
         public IQueryable CreateQuery(Expression expression)
@@ -71,12 +71,12 @@ namespace HotelBookingAppTests.TestUtils
 
         public object Execute(Expression expression)
         {
-            return _inner.Execute(expression);
+            return inner.Execute(expression);
         }
 
         public TResult Execute<TResult>(Expression expression)
         {
-            return _inner.Execute<TResult>(expression);
+            return inner.Execute<TResult>(expression);
         }
 
         public Task<object> ExecuteAsync(Expression expression, CancellationToken cancellationToken)
@@ -118,26 +118,26 @@ namespace HotelBookingAppTests.TestUtils
 
     internal class TestDbAsyncEnumerator<T> : IDbAsyncEnumerator<T>
     {
-        private readonly IEnumerator<T> _inner;
+        private readonly IEnumerator<T> inner;
 
         public TestDbAsyncEnumerator(IEnumerator<T> inner)
         {
-            _inner = inner;
+            this.inner = inner;
         }
 
         public void Dispose()
         {
-            _inner.Dispose();
+            inner.Dispose();
         }
 
         public Task<bool> MoveNextAsync(CancellationToken cancellationToken)
         {
-            return Task.FromResult(_inner.MoveNext());
+            return Task.FromResult(inner.MoveNext());
         }
 
         public T Current
         {
-            get { return _inner.Current; }
+            get { return inner.Current; }
         }
 
         object IDbAsyncEnumerator.Current
@@ -148,11 +148,11 @@ namespace HotelBookingAppTests.TestUtils
 
     internal class TestAsyncQueryProvider<TEntity> : IAsyncQueryProvider
     {
-        private readonly IQueryProvider _inner;
+        private readonly IQueryProvider inner;
 
         internal TestAsyncQueryProvider(IQueryProvider inner)
         {
-            _inner = inner;
+            this.inner = inner;
         }
 
         public IQueryable CreateQuery(Expression expression)
@@ -167,12 +167,12 @@ namespace HotelBookingAppTests.TestUtils
 
         public object Execute(Expression expression)
         {
-            return _inner.Execute(expression);
+            return inner.Execute(expression);
         }
 
         public TResult Execute<TResult>(Expression expression)
         {
-            return _inner.Execute<TResult>(expression);
+            return inner.Execute<TResult>(expression);
         }
 
         public IAsyncEnumerable<TResult> ExecuteAsync<TResult>(Expression expression)
@@ -209,29 +209,29 @@ namespace HotelBookingAppTests.TestUtils
 
     internal class TestAsyncEnumerator<T> : IAsyncEnumerator<T>
     {
-        private readonly IEnumerator<T> _inner;
+        private readonly IEnumerator<T> inner;
 
         public TestAsyncEnumerator(IEnumerator<T> inner)
         {
-            _inner = inner;
+            this.inner = inner;
         }
 
         public void Dispose()
         {
-            _inner.Dispose();
+            inner.Dispose();
         }
 
         public T Current
         {
             get
             {
-                return _inner.Current;
+                return inner.Current;
             }
         }
 
         public Task<bool> MoveNext(CancellationToken cancellationToken)
         {
-            return Task.FromResult(_inner.MoveNext());
+            return Task.FromResult(inner.MoveNext());
         }
     }
 }
