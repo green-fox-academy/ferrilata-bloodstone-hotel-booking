@@ -2,7 +2,8 @@
 using HotelBookingApp.Models.Hotel;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-namespace HotelBookingApp
+
+namespace HotelBookingApp.Data
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {

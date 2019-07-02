@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HotelBookingApp.Data;
 using HotelBookingApp.Models.Account;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

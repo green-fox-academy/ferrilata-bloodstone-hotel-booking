@@ -1,4 +1,5 @@
 using HotelBookingApp.Configs;
+using HotelBookingApp.Data;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
