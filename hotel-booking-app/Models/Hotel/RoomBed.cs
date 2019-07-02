@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace HotelBookingApp.Models.Hotel
 {
-    public class Bed
+    public class RoomBed
     {
+        public int RoomId { get; set; }
         public int BedId { get; set; }
-        public string Type { get; set; }
-        public int Size { get; set; }
-
-        public IEnumerable<RoomBed> RoomBeds { get; set; }
+        public Room Room { get; set; }
+        public Bed Bed { get; set; }
     }
 }

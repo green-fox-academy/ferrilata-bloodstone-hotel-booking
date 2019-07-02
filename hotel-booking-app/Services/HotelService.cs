@@ -26,7 +26,7 @@ namespace HotelBookingApp.Services
         public async Task Delete(long id)
         {
             var hotel = applicationContext.Hotels
-                .SingleOrDefault(h => h.Id == id)
+                .SingleOrDefault(h => h.HotelModelId == id)
                 ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
             applicationContext.Hotels.Remove(hotel);
             await applicationContext.SaveChangesAsync();

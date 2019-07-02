@@ -7,7 +7,7 @@ namespace HotelBookingApp.Models.Hotel
 {
     public class PropertyType
     {
-        public int Id { get; set; }
+        public int PropertyTypeId { get; set; }
         public string Type { get; set; }
     }
 }

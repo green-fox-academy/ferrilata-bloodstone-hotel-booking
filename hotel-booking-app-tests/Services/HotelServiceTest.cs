@@ -15,7 +15,7 @@ namespace HotelBookingAppTests.Services
         public async Task Add_AddNewHotel_Ok()
         {
             //Arrange
-            var hotel = new HotelModel { Id = 1, Name = "hotelname", Description = "suchdescription", Price = 1 };
+            var hotel = new HotelModel { HotelModelId = 1, Name = "hotelname", Description = "suchdescription", Price = 1 };
             var context = new ApplicationContext(TestDbOptions.GetTestDbOptions());
             var hotelService = new HotelService(context);
 
