@@ -25,7 +25,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginReq userReq)
+        public IActionResult Login(UserLoginReq userReq)
         {
             if (!ModelState.IsValid)
             {
