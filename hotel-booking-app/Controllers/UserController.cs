@@ -24,13 +24,23 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(UserLoginReq userReq)
+        public async Task<IActionResult> Login(UserLoginReq userReq)
         {
             if (!ModelState.IsValid)
             {
                 return View(userReq);
             }
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            var result = await signInManager.PasswordSignInAsync(userReq.Email, userReq.Password, true, true);
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+            if (result.IsLockedOut)
+            {
+                userReq.ErrorMessage = "User account locked out.";
+            }
+            userReq.ErrorMessage = "Invalid login attempt.";
+            return View(userReq);
         }
 
         [HttpGet("signup")]
