@@ -1,7 +1,6 @@
-using AutoMapper;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.User;
-using HotelBookingApp.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -9,11 +8,13 @@ namespace HotelBookingApp.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IMapper mapper;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
-        public UserController(IMapper mapper)
+        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            this.mapper = mapper;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         [HttpGet("login")]
@@ -45,16 +46,18 @@ namespace HotelBookingApp.Controllers
             {
                 return View(userReq);
             }
-            try
+            var user = new ApplicationUser { UserName = userReq.Email, Email = userReq.Email };
+            var result = await userManager.CreateAsync(user, userReq.Password);
+            if (result.Succeeded)
             {
-                // await userService.Create(mapper.Map<UserSignupReq, UserModel>(userReq));
-                return RedirectToAction(nameof(Login));
+                await signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
-            catch (ResourceAlreadyExistsException ex)
+            foreach (var err in result.Errors)
             {
-                userReq.ErrorMessage = ex.Message;
-                return View(userReq);
+                userReq.ErrorMessage += err;
             }
+            return View(userReq);
         }
     }
 }
