@@ -29,6 +29,10 @@ namespace HotelBookingApp
             {
                 opt.Password.RequireNonAlphanumeric = false;
             });
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.LoginPath = "/login";
+            });
             services.AddAutoMapper();
             services.AddScoped<IHotelService, HotelService>();
         }
