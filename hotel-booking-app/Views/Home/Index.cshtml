@@ -4,7 +4,23 @@
     ViewData["Title"] = "Home";
 }
 
-<h2>List of Hotels</h2>
+<div class="d-flex justify-content-between">
+    <h2>List of Hotels</h2>
+    <div class="d-flex">
+        <form asp-action="Index" class="form-inline" method="get">
+            <div class="form-group">
+                <input asp-for="@Model.QueryParams.Search" class="form-control" />
+            </div>
+            <input type="hidden" asp-for="@Model.QueryParams.OrderBy" />
+            <input type="hidden" asp-for="@Model.QueryParams.Desc" />
+            <button type="submit" class="btn btn-default mx-2">Search by city</button>
+        </form>
+        <form asp-action="Index" class="form-inline" method="get">
+            <button type="submit" class="btn btn-danger">Clear filters</button>
+        </form>
+    </div>
+</div>
+
 <table class="table">
     <tr>
         <th>
@@ -12,7 +28,8 @@
                asp-route-orderBy="Name"
                asp-route-desc="@Model.QueryParams.NextDesc"
                asp-route-pageSize="@Model.QueryParams.PageSize"
-               asp-route-currentPage="@Model.QueryParams.CurrentPage">
+               asp-route-currentPage="@Model.QueryParams.CurrentPage"
+               asp-route-search="@Model.QueryParams.Search">
                 @Html.DisplayNameFor(model => model.Hotels.First().Name)
             </a>
         </th>
@@ -21,7 +38,8 @@
                asp-route-orderBy="Description"
                asp-route-desc="@Model.QueryParams.NextDesc"
                asp-route-pageSize="@Model.QueryParams.PageSize"
-               asp-route-currentPage="@Model.QueryParams.CurrentPage">
+               asp-route-currentPage="@Model.QueryParams.CurrentPage"
+               asp-route-search="@Model.QueryParams.Search">
                 @Html.DisplayNameFor(model => model.Hotels.First().Description)
             </a>
         </th>
@@ -30,9 +48,13 @@
                asp-route-orderBy="Price"
                asp-route-desc="@Model.QueryParams.NextDesc"
                asp-route-pageSize="@Model.QueryParams.PageSize"
-               asp-route-currentPage="@Model.QueryParams.CurrentPage">
+               asp-route-currentPage="@Model.QueryParams.CurrentPage"
+               asp-route-search="@Model.QueryParams.Search">
                 @Html.DisplayNameFor(model => model.Hotels.First().Price)
             </a>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hotels.First().Location.City)
         </th>
     </tr>
 
@@ -42,10 +64,18 @@
             <td>@hotel.Name</td>
             <td>@hotel.Description</td>
             <td>@hotel.Price</td>
+            <td>@hotel.Location.City</td>
         </tr>
     }
 
 </table>
+
+@if (!Model.Hotels.Any())
+{
+    <div class="text-center">
+        <p>No results found!</p>
+    </div>
+}
 
 <div class="pagintaion-row">
     @for (int i = 1; i <= Model.Hotels.TotalPages; i++)
@@ -55,6 +85,7 @@
            asp-route-orderBy="@Model.QueryParams.OrderBy"
            asp-route-desc="@Model.QueryParams.Desc"
            asp-route-pageSize="@Model.QueryParams.PageSize"
+           asp-route-search="@Model.QueryParams.Search"
            asp-route-currentPage="@i">@i</a>
     }
 </div>
