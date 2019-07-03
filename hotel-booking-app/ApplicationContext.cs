@@ -19,6 +19,7 @@ namespace HotelBookingApp
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<RoomBed>()
                 .HasKey(pt => new { pt.RoomId, pt.BedId });
 
@@ -31,6 +32,14 @@ namespace HotelBookingApp
                 .HasOne(pt => pt.Bed)
                 .WithMany(t => t.RoomBeds)
                 .HasForeignKey(pt => pt.BedId);
+
+            var property = new PropertyType { PropertyTypeId = 1 };
+            var location = new Location { LocationId = 1, City = "Miami" };
+            modelBuilder.Entity<PropertyType>().HasData(property);
+            modelBuilder.Entity<Location>().HasData(location);
+            modelBuilder.Entity<Hotel>().HasData(new Hotel { HotelId = 1, Name = "Hotel", Description = "Description", LocationId = 1, PropertyTypeId = 1 });
+
+
         }
     }
 }

@@ -4,14 +4,16 @@ using HotelBookingApp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelBookingApp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190703072643_testSix")]
+    partial class testSix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,10 +62,6 @@ namespace HotelBookingApp.Migrations
                     b.HasIndex("PropertyTypeId");
 
                     b.ToTable("Hotels");
-
-                    b.HasData(
-                        new { HotelId = 1, Description = "Description", LocationId = 1, Name = "Hotel", Price = 0, PropertyTypeId = 1, StarRating = 0 }
-                    );
                 });
 
             modelBuilder.Entity("HotelBookingApp.Models.Hotel.Location", b =>

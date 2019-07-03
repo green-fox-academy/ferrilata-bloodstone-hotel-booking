@@ -44,11 +44,13 @@ namespace HotelBookingApp.Services
                 .ToListAsync();
         }
 
-        public async Task<Hotel> FindById(long hotelId)
+        public async Task<Hotel> FindByIdAsync(int id)
         {
-            var hotel = await applicationContext.Hotels.FindAsync(hotelId);
+            var hotel = await applicationContext.Hotels.FindAsync(id)
+                ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
             return hotel;
         }
+            
 
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
         {
