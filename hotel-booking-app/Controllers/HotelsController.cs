@@ -17,7 +17,7 @@ namespace HotelBookingApp.Controllers
             this.hotelService = hotelService;
         }
 
-        [HttpGet("/hotels/{id}")]
+        [HttpGet("/hotel/{id}")]
         public async Task<IActionResult> Hotel(int id)
         {
             try 
