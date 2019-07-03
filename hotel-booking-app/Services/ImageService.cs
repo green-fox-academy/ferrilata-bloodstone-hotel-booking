@@ -15,7 +15,7 @@ namespace HotelBookingApp.Services
     {
         private readonly string blobContainerName = "rawimages";
         private readonly string queueContainerName = "imagequeue";
-        private readonly string[] validExtensions = { "jpg", "jpeg", "png", "gif" };
+        private readonly string[] validExtensions = { "jpg", "jpeg", "png" };
         private string accessKey = string.Empty;
         private CloudStorageAccount account;
         private CloudBlobClient blobClient;
