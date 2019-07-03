@@ -48,6 +48,9 @@
                 @Html.DisplayNameFor(model => model.Hotels.First().Price)
             </a>
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hotels.First().Location.City)
+        </th>
     </tr>
 
     @foreach (var hotel in Model.Hotels)
@@ -56,6 +59,7 @@
             <td>@hotel.Name</td>
             <td>@hotel.Description</td>
             <td>@hotel.Price</td>
+            <td>@hotel.Location.City</td>
         </tr>
     }
 
