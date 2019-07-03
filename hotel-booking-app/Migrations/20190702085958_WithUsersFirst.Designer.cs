@@ -4,14 +4,16 @@ using HotelBookingApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelBookingApp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190702085958_WithUsersFirst")]
+    partial class WithUsersFirst
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,12 +62,6 @@ namespace HotelBookingApp.Migrations
                     b.HasIndex("PropertyTypeId");
 
                     b.ToTable("Hotels");
-
-                    b.HasData(
-                        new { HotelId = 1, Description = "description1", LocationId = 1, Name = "hotel1", Price = 1, PropertyTypeId = 1, StarRating = 1 },
-                        new { HotelId = 2, Description = "description2", LocationId = 2, Name = "hotel2", Price = 2, PropertyTypeId = 2, StarRating = 1 },
-                        new { HotelId = 3, Description = "description3", LocationId = 3, Name = "hotel3", Price = 3, PropertyTypeId = 1, StarRating = 1 }
-                    );
                 });
 
             modelBuilder.Entity("HotelBookingApp.Models.Hotel.Location", b =>
@@ -85,16 +81,6 @@ namespace HotelBookingApp.Migrations
                     b.HasKey("LocationId");
 
                     b.ToTable("Locations");
-
-                    b.HasData(
-<<<<<<< HEAD
-                        new { LocationId = 1, City = "Miami" }
-=======
-                        new { LocationId = 1, Address = "a street 1", City = "Moon", Country = "Moon", Region = "Moon District?" },
-                        new { LocationId = 2, Address = "a street mars", City = "Mars", Country = "Mars", Region = "Mars District?" },
-                        new { LocationId = 3, Address = "a street p", City = "p", Country = "Pluto", Region = "Pluto District?" }
->>>>>>> 695dfe13e029340dc6d5632547b633d00b28e837
-                    );
                 });
 
             modelBuilder.Entity("HotelBookingApp.Models.Hotel.PropertyType", b =>
@@ -108,17 +94,6 @@ namespace HotelBookingApp.Migrations
                     b.HasKey("PropertyTypeId");
 
                     b.ToTable("PropertyTypes");
-
-                    b.HasData(
-<<<<<<< HEAD
-                        new { PropertyTypeId = 1 }
-=======
-                        new { PropertyTypeId = 1, Type = "Apartment" },
-                        new { PropertyTypeId = 2, Type = "Hostel" },
-                        new { PropertyTypeId = 3, Type = "Hotel" },
-                        new { PropertyTypeId = 4, Type = "Guesthouse" }
->>>>>>> 695dfe13e029340dc6d5632547b633d00b28e837
-                    );
                 });
 
             modelBuilder.Entity("HotelBookingApp.Models.Hotel.Room", b =>

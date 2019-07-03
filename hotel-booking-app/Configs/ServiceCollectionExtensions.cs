@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using HotelBookingApp.Models.User;
+using HotelBookingApp.Data;
+using HotelBookingApp.Models.Account;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,11 +21,29 @@ namespace HotelBookingApp.Configs
             return services;
         }
 
+        public static IServiceCollection AddCustomIdentity(this IServiceCollection services)
+        {
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationContext>();
+
+            services.Configure<IdentityOptions>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric = false;
+            });
+
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.LoginPath = "/login";
+                opt.AccessDeniedPath = "/access-denied";
+            });
+            return services;
+        }
+
         public static IServiceCollection AddAutoMapper(this IServiceCollection services)
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new UserMappingProfile());
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);

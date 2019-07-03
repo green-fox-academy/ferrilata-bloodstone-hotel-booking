@@ -1,9 +1,11 @@
-﻿using HotelBookingApp.Models.Hotel;
-using HotelBookingApp.Models.User;
+﻿using HotelBookingApp.Models.Account;
+using HotelBookingApp.Models.Hotel;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-namespace HotelBookingApp
+
+namespace HotelBookingApp.Data
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
         public virtual DbSet<Bed> Beds { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
@@ -11,7 +13,6 @@ namespace HotelBookingApp
         public virtual DbSet<PropertyType> PropertyTypes { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<RoomBed> RoomBeds { get; set; }
-        public virtual DbSet<UserModel> Users { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
@@ -20,6 +21,7 @@ namespace HotelBookingApp
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<RoomBed>()
                 .HasKey(pt => new { pt.RoomId, pt.BedId });
 

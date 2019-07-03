@@ -1,7 +1,9 @@
-﻿using HotelBookingApp.Exceptions;
+﻿using HotelBookingApp.Data;
+using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,8 +56,14 @@ namespace HotelBookingApp.Services
 
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
         {
-            var hotels = QueryableUtils<Hotel>.OrderCustom(applicationContext.Hotels, queryParams);
-            return await PaginatedList<Hotel>.CreateAsync(hotels, queryParams.CurrentPage, queryParams.PageSize);
+            var filteredHotels = applicationContext.Hotels
+                .Include(h => h.Location)
+                .Where(h => 
+                    string.IsNullOrEmpty(queryParams.Search) 
+                    || h.Location.City.Contains(queryParams.Search));
+
+            var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
+            return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);
         }
     }
 }
