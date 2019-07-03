@@ -42,7 +42,7 @@ namespace HotelBookingApp
             }
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            ApplicationDbInitializer.SeedData(userManager, roleManager);
+            ApplicationUserInitializer.SeedData(userManager, roleManager);
             app.UseStaticFiles();
             app.UseMvc();
         }

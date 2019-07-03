@@ -1,54 +1,75 @@
-﻿using HotelBookingApp.Models.Account;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+﻿using HotelBookingApp.Models.Hotel;
+using System.Linq;
 
 namespace HotelBookingApp.Data
 {
-    public static class ApplicationDbInitializer
+    public class ApplicatonDbInitializer
     {
-        public static void SeedData(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static void Initialize(ApplicationContext context)
         {
-            SeedRoles(roleManager);
-            SeedUsers(userManager);
+            SeedPropertyTypes(context);
+            SeedBeds(context);
+            SeedLocations(context);
         }
 
-        private static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        public static void SeedPropertyTypes(ApplicationContext context)
         {
-            var roleNames = new List<string>() { "Admin", "HotelManager", "User" };
-            foreach (var name in roleNames)
+            if (context.PropertyTypes.Any())
             {
-                if (!roleManager.RoleExistsAsync(name).Result)
-                {
-                    var roleResult = roleManager.CreateAsync(new IdentityRole() { Name = name }).Result;
-                }
+                return;
             }
-        }
 
-        private static void SeedUsers(UserManager<ApplicationUser> userManager)
-        {
-            var password = "Passw0rd";
-            var users = new Dictionary<string, string>
+            var propetyTypes = new PropertyType[]
             {
-                ["admin@bloodstone.com"] = "Admin",
-                ["manager@bloodstone.com"] = "HotelManager",
-                ["user@bloodstone.com"] = "User"
+                new PropertyType { PropertyTypeId = 1, Type = "Apartment" },
+                new PropertyType { PropertyTypeId = 2, Type = "Hostel" },
+                new PropertyType { PropertyTypeId = 3, Type = "Hotel" },
+                new PropertyType { PropertyTypeId = 4, Type = "Guesthouse" }
             };
-            foreach (var userEntry in users)
+            foreach (PropertyType p in propetyTypes)
             {
-                if (userManager.FindByEmailAsync(userEntry.Key).Result == null)
-                {
-                    var user = new ApplicationUser
-                    {
-                        UserName = userEntry.Key,
-                        Email = userEntry.Key
-                    };
-                    var result = userManager.CreateAsync(user, password).Result;
-                    if (result.Succeeded)
-                    {
-                        userManager.AddToRoleAsync(user, userEntry.Value).Wait();
-                    }
-                }
+                context.PropertyTypes.Add(p);
             }
+            context.SaveChanges();
+        }
+
+        public static void SeedBeds(ApplicationContext context)
+        {
+            if (context.Beds.Any())
+            {
+                return;
+            }
+            var beds = new Bed[]
+           {
+                new Bed { Type = "full bed", Size = 1},
+                new Bed { Type = "twin bed", Size = 2},
+                new Bed { Type = "single bed", Size = 1},
+                new Bed { Type = "sofa bed", Size = 1},
+           };
+            foreach (Bed b in beds)
+            {
+                context.Beds.Add(b);
+            }
+            context.SaveChanges();
+        }
+
+        public static void SeedLocations(ApplicationContext context)
+        {
+            if (context.Locations.Any())
+            {
+                return;
+            }
+            var locations = new Location[]
+          {
+                new Location { LocationId = 1, Country = "Moon", City = "Moon", Region = "Moon District?", Address = "a street 1" },
+                new Location { LocationId = 2, Country = "Mars", City = "Mars", Region = "Mars District?", Address = "a street mars" },
+                new Location { LocationId = 3, Country = "Pluto", City = "p", Region = "Pluto District?", Address = "a street p" }
+          };
+            foreach (Location l in locations)
+            {
+                context.Locations.Add(l);
+            }
+            context.SaveChanges();
         }
     }
 }

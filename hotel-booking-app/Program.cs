@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using HotelBookingApp.Data;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -18,7 +19,7 @@ namespace HotelBookingApp
                 try
                 {
                     var context = services.GetRequiredService<ApplicationContext>();
-                    DataInitializer.Initialize(context);
+                    ApplicatonDbInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {
