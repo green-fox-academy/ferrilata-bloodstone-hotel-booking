@@ -27,8 +27,6 @@ namespace HotelBookingApp
                 }
             }
             host.Run();
-            //host.Run();
-            //CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
