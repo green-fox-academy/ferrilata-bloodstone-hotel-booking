@@ -1,4 +1,4 @@
-﻿using HotelBookingApp;
+﻿using HotelBookingApp.Data;
 using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Services;
 using HotelBookingAppTests.TestUtils;

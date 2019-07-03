@@ -1,5 +1,6 @@
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -18,8 +19,9 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("login")]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
             return View(new LoginRequest());
         }
 
@@ -68,6 +70,7 @@ namespace HotelBookingApp.Controllers
             var result = await userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
+                await userManager.AddToRoleAsync(user, "User");
                 await signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
@@ -76,6 +79,12 @@ namespace HotelBookingApp.Controllers
                 request.ErrorMessage += err.Description;
             }
             return View(request);
+        }
+
+        [HttpGet("access-denied")]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
