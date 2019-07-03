@@ -1,4 +1,5 @@
 using HotelBookingApp.Configs;
+using HotelBookingApp.Data;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
@@ -23,21 +24,13 @@ namespace HotelBookingApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCustomDatabase(Configuration);
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationContext>();
-            services.Configure<IdentityOptions>(opt =>
-            {
-                opt.Password.RequireNonAlphanumeric = false;
-            });
-            services.ConfigureApplicationCookie(opt =>
-            {
-                opt.LoginPath = "/login";
-            });
+            services.AddCustomIdentity();
             services.AddAutoMapper();
             services.AddScoped<IHotelService, HotelService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -48,8 +41,9 @@ namespace HotelBookingApp
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
             app.UseAuthentication();
+            ApplicationDbInitializer.SeedData(userManager, roleManager);
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }

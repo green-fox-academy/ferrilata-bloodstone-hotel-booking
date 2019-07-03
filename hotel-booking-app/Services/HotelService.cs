@@ -1,4 +1,5 @@
-﻿using HotelBookingApp.Exceptions;
+﻿using HotelBookingApp.Data;
+using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
