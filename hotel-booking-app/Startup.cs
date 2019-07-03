@@ -27,6 +27,7 @@ namespace HotelBookingApp
             services.AddCustomIdentity();
             services.AddAutoMapper();
             services.AddScoped<IHotelService, HotelService>();
+            services.AddScoped<IImageService, ImageService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
