@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Azure.Storage.Queue;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,9 +22,9 @@ namespace HotelBookingApp.Services
         private CloudBlobContainer blobContainer;
         private CloudQueueClient queueClient;
 
-        public ImageService()
+        public ImageService(IConfiguration configuration)
         {
-            this.accessKey = "DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=hotelbookingstorage;AccountKey=uzoKDUthLRM7bzM9gP3uBv8bhv6/ORAXZeNLA63/Tm9m8VeDIWTFrHFFGu/pvyosKSPlxmPQhZ4UAOYmq+haYQ==";
+            this.accessKey = configuration.GetConnectionString("AzureStorageKey");
             this.account = CloudStorageAccount.Parse(this.accessKey);
             this.blobClient = account.CreateCloudBlobClient();
             this.blobContainer = blobClient.GetContainerReference(blobContainerName);
