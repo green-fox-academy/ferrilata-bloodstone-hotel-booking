@@ -8,3 +8,6 @@
 <div>The address of the hotel: @Model.Location</div>
 <div>Description about the hotel: <br /> @Model.Description</div>
 <div>Rooms in the hotel: @Model.Rooms</div>
+
+@*<button type="submit" class="btn btn-primary">Edit</button>*@
+<a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.HotelId" role="button">Edit</a>

@@ -20,16 +20,25 @@ namespace HotelBookingApp.Controllers
         [HttpGet("/hotel/{id}")]
         public async Task<IActionResult> Hotel(int id)
         {
-            try 
+            try
             {
                 var hotel = await hotelService.FindByIdAsync(id);
                 return View(hotel);
             }
-            catch(ItemNotFoundException ex)
-            {                              
+            catch (ItemNotFoundException ex)
+            {
                 return NotFound(ex.Message);
             }
 
         }
+
+        [HttpGet("/hotel/edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var hotel = await hotelService.FindByIdAsync(id);
+            return View(hotel);
+        }
+
     }
+
 }
