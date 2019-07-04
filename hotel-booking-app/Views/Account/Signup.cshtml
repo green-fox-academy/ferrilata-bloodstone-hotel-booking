@@ -29,7 +29,10 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Sign up</button>
                 </div>
-                <span class="text-danger">@Model.ErrorMessage</span>
+                @foreach (var error in Model.ErrorMessages)
+                {
+                    <span class="text-danger">@error</span>
+                }
             </form>
         </div>
     </div>

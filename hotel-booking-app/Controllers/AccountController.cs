@@ -1,5 +1,5 @@
-using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
+using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +9,11 @@ namespace HotelBookingApp.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
-
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IAccountService accountService;
+        
+        public AccountController(IAccountService accountService)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            this.accountService = accountService;
         }
 
         [HttpGet("login")]
@@ -32,24 +30,20 @@ namespace HotelBookingApp.Controllers
             {
                 return View(request);
             }
-            var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, lockoutOnFailure: true);
-            if (result.Succeeded)
+            var errors = await accountService.SignInAsync(request);
+            if (errors.Count == 0)
             {
                 returnUrl = returnUrl ?? Url.Content("~/");
                 return LocalRedirect(returnUrl);
             }
-            if (result.IsLockedOut)
-            {
-                request.ErrorMessage = "User account locked out.";
-            }
-            request.ErrorMessage = "Invalid login attempt.";
+            request.ErrorMessages = errors;
             return View(request);
         }
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            await accountService.SignOutAsync();
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
@@ -66,18 +60,12 @@ namespace HotelBookingApp.Controllers
             {
                 return View(request);
             }
-            var user = new ApplicationUser { UserName = request.Email, Email = request.Email };
-            var result = await userManager.CreateAsync(user, request.Password);
-            if (result.Succeeded)
+            var errors = await accountService.SignUpAsync(request);
+            if (errors.Count == 0)
             {
-                await userManager.AddToRoleAsync(user, "User");
-                await signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
-            foreach (var err in result.Errors)
-            {
-                request.ErrorMessage += err.Description;
-            }
+            request.ErrorMessages = errors;
             return View(request);
         }
 
