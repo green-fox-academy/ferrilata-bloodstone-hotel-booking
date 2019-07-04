@@ -1,4 +1,4 @@
-﻿@model UserLoginReq
+﻿@model LoginRequest
 
 @{
     ViewData["Title"] = "Login";
@@ -20,10 +20,17 @@
                     <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" asp-for="RememberMe">
+                    <label class="custom-control-label" asp-for="RememberMe"></label>
+                </div>
+                <div class="form-group mt-2">
                     <button type="submit" class="btn btn-primary">Login</button>
                 </div>
-                <span class="text-danger">@Model.ErrorMessage</span>
+                @foreach (var error in Model.ErrorMessages)
+                {
+                    <span class="text-danger">@error</span>
+                }
             </form>
         </div>
     </div>

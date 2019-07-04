@@ -1,4 +1,4 @@
-﻿using HotelBookingApp;
+﻿using HotelBookingApp.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingAppTests.TestUtils

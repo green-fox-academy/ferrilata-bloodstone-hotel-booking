@@ -1,7 +1,9 @@
-﻿using HotelBookingApp.Exceptions;
+﻿using HotelBookingApp.Data;
+using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +19,7 @@ namespace HotelBookingApp.Services
             this.applicationContext = applicationContext;
         }
 
-        public async Task Add(HotelModel hotel)
+        public async Task Add(Hotel hotel)
         {
             await applicationContext.AddAsync(hotel);
             await applicationContext.SaveChangesAsync();
@@ -26,28 +28,45 @@ namespace HotelBookingApp.Services
         public async Task Delete(long id)
         {
             var hotel = applicationContext.Hotels
-                .SingleOrDefault(h => h.Id == id)
+                .SingleOrDefault(h => h.HotelId == id)
                 ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
             applicationContext.Hotels.Remove(hotel);
             await applicationContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<HotelModel>> FindAll()
+        public async Task<IEnumerable<Hotel>> FindAll()
         {
             return await applicationContext.Hotels.ToListAsync();
         }
 
-        public async Task<IEnumerable<HotelModel>> FindAllOrderByName()
+        public async Task<IEnumerable<Hotel>> FindAllOrderByName()
         {
             return await applicationContext.Hotels
                 .OrderBy(h => h.Name)
                 .ToListAsync();
         }
 
-        public async Task<PaginatedList<HotelModel>> FindWithQuery(QueryParams queryParams)
+        public async Task<Hotel> FindByIdAsync(int id)
         {
-            var hotels = QueryableUtils<HotelModel>.OrderCustom(applicationContext.Hotels, queryParams);
-            return await PaginatedList<HotelModel>.CreateAsync(hotels, queryParams.CurrentPage, queryParams.PageSize);
+            var hotel = await applicationContext.Hotels
+                .Include(h => h.Location)
+                .Include(h => h.PropertyType)
+                .SingleOrDefaultAsync(h => h.HotelId == id)
+                ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
+            return hotel;
+        }
+
+
+        public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
+        {
+            var filteredHotels = applicationContext.Hotels
+                .Include(h => h.Location)
+                .Where(h =>
+                    string.IsNullOrEmpty(queryParams.Search)
+                    || h.Location.City.Contains(queryParams.Search));
+
+            var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
+            return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);
         }
     }
 }

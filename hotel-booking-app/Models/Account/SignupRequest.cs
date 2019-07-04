@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace HotelBookingApp.Models.User
+namespace HotelBookingApp.Models.Account
 {
-    public class UserSignupReq
+    public class SignupRequest
     {
         [Required]
         [EmailAddress]
@@ -16,6 +17,9 @@ namespace HotelBookingApp.Models.User
 
         [Compare("Password")]
         public string VerifyPassword { get; set; }
-        public string ErrorMessage { get; set; }
+
+        [Display(Name = "Sign up as a Hotel Manager")]
+        public bool IsManager { get; set; }
+        public List<string> ErrorMessages { get; set; } = new List<string>();
     }
 }

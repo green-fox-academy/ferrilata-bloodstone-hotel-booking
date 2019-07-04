@@ -7,10 +7,11 @@ namespace HotelBookingApp.Services
 {
     public interface IHotelService
     {
-        Task<IEnumerable<HotelModel>> FindAll();
-        Task<IEnumerable<HotelModel>> FindAllOrderByName();
-        Task<PaginatedList<HotelModel>> FindWithQuery(QueryParams queryParams);
-        Task Add(HotelModel hotel);
+        Task<IEnumerable<Hotel>> FindAll();
+        Task<IEnumerable<Hotel>> FindAllOrderByName();
+        Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams);
+        Task Add(Hotel hotel);
         Task Delete(long hotelId);
+        Task<Hotel> FindByIdAsync(int id);
     }
 }
