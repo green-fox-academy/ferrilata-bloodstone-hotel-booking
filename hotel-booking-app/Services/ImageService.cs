@@ -167,7 +167,8 @@ namespace HotelBookingApp.Services
 
         private static bool CheckImageSize(FileStream stream)
         {
-            return stream.Length < 4194304;
+            var fourMegaBytes = 4 * 1024 * 1024;
+            return stream.Length < fourMegaBytes;
         }
 
         private bool CheckImageExtension(IFormFile file)
