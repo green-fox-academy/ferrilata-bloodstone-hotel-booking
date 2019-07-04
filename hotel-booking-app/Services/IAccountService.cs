@@ -6,8 +6,8 @@ namespace HotelBookingApp.Services
 {
     public interface IAccountService
     {
-        Task<List<string>> SignIn(LoginRequest request);
-        Task SignOut();
-        Task<List<string>> SignUp(SignupRequest request);
+        Task<List<string>> SignInAsync(LoginRequest request);
+        Task SignOutAsync();
+        Task<List<string>> SignUpAsync(SignupRequest request);
     }
 }

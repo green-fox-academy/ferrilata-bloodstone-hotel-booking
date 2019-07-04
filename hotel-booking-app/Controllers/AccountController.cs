@@ -1,4 +1,3 @@
-using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -11,14 +10,10 @@ namespace HotelBookingApp.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService accountService;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
-
-        public AccountController(IAccountService accountService, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        
+        public AccountController(IAccountService accountService)
         {
             this.accountService = accountService;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
         }
 
         [HttpGet("login")]
@@ -35,7 +30,7 @@ namespace HotelBookingApp.Controllers
             {
                 return View(request);
             }
-            var errors = await accountService.SignIn(request);
+            var errors = await accountService.SignInAsync(request);
             if (errors.Count == 0)
             {
                 returnUrl = returnUrl ?? Url.Content("~/");
@@ -48,7 +43,7 @@ namespace HotelBookingApp.Controllers
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await accountService.SignOut();
+            await accountService.SignOutAsync();
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
@@ -65,18 +60,12 @@ namespace HotelBookingApp.Controllers
             {
                 return View(request);
             }
-            var user = new ApplicationUser { UserName = request.Email, Email = request.Email };
-            var result = await userManager.CreateAsync(user, request.Password);
-            if (result.Succeeded)
+            var errors = await accountService.SignUpAsync(request);
+            if (errors.Count == 0)
             {
-                await userManager.AddToRoleAsync(user, "User");
-                await signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
-            foreach (var err in result.Errors)
-            {
-                request.ErrorMessage += err.Description;
-            }
+            request.ErrorMessages = errors;
             return View(request);
         }
 

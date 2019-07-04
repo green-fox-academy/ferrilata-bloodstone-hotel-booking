@@ -18,7 +18,7 @@ namespace HotelBookingApp.Services
             this.signInManager = signInManager;
         }
 
-        public async Task<List<string>> SignIn(LoginRequest request)
+        public async Task<List<string>> SignInAsync(LoginRequest request)
         {
             var errors = new List<string>();
             var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, lockoutOnFailure: true);
@@ -41,14 +41,25 @@ namespace HotelBookingApp.Services
             return errors;
         }
 
-        public async Task SignOut()
+        public async Task SignOutAsync()
         {
             await signInManager.SignOutAsync();
         }
 
-        public Task<List<string>> SignUp(SignupRequest request)
+        public async Task<List<string>> SignUpAsync(SignupRequest request)
         {
-            throw new NotImplementedException();
+            var user = new ApplicationUser { UserName = request.Email, Email = request.Email };
+            var result = await userManager.CreateAsync(user, request.Password);
+
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "User");
+                await signInManager.SignInAsync(user, isPersistent: false);
+            }
+
+            return result.Errors
+                .Select(e => e.Description)
+                .ToList();
         }
     }
 }
