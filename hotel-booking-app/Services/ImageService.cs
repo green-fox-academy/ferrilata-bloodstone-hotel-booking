@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models.Image;
+using HotelBookingApp.Models.Image;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
@@ -31,7 +31,7 @@ namespace HotelBookingApp.Services
             this.queueClient = account.CreateCloudQueueClient();
         }
 
-        public async Task uploadAsync(string imageName, Stream stream)
+        public async Task UploadAsync(string imageName, Stream stream)
         {
             await blobContainer.CreateIfNotExistsAsync();
             BlobContainerPermissions permissions = new BlobContainerPermissions
