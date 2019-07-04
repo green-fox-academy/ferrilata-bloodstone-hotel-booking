@@ -53,7 +53,8 @@ namespace HotelBookingApp.Services
 
             if (result.Succeeded)
             {
-                await userManager.AddToRoleAsync(user, "User");
+                var role = request.IsManager ? "HotelManager" : "User";
+                await userManager.AddToRoleAsync(user, role);
                 await signInManager.SignInAsync(user, isPersistent: false);
             }
 
