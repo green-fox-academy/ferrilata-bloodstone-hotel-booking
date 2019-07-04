@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Data;
+using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Utils;
@@ -25,7 +25,7 @@ namespace HotelBookingApp.Services
             await applicationContext.SaveChangesAsync();
         }
 
-        public async Task Delete(long id)
+        public async Task Delete(int id)
         {
             var hotel = applicationContext.Hotels
                 .SingleOrDefault(h => h.HotelId == id)
