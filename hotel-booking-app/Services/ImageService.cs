@@ -63,29 +63,38 @@ namespace HotelBookingApp.Services
                 await blobContainer.CreateIfNotExistsAsync();
                 var results = await blobContainer.ListBlobsSegmentedAsync(null, blobContinuationToken);
                 blobContinuationToken = results.ContinuationToken;
-
-                foreach (IListBlobItem item in blobContainer.ListBlobs())
-                {
-                    if (item is CloudBlobDirectory)
-                    {
-                        CloudBlobDirectory directory = (CloudBlobDirectory)item;
-                        IEnumerable<IListBlobItem> blobs = directory.ListBlobs(true);
-                        foreach (var blob in blobs)
-                        {
-                            var id = GetHotelImageFolder(blob.Uri);
-                            if (id == hotelId)
-                            {
-                                imageList.Add(new ImageDetails
-                                {
-                                    Name = blob.Uri.Segments[blob.Uri.Segments.Length - 1],
-                                    Path = blob.Uri.ToString()
-                                });
-                            }
-                        }
-                    }
-                }
+                GetBlobDirectories(imageList, hotelId);
             } while (blobContinuationToken != null);
             return imageList;
+        }
+
+        public void GetBlobDirectories(List<ImageDetails> imageList, int hotelId)
+        {
+            foreach (IListBlobItem item in blobContainer.ListBlobs())
+            {
+                if (item is CloudBlobDirectory)
+                {
+                    GetImagesFromBlob(item, imageList, hotelId);
+                }
+            }
+        }
+
+        public void GetImagesFromBlob(IListBlobItem item, List<ImageDetails> imageList, int hotelId)
+        {
+            CloudBlobDirectory directory = (CloudBlobDirectory)item;
+            IEnumerable<IListBlobItem> blobs = directory.ListBlobs(true);
+            foreach (var blob in blobs)
+            {
+                var id = GetHotelImageFolder(blob.Uri);
+                if (id == hotelId)
+                {
+                    imageList.Add(new ImageDetails
+                    {
+                        Name = blob.Uri.Segments[blob.Uri.Segments.Length - 1],
+                        Path = blob.Uri.ToString()
+                    });
+                }
+            }
         }
 
         public async Task<List<IFormFile>> UploadImagesAsync(List<IFormFile> files, int hotelId)
