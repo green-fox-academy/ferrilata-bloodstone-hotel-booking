@@ -28,6 +28,7 @@ namespace HotelBookingApp
             services.AddAutoMapper();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IHotelService, HotelService>();
+            services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IThumbnailService, ThumbnailService>();
         }
 
