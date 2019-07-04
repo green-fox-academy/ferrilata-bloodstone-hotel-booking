@@ -1,5 +1,6 @@
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
+using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +10,13 @@ namespace HotelBookingApp.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IAccountService accountService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(IAccountService accountService, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
+            this.accountService = accountService;
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
