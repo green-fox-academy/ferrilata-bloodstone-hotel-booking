@@ -1,4 +1,4 @@
-using HotelBookingApp.Models.Hotel;
+﻿using HotelBookingApp.Models.Hotel;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -8,5 +8,6 @@ namespace HotelBookingApp.Services
     {
         Task UploadAsync(Hotel hotel, Stream stream);
         Task SetBlobPermissionToPublic();
+        Task DeleteAsync(int hotelId);
     }
 }
