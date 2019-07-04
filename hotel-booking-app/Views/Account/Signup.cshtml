@@ -26,7 +26,11 @@
                     <input asp-for="VerifyPassword" type="password" class="form-control" placeholder="VerifyPassword" />
                     <span asp-validation-for="VerifyPassword" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" asp-for="IsManager">
+                    <label class="custom-control-label" asp-for="IsManager"></label>
+                </div>
+                <div class="form-group mt-2">
                     <button type="submit" class="btn btn-primary">Sign up</button>
                 </div>
                 @foreach (var error in Model.ErrorMessages)

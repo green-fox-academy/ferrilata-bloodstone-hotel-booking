@@ -13,7 +13,7 @@ namespace HotelBookingApp.Models.Account
         public string Password { get; set; }
 
         [Display(Name = "Remember Me")]
-        public bool RememberMe { get; set; }
+        public bool RememberMe { get; set; } = true;
         public List<string> ErrorMessages { get; set; } = new List<string>();
     }
 }
