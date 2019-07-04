@@ -48,5 +48,4 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(Hotel), new { id } );
         }
     }
-
 }
