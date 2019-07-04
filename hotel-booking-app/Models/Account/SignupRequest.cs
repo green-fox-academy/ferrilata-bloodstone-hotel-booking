@@ -17,6 +17,9 @@ namespace HotelBookingApp.Models.Account
 
         [Compare("Password")]
         public string VerifyPassword { get; set; }
+
+        [Display(Name = "Sign up as a Hotel Manager")]
+        public bool IsManager { get; set; }
         public List<string> ErrorMessages { get; set; } = new List<string>();
     }
 }
