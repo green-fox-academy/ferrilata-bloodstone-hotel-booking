@@ -1,9 +1,8 @@
-using HotelBookingApp.Data;
+﻿using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,10 +12,14 @@ namespace HotelBookingApp.Services
     public class HotelService : IHotelService
     {
         private readonly ApplicationContext applicationContext;
+        private readonly IImageService imageService;
+        private readonly IThumbnailService thumbnailService;
 
-        public HotelService(ApplicationContext applicationContext)
+        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService)
         {
             this.applicationContext = applicationContext;
+            this.imageService = imageService;
+            this.thumbnailService = thumbnailService;
         }
 
         public async Task Add(Hotel hotel)
@@ -32,6 +35,8 @@ namespace HotelBookingApp.Services
                 ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
             applicationContext.Hotels.Remove(hotel);
             await applicationContext.SaveChangesAsync();
+            await thumbnailService.DeleteAsync(id);
+            await imageService.DeleteAllFileAsync(id);
         }
 
         public async Task<IEnumerable<Hotel>> FindAll()
