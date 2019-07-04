@@ -87,6 +87,7 @@ namespace HotelBookingApp.Migrations
                     b.ToTable("Locations");
 
                     b.HasData(
+
                         new { LocationId = 1, Address = "a street 1", City = "Moon", Country = "Moon", Region = "Moon District?" },
                         new { LocationId = 2, Address = "a street mars", City = "Mars", Country = "Mars", Region = "Mars District?" },
                         new { LocationId = 3, Address = "a street p", City = "p", Country = "Pluto", Region = "Pluto District?" }
@@ -106,6 +107,7 @@ namespace HotelBookingApp.Migrations
                     b.ToTable("PropertyTypes");
 
                     b.HasData(
+
                         new { PropertyTypeId = 1, Type = "Apartment" },
                         new { PropertyTypeId = 2, Type = "Hostel" },
                         new { PropertyTypeId = 3, Type = "Hotel" },
