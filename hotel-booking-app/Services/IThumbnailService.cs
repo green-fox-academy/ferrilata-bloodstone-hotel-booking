@@ -1,6 +1,12 @@
-﻿namespace HotelBookingApp.Services
+﻿using HotelBookingApp.Models.Hotel;
+using System.IO;
+using System.Threading.Tasks;
+
+namespace HotelBookingApp.Services
 {
     public interface IThumbnailService
     {
+        Task uploadAsync(Hotel hotel, Stream stream);
+        Task SetBlobPermissionToPublic();
     }
 }
