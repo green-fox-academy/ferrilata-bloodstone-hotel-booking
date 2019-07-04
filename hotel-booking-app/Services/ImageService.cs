@@ -115,7 +115,7 @@ namespace HotelBookingApp.Services
                             await UploadAsync(azurePath, stream);
                             if (!hotel.Thumbnail)
                             {
-                                await thumbnailService.uploadAsync(hotel, stream);
+                                await thumbnailService.UploadAsync(hotel, stream);
                             }
                         }
                         else

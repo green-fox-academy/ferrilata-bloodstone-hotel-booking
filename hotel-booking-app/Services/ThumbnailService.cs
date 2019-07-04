@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Data;
+using HotelBookingApp.Data;
 using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Utils;
 using Microsoft.Azure.Storage;
@@ -27,7 +27,7 @@ namespace HotelBookingApp.Services
             blobContainer = blobClient.GetContainerReference(blobContainerName);
             this.applicationContext = applicationContext;
         }
-        public async Task uploadAsync(Hotel hotel, Stream stream)
+        public async Task UploadAsync(Hotel hotel, Stream stream)
         {
             var size = 200;
             var fileName = hotel.HotelId.ToString() + ".jpg";
