@@ -1,3 +1,4 @@
+﻿using HotelBookingApp.Data;
 using HotelBookingApp.Models.Image;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Services
@@ -21,14 +23,18 @@ namespace HotelBookingApp.Services
         private CloudBlobClient blobClient;
         private CloudBlobContainer blobContainer;
         private CloudQueueClient queueClient;
+        private ApplicationContext applicationContext;
+        private IThumbnailService thumbnailService;
 
-        public ImageService(IConfiguration configuration)
+        public ImageService(IConfiguration configuration, ApplicationContext applicationContext, IThumbnailService thumbnailService)
         {
-            this.accessKey = configuration.GetConnectionString("AzureStorageKey");
-            this.account = CloudStorageAccount.Parse(this.accessKey);
-            this.blobClient = account.CreateCloudBlobClient();
-            this.blobContainer = blobClient.GetContainerReference(blobContainerName);
-            this.queueClient = account.CreateCloudQueueClient();
+            accessKey = configuration.GetConnectionString("AzureStorageKey");
+            account = CloudStorageAccount.Parse(this.accessKey);
+            blobClient = account.CreateCloudBlobClient();
+            blobContainer = blobClient.GetContainerReference(blobContainerName);
+            queueClient = account.CreateCloudQueueClient();
+            this.applicationContext = applicationContext;
+            this.thumbnailService = thumbnailService;
         }
 
         public async Task UploadAsync(string imageName, Stream stream)
@@ -84,11 +90,12 @@ namespace HotelBookingApp.Services
 
         public async Task<List<IFormFile>> UploadImagesAsync(List<IFormFile> files, int hotelId)
         {
+            var hotel = applicationContext.Hotels.Where(h => h.HotelId == hotelId).FirstOrDefault();
             var wrongFiles = new List<IFormFile>();
             var filePath = Path.GetTempFileName();
             foreach (var file in files)
             {
-                if (CheckImageExtension(file) && file.Length > 0)
+                if (CheckImageExtension(file) && file.Length > 0 && hotel != null)
                 {
                     await SaveImagesIntoTempFolder(filePath, file);
                     using (var stream = new FileStream(filePath, FileMode.Open))
@@ -96,7 +103,11 @@ namespace HotelBookingApp.Services
                         if (CheckImageSize(stream))
                         {
                             var azurePath = GenerateAzurePath(hotelId, file);
-                            await uploadAsync(azurePath, stream);
+                            await UploadAsync(azurePath, stream);
+                            if (!hotel.Thumbnail)
+                            {
+                                await thumbnailService.uploadAsync(hotel, stream);
+                            }
                         }
                         else
                         {
