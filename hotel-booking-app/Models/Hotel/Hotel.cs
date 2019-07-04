@@ -18,4 +18,3 @@ namespace HotelBookingApp.Models.Hotel
         public string ThumbnailUrl { get; set; }
     }
 }
-}
