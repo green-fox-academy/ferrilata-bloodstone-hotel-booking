@@ -4,8 +4,8 @@
 <h1>@Model.Name</h1>
 
 <div>Number of stars: @Model.StarRating</div>
-<div>The type of the hotel: @Model.PropertyType</div>
-<div>The address of the hotel: @Model.Location</div>
+<div>The type of the hotel: @Model.PropertyType.Type</div>
+<div>The address of the hotel: @Model.Location.City, @Model.Location.Address, @Model.Location.Country</div>
 <div>Description about the hotel: <br /> @Model.Description</div>
 <div>Rooms in the hotel: @Model.Rooms</div>
 
