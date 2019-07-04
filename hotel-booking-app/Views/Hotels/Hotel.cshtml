@@ -11,4 +11,7 @@
 <div>Description about the hotel: <br /> @Model.Description</div>
 <div>Rooms in the hotel: @Model.Rooms</div>
 
-<a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.HotelId" role="button">Edit</a>
+@if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+{
+    <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.HotelId" role="button">Edit</a>
+}
