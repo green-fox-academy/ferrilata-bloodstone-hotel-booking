@@ -87,13 +87,10 @@ namespace HotelBookingApp.Migrations
                     b.ToTable("Locations");
 
                     b.HasData(
-<<<<<<< HEAD
-                        new { LocationId = 1, City = "Miami" }
-=======
+
                         new { LocationId = 1, Address = "a street 1", City = "Moon", Country = "Moon", Region = "Moon District?" },
                         new { LocationId = 2, Address = "a street mars", City = "Mars", Country = "Mars", Region = "Mars District?" },
                         new { LocationId = 3, Address = "a street p", City = "p", Country = "Pluto", Region = "Pluto District?" }
->>>>>>> 695dfe13e029340dc6d5632547b633d00b28e837
                     );
                 });
 
@@ -110,14 +107,11 @@ namespace HotelBookingApp.Migrations
                     b.ToTable("PropertyTypes");
 
                     b.HasData(
-<<<<<<< HEAD
-                        new { PropertyTypeId = 1 }
-=======
+
                         new { PropertyTypeId = 1, Type = "Apartment" },
                         new { PropertyTypeId = 2, Type = "Hostel" },
                         new { PropertyTypeId = 3, Type = "Hotel" },
                         new { PropertyTypeId = 4, Type = "Guesthouse" }
->>>>>>> 695dfe13e029340dc6d5632547b633d00b28e837
                     );
                 });
 
