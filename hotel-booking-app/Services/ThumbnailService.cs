@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace HotelBookingApp.Services
 {
@@ -19,16 +20,14 @@ namespace HotelBookingApp.Services
         private CloudBlobClient blobClient;
         private CloudBlobContainer blobContainer;
         private ApplicationContext applicationContext;
-        private IHotelService hotelService;
 
-        public ThumbnailService(IConfiguration configuration, ApplicationContext applicationContext, IHotelService hotelService)
+        public ThumbnailService(IConfiguration configuration, ApplicationContext applicationContext)
         {
             accessKey = configuration.GetConnectionString("AzureStorageKey");
             account = CloudStorageAccount.Parse(this.accessKey);
             blobClient = account.CreateCloudBlobClient();
             blobContainer = blobClient.GetContainerReference(blobContainerName);
             this.applicationContext = applicationContext;
-            this.hotelService = hotelService;
         }
         public async Task UploadAsync(Hotel hotel, Stream stream)
         {
@@ -72,7 +71,7 @@ namespace HotelBookingApp.Services
         public async Task UpdateThumbnail(int hotelId, IFormFile file)
         {
             await DeleteAsync(hotelId);
-            await UploadAsync(hotelService.FindByIdAsync(hotelId).Result, file.OpenReadStream());
+            await UploadAsync(applicationContext.Hotels.Where(h => h.HotelId == hotelId).First(), file.OpenReadStream());
         }
     }
 }
