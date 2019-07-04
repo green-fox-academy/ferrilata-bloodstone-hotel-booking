@@ -39,6 +39,13 @@ namespace HotelBookingApp.Controllers
             return View(hotel);
         }
 
+        [HttpGet("/hotel/{id}/room")]
+        public async Task<IActionResult> Room(int id)
+        {
+            var hotel = await hotelService.FindByIdAsync(id);
+            return View(hotel);
+        }
+
     }
 
 }
