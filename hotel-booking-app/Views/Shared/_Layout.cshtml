@@ -16,12 +16,18 @@
 </head>
 <body>
     <header>
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Hotel-booking</a>
-                <partial name="~/Views/Shared/_LoginPartial.cshtml" />
+        
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">Hotel-booking</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <partial name="~/Views/Shared/_LoginPartial.cshtml" />
+                    </div>
+                </div>
             </nav>
-        </div>
     </header>
 
     <div class="container body-content">
