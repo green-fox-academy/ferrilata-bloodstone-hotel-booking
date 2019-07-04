@@ -51,6 +51,8 @@ namespace HotelBookingApp.Services
             var hotel = await applicationContext.Hotels
                 .Include(h => h.Location)
                 .Include(h => h.PropertyType)
+                .Include(h => h.Rooms)
+                    .ThenInclude(r => r.RoomBeds)
                 .SingleOrDefaultAsync(h => h.HotelId == id)
                 ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
             return hotel;
