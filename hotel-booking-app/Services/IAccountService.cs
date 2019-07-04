@@ -1,12 +1,13 @@
 ﻿using HotelBookingApp.Models.Account;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Services
 {
     public interface IAccountService
     {
-        Task<string[]> SignIn(LoginRequest request);
+        Task<List<string>> SignIn(LoginRequest request);
         Task SignOut();
-        Task<string[]> SignUp(SignupRequest request);
+        Task<List<string>> SignUp(SignupRequest request);
     }
 }

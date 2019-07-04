@@ -35,24 +35,20 @@ namespace HotelBookingApp.Controllers
             {
                 return View(request);
             }
-            var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, lockoutOnFailure: true);
-            if (result.Succeeded)
+            var errors = await accountService.SignIn(request);
+            if (errors.Count == 0)
             {
                 returnUrl = returnUrl ?? Url.Content("~/");
                 return LocalRedirect(returnUrl);
             }
-            if (result.IsLockedOut)
-            {
-                request.ErrorMessage = "User account locked out.";
-            }
-            request.ErrorMessage = "Invalid login attempt.";
+            request.ErrorMessages = errors;
             return View(request);
         }
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            await accountService.SignOut();
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 

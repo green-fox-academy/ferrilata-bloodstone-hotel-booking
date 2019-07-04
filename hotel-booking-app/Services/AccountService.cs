@@ -18,9 +18,27 @@ namespace HotelBookingApp.Services
             this.signInManager = signInManager;
         }
 
-        public Task<string[]> SignIn(LoginRequest request)
+        public async Task<List<string>> SignIn(LoginRequest request)
         {
-            throw new NotImplementedException();
+            var errors = new List<string>();
+            var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, lockoutOnFailure: true);
+            if (result.IsLockedOut)
+            {
+                errors.Add("User account locked out.");
+            }
+            if (result.IsNotAllowed)
+            {
+                errors.Add("User is not allowed to login.");
+            }
+            if (result.RequiresTwoFactor)
+            {
+                errors.Add("Two factor authentication is required.");
+            }
+            if (!result.Succeeded)
+            {
+                errors.Add("Invalid login attempt");
+            }
+            return errors;
         }
 
         public async Task SignOut()
@@ -28,7 +46,7 @@ namespace HotelBookingApp.Services
             await signInManager.SignOutAsync();
         }
 
-        public Task<string[]> SignUp(SignupRequest request)
+        public Task<List<string>> SignUp(SignupRequest request)
         {
             throw new NotImplementedException();
         }
