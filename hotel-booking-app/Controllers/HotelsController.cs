@@ -25,7 +25,8 @@ namespace HotelBookingApp.Controllers
         [HttpGet("hotel/add")]
         public async Task<IActionResult> Add()
         {
-            return View(new HotelViewModel {
+            return View(new HotelViewModel
+            {
                 PropertyTypes = await propertyTypeService.FindAll()
             });
         }
@@ -71,31 +72,19 @@ namespace HotelBookingApp.Controllers
 
         [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("/hotel/{id}/room")]
-        public async Task<IActionResult> Room(int id)
+        public IActionResult Room()
         {
-            var hotel = await hotelService.FindByIdAsync(id);
-            return View(hotel);
+            return View(new Room());
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
         [HttpPost("/hotel/{id}/room")]
-        public async Task<IActionResult> Room(int id, string name, int price, string bedType, int bedSize)
-        {           
-            var room = new Room
-            {
-                Name = name,
-                Price = price
-            };
-
-            var bed = new Bed
-            {
-                Type = bedType,
-                Size = bedSize
-            };
-
+        public async Task<IActionResult> Room(int id, Room room)
+        {
             var hotel = await hotelService.FindByIdAsync(id);
-            await hotelService.AddRoom(id, room, bed);
-            return View(hotel);
+            await hotelService.AddRoom(id, room);
+            return RedirectToAction(nameof(Hotel));
         }
     }
 }
+

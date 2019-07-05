@@ -80,21 +80,12 @@ namespace HotelBookingApp.Services
             return hotel;
         }
 
-        public async Task AddRoom(int id, Room room, Bed bed)
+        public async Task AddRoom(int hotelId, Room room)
         {
-            var hotel = await applicationContext.Hotels.FindAsync(id);
+            var hotel = await applicationContext.Hotels.FindAsync(hotelId);
             room.Hotel = hotel;
             await applicationContext.AddAsync(room);
-            await applicationContext.AddAsync(bed);
-            var roomBed = new RoomBed
-            {
-                RoomId = room.RoomId,
-                BedId = bed.BedId,
-                Room = room,
-                Bed = bed
-            };
-            await applicationContext.AddAsync(roomBed);
-            hotel.Rooms.ToList().Add(room);
+            //hotel.Rooms.ToList().Add(room);
             await applicationContext.SaveChangesAsync();
         }
     }

@@ -1,21 +1,23 @@
-﻿@model Hotel
+﻿@model  Room
 
 <h1>Add a new room</h1>
 <form asp-controller="Hotels" asp-action="Room" method="post">
     <div class="form-group">
-        <label for="name">Name of the room</label>
-        <input name="name" type="text" class="form-control" placeholder="Name of the room" />
+        <label asp-for="Name"></label>
+        <input asp-for="Name" type="text" class="form-control" placeholder="Name of the room" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="price">Price of the room</label>
-        <input name="price" type="number" class="form-control" placeholder="Price of the room" />
+        <label asp-for="Price"></label>
+        <input asp-for="Price" type="number" class="form-control" placeholder="Price of the room" />
+        <span asp-validation-for="Price" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="bedType">Type of the bed</label>    @*legordulo valaszto*@
+        <label for="bedType">Type of the bed</label>    
         <input name="bedType" type="text" class="form-control" placeholder="Type of the bed" />
     </div>
     <div class="form-group">
-        <label for="bedSize">Size of the bed</label>     @*legordulo valaszto?*@
+        <label for="bedSize">Size of the bed</label>    
         <input name="bedSize" type="number" class="form-control" placeholder="Size of the bed" />
     </div>
 
