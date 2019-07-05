@@ -9,6 +9,9 @@
         <h2>List of Hotels</h2>
     </div>
     <div class="col-md-9 d-flex justify-content-end">
+        <div class="form-inline mx-2">
+            <a class="btn btn-primary" asp-controller="Hotels" asp-action="Add" role="button">Add Hotel</a>
+        </div>
         <form asp-action="Index" class="form-inline flex-nowrap" method="get">
             <input asp-for="@Model.QueryParams.Search" class="form-control" />
             <input type="hidden" asp-for="@Model.QueryParams.OrderBy" />
