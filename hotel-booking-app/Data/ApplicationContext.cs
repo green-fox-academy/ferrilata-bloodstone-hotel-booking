@@ -1,5 +1,5 @@
 ﻿using HotelBookingApp.Models.Account;
-using HotelBookingApp.Models.Hotel;
+using HotelBookingApp.Models.HotelModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
