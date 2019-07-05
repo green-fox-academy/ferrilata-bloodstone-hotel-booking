@@ -1,5 +1,5 @@
 ﻿using HotelBookingApp.Exceptions;
-using HotelBookingApp.Models.Hotel;
+using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +16,31 @@ namespace HotelBookingApp.Controllers
         private readonly IHotelService hotelService;
         private readonly IImageService imageService;
         private readonly IThumbnailService thumbnailService;
+        private readonly IPropertyTypeService propertyTypeService;
 
-        public HotelsController(IHotelService hotelService, IImageService imageService, IThumbnailService thumbnailService)
+        public HotelsController(IHotelService hotelService, IImageService imageService, IThumbnailService thumbnailService, IPropertyTypeService propertyTypeService)
         {
             this.hotelService = hotelService;
             this.imageService = imageService;
             this.thumbnailService = thumbnailService;
+            this.propertyTypeService = propertyTypeService;
+        }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpGet("hotel/add")]
+        public async Task<IActionResult> Add()
+        {
+            return View(new HotelViewModel {
+                PropertyTypes = await propertyTypeService.FindAll()
+            });
+        }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpPost("hotel/add")]
+        public async Task<IActionResult> Add(HotelViewModel model)
+        {
+            var hotel = await hotelService.Add(model.Hotel);
+            return RedirectToAction(nameof(Hotel), new { id = hotel.HotelId });
         }
 
         [HttpGet("/hotel/{id}")]

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HotelBookingApp.Models.Hotel
+namespace HotelBookingApp.Models.HotelModels
 {
     public class Room
     {

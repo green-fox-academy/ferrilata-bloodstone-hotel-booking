@@ -1,5 +1,5 @@
 ﻿using HotelBookingApp.Data;
-using HotelBookingApp.Models.Hotel;
+using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage;

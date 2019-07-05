@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models.Hotel;
+﻿using HotelBookingApp.Models.HotelModels;
 using System.Linq;
 
 namespace HotelBookingApp.Data

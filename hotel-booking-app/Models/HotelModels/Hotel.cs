@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace HotelBookingApp.Models.Hotel
+namespace HotelBookingApp.Models.HotelModels
 {
     public class Hotel
     {

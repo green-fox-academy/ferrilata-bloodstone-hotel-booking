@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Models.Hotel;
+﻿using HotelBookingApp.Models.HotelModels;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Threading.Tasks;

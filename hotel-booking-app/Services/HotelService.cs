@@ -1,6 +1,6 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
-using HotelBookingApp.Models.Hotel;
+using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -22,10 +22,11 @@ namespace HotelBookingApp.Services
             this.thumbnailService = thumbnailService;
         }
 
-        public async Task Add(Hotel hotel)
+        public async Task<Hotel> Add(Hotel hotel)
         {
             await applicationContext.AddAsync(hotel);
             await applicationContext.SaveChangesAsync();
+            return hotel;
         }
 
         public async Task Delete(int id)
