@@ -46,16 +46,34 @@ namespace HotelBookingApp.Services
                 .ToListAsync();
         }
 
+        public async Task<Hotel> FindByIdAsync(int id)
+        {
+            var hotel = await applicationContext.Hotels
+                .Include(h => h.Location)
+                .Include(h => h.PropertyType)
+                .SingleOrDefaultAsync(h => h.HotelId == id)
+                ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
+            return hotel;
+        }
+
+
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
         {
             var filteredHotels = applicationContext.Hotels
                 .Include(h => h.Location)
-                .Where(h => 
-                    string.IsNullOrEmpty(queryParams.Search) 
+                .Where(h =>
+                    string.IsNullOrEmpty(queryParams.Search)
                     || h.Location.City.Contains(queryParams.Search));
 
             var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
             return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);
+        }
+
+        public async Task<Hotel> Update(Hotel hotel)
+        {
+            applicationContext.Update(hotel);
+            await applicationContext.SaveChangesAsync();
+            return hotel;
         }
     }
 }

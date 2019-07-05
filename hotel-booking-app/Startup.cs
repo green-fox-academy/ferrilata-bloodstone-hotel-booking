@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,13 +27,14 @@ namespace HotelBookingApp
             services.AddCustomDatabase(Configuration);
             services.AddCustomIdentity();
             services.AddAutoMapper();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IHotelService, HotelService>();
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<IPropertyTypeService, PropertyTypeService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
-            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationContext applicationContext)
         {
             if (env.IsDevelopment())
             {
@@ -40,6 +42,7 @@ namespace HotelBookingApp
             }
             else
             {
+                applicationContext.Database.Migrate();
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
