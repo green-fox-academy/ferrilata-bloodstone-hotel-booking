@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net;
 
 namespace HotelBookingApp.Services
 {
@@ -73,6 +74,14 @@ namespace HotelBookingApp.Services
         public async Task UpdateThumbnail(int hotelId, IFormFile file)
         {
             await UploadAsync(applicationContext.Hotels.Where(h => h.HotelId == hotelId).First(), file.OpenReadStream());
+        }
+
+        public async Task UpdateThumbnailFromUrl(int hotelId, string url)
+        {
+            var webClient = new WebClient();
+            byte[] imageBytes = webClient.DownloadData(url);
+            Stream stream = new MemoryStream(imageBytes);
+            await UploadAsync(applicationContext.Hotels.Where(h => h.HotelId == hotelId).First(), stream);
         }
     }
 }
