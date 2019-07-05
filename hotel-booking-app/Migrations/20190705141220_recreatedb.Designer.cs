@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingApp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190702085958_WithUsersFirst")]
-    partial class WithUsersFirst
+    [Migration("20190705141220_recreatedb")]
+    partial class recreatedb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,114 +21,7 @@ namespace HotelBookingApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.Bed", b =>
-                {
-                    b.Property<int>("BedId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Size");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("BedId");
-
-                    b.ToTable("Beds");
-                });
-
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.Hotel", b =>
-                {
-                    b.Property<int>("HotelId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description");
-
-                    b.Property<int>("LocationId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("Price");
-
-                    b.Property<int>("PropertyTypeId");
-
-                    b.Property<int>("StarRating");
-
-                    b.HasKey("HotelId");
-
-                    b.HasIndex("LocationId")
-                        .IsUnique();
-
-                    b.HasIndex("PropertyTypeId");
-
-                    b.ToTable("Hotels");
-                });
-
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.Location", b =>
-                {
-                    b.Property<int>("LocationId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
-
-                    b.Property<string>("Region");
-
-                    b.HasKey("LocationId");
-
-                    b.ToTable("Locations");
-                });
-
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.PropertyType", b =>
-                {
-                    b.Property<int>("PropertyTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("PropertyTypeId");
-
-                    b.ToTable("PropertyTypes");
-                });
-
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.Room", b =>
-                {
-                    b.Property<int>("RoomId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("HotelId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<double>("Price");
-
-                    b.HasKey("RoomId");
-
-                    b.HasIndex("HotelId");
-
-                    b.ToTable("Rooms");
-                });
-
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.RoomBed", b =>
-                {
-                    b.Property<int>("RoomId");
-
-                    b.Property<int>("BedId");
-
-                    b.HasKey("RoomId", "BedId");
-
-                    b.HasIndex("BedId");
-
-                    b.ToTable("RoomBeds");
-                });
-
-            modelBuilder.Entity("HotelBookingApp.Models.User.ApplicationUser", b =>
+            modelBuilder.Entity("HotelBookingApp.Models.Account.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -177,6 +70,117 @@ namespace HotelBookingApp.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Bed", b =>
+                {
+                    b.Property<int>("BedId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Size");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("BedId");
+
+                    b.ToTable("Beds");
+                });
+
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Hotel", b =>
+                {
+                    b.Property<int>("HotelId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("LocationId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Price");
+
+                    b.Property<int>("PropertyTypeId");
+
+                    b.Property<int>("StarRating");
+
+                    b.Property<bool>("Thumbnail");
+
+                    b.Property<string>("ThumbnailUrl");
+
+                    b.HasKey("HotelId");
+
+                    b.HasIndex("LocationId")
+                        .IsUnique();
+
+                    b.HasIndex("PropertyTypeId");
+
+                    b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Location", b =>
+                {
+                    b.Property<int>("LocationId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
+
+                    b.Property<string>("Region");
+
+                    b.HasKey("LocationId");
+
+                    b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.PropertyType", b =>
+                {
+                    b.Property<int>("PropertyTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("PropertyTypeId");
+
+                    b.ToTable("PropertyTypes");
+                });
+
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Room", b =>
+                {
+                    b.Property<int>("RoomId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("HotelId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<double>("Price");
+
+                    b.HasKey("RoomId");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.RoomBed", b =>
+                {
+                    b.Property<int>("RoomId");
+
+                    b.Property<int>("BedId");
+
+                    b.HasKey("RoomId", "BedId");
+
+                    b.HasIndex("BedId");
+
+                    b.ToTable("RoomBeds");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -289,34 +293,34 @@ namespace HotelBookingApp.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.Hotel", b =>
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Hotel", b =>
                 {
-                    b.HasOne("HotelBookingApp.Models.Hotel.Location", "Location")
+                    b.HasOne("HotelBookingApp.Models.HotelModels.Location", "Location")
                         .WithOne("Hotel")
-                        .HasForeignKey("HotelBookingApp.Models.Hotel.Hotel", "LocationId")
+                        .HasForeignKey("HotelBookingApp.Models.HotelModels.Hotel", "LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HotelBookingApp.Models.Hotel.PropertyType", "PropertyType")
+                    b.HasOne("HotelBookingApp.Models.HotelModels.PropertyType", "PropertyType")
                         .WithMany()
                         .HasForeignKey("PropertyTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.Room", b =>
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Room", b =>
                 {
-                    b.HasOne("HotelBookingApp.Models.Hotel.Hotel", "Hotel")
+                    b.HasOne("HotelBookingApp.Models.HotelModels.Hotel", "Hotel")
                         .WithMany("Rooms")
                         .HasForeignKey("HotelId");
                 });
 
-            modelBuilder.Entity("HotelBookingApp.Models.Hotel.RoomBed", b =>
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.RoomBed", b =>
                 {
-                    b.HasOne("HotelBookingApp.Models.Hotel.Bed", "Bed")
+                    b.HasOne("HotelBookingApp.Models.HotelModels.Bed", "Bed")
                         .WithMany("RoomBeds")
                         .HasForeignKey("BedId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HotelBookingApp.Models.Hotel.Room", "Room")
+                    b.HasOne("HotelBookingApp.Models.HotelModels.Room", "Room")
                         .WithMany("RoomBeds")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -332,7 +336,7 @@ namespace HotelBookingApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("HotelBookingApp.Models.User.ApplicationUser")
+                    b.HasOne("HotelBookingApp.Models.Account.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -340,7 +344,7 @@ namespace HotelBookingApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("HotelBookingApp.Models.User.ApplicationUser")
+                    b.HasOne("HotelBookingApp.Models.Account.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -353,7 +357,7 @@ namespace HotelBookingApp.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HotelBookingApp.Models.User.ApplicationUser")
+                    b.HasOne("HotelBookingApp.Models.Account.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -361,7 +365,7 @@ namespace HotelBookingApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("HotelBookingApp.Models.User.ApplicationUser")
+                    b.HasOne("HotelBookingApp.Models.Account.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

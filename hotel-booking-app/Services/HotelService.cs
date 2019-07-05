@@ -77,6 +77,11 @@ namespace HotelBookingApp.Services
 
         public async Task<Hotel> Update(Hotel hotel)
         {
+            var propertyType = applicationContext.PropertyTypes
+                .Find(hotel.PropertyTypeId)
+                ?? throw new ItemNotFoundException($"Property with id {hotel.PropertyTypeId} is not foud!");
+
+            hotel.PropertyType = propertyType;
             applicationContext.Update(hotel);
             await applicationContext.SaveChangesAsync();
             return hotel;
