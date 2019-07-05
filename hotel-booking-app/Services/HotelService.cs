@@ -73,5 +73,12 @@ namespace HotelBookingApp.Services
             var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
             return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);
         }
+
+        public async Task<Hotel> Update(Hotel hotel)
+        {
+            applicationContext.Update(hotel);
+            await applicationContext.SaveChangesAsync();
+            return hotel;
+        }
     }
 }
