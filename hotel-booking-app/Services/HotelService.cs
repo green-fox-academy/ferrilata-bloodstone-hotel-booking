@@ -19,10 +19,11 @@ namespace HotelBookingApp.Services
             this.applicationContext = applicationContext;
         }
 
-        public async Task<int> Add(Hotel hotel)
+        public async Task<Hotel> Add(Hotel hotel)
         {
             await applicationContext.AddAsync(hotel);
-            return await applicationContext.SaveChangesAsync();
+            await applicationContext.SaveChangesAsync();
+            return hotel;
         }
 
         public async Task Delete(long id)

@@ -1,5 +1,6 @@
 ﻿using HotelBookingApp.Exceptions;
-using HotelBookingApp.Models.Hotel;
+using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,21 @@ namespace HotelBookingApp.Controllers
         public HotelsController(IHotelService hotelService)
         {
             this.hotelService = hotelService;
+        }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpGet("hotel/add")]
+        public IActionResult Add()
+        {
+            return View(new HotelViewModel());
+        }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpPost("hotel/add")]
+        public async Task<IActionResult> Add(HotelViewModel model)
+        {
+            var hotel = await hotelService.Add(model.Hotel);
+            return RedirectToAction(nameof(Hotel), new { id = hotel.HotelId });
         }
 
         [HttpGet("/hotel/{id}")]
