@@ -1,4 +1,4 @@
-﻿namespace HotelBookingApp.Models.Hotel
+﻿namespace HotelBookingApp.Models.HotelModels
 {
     public class PropertyType
     {
@@ -6,3 +6,4 @@
         public string Type { get; set; }
     }
 }
+
