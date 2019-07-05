@@ -55,8 +55,11 @@ namespace HotelBookingApp.Controllers
         [HttpGet("/hotel/edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var hotel = await hotelService.FindByIdAsync(id);
-            return View(hotel);
+            return View(new HotelViewModel
+            {
+                Hotel = await hotelService.FindByIdAsync(id),
+                PropertyTypes = await propertyTypeService.FindAll()
+            });
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
