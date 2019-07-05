@@ -1,6 +1,6 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
-using HotelBookingApp.Models.Hotel;
+using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,10 +19,10 @@ namespace HotelBookingApp.Services
             this.applicationContext = applicationContext;
         }
 
-        public async Task Add(Hotel hotel)
+        public async Task<int> Add(Hotel hotel)
         {
             await applicationContext.AddAsync(hotel);
-            await applicationContext.SaveChangesAsync();
+            return await applicationContext.SaveChangesAsync();
         }
 
         public async Task Delete(long id)
