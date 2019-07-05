@@ -1,4 +1,4 @@
-using HotelBookingApp.Exceptions;
+﻿using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
@@ -64,6 +64,14 @@ namespace HotelBookingApp.Controllers
             await hotelService.Update(hotel);
             await imageService.UploadImagesAsync(imageList, id);
             return RedirectToAction(nameof(Hotel), new { id } );
+        }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpPost("/hotel/{id}/images/delete")]
+        public async Task<IActionResult> DeleteImage(int id, string path)
+        {
+            await imageService.DeleteFileAsync(path);
+            return RedirectToAction(nameof(Hotel), new { id });
         }
     }
 }
