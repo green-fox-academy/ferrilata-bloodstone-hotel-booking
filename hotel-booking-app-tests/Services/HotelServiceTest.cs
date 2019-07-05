@@ -1,5 +1,5 @@
 ﻿using HotelBookingApp.Data;
-using HotelBookingApp.Models.Hotel;
+using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Services;
 using HotelBookingAppTests.TestUtils;
 using System.Linq;
