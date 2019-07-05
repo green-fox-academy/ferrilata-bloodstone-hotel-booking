@@ -15,11 +15,13 @@ namespace HotelBookingApp.Controllers
     {
         private readonly IHotelService hotelService;
         private readonly IImageService imageService;
+        private readonly IThumbnailService thumbnailService;
 
-        public HotelsController(IHotelService hotelService, IImageService imageService)
+        public HotelsController(IHotelService hotelService, IImageService imageService, IThumbnailService thumbnailService)
         {
             this.hotelService = hotelService;
             this.imageService = imageService;
+            this.thumbnailService = thumbnailService;
         }
 
         [HttpGet("/hotel/{id}")]
@@ -71,6 +73,14 @@ namespace HotelBookingApp.Controllers
         public async Task<IActionResult> DeleteImage(int id, string path)
         {
             await imageService.DeleteFileAsync(path);
+            return RedirectToAction(nameof(Hotel), new { id });
+        }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpPost("/hotel/{id}/thumbnail/update")]
+        public async Task<IActionResult> UpdateThumbnail(int id, string path)
+        {
+            await thumbnailService.UpdateThumbnailFromUrl(id, path);
             return RedirectToAction(nameof(Hotel), new { id });
         }
     }
