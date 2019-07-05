@@ -72,7 +72,7 @@ namespace HotelBookingApp.Controllers
             };
 
             var hotel = await hotelService.FindByIdAsync(id);
-            hotel.Rooms.ToList().Add(room);
+            await hotelService.AddRoom(id, room, bed);
             return View(hotel);
         }
     }
