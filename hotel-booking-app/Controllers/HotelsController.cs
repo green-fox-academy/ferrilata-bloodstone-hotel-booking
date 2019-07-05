@@ -49,6 +49,7 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(Hotel), new { id });
         }
 
+        [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("/hotel/{id}/room")]
         public async Task<IActionResult> Room(int id)
         {
@@ -56,6 +57,7 @@ namespace HotelBookingApp.Controllers
             return View(hotel);
         }
 
+        [Authorize(Roles = "Admin, HotelManager")]
         [HttpPost("/hotel/{id}/room")]
         public async Task<IActionResult> Room(int id, string name, int price, string bedType, int bedSize)
         {           
