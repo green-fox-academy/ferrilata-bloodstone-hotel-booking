@@ -1,14 +1,12 @@
-﻿using HotelBookingApp.Data;
+using HotelBookingApp.Data;
 using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Utils;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace HotelBookingApp.Services
 {
@@ -36,12 +34,14 @@ namespace HotelBookingApp.Services
             stream.Seek(0, SeekOrigin.Begin);
             var bitmap = new Bitmap(System.Drawing.Image.FromStream(stream));
             Bitmap resizedBitmap = ImageResizer.ResizeImage(bitmap, size, size);
-            resizedBitmap.Save(hotel.HotelId.ToString());
+            var tempPath = Path.GetTempPath();
+            var absolutePath = tempPath + "/" + hotel.HotelId.ToString();
+            resizedBitmap.Save(absolutePath);
             await blobContainer.CreateIfNotExistsAsync();
             await SetBlobPermissionToPublic();
             var cloudBlockBlob = blobContainer.GetBlockBlobReference(fileName);
 
-            using (var thumbnailStream = new FileStream(hotel.HotelId.ToString(), FileMode.Open))
+            using (var thumbnailStream = new FileStream(absolutePath, FileMode.Open))
             {
                 var imageUrlOnAzure = cloudBlockBlob.Uri.ToString();
                 await cloudBlockBlob.UploadFromStreamAsync(thumbnailStream);
@@ -59,19 +59,6 @@ namespace HotelBookingApp.Services
                 PublicAccess = BlobContainerPublicAccessType.Blob
             };
             await blobContainer.SetPermissionsAsync(permissions);
-        }
-
-        public async Task DeleteAsync(int hotelId)
-        {
-            var fileName = hotelId.ToString() + ".jpg";
-            var blob = blobContainer.GetBlockBlobReference(fileName);
-            await blob.DeleteAsync();
-        }
-
-        public async Task UpdateThumbnail(int hotelId, IFormFile file)
-        {
-            await DeleteAsync(hotelId);
-            await UploadAsync(applicationContext.Hotels.Where(h => h.HotelId == hotelId).First(), file.OpenReadStream());
         }
     }
 }
