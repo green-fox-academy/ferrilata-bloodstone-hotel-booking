@@ -1,5 +1,7 @@
 ﻿@model Hotel
-
+@{
+    ViewData["Title"] = Model.Name;
+}
 
 <h1>@Model.Name</h1>
 
@@ -9,7 +11,10 @@
 <div>Description about the hotel: <br /> @Model.Description</div>
 <div>Rooms in the hotel: @Model.Rooms</div>
 
-@*<button type="submit" class="btn btn-primary">Edit</button>*@
-<a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.HotelId" role="button">Edit</a>
+@if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+{
+    <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.HotelId" role="button">Edit</a>
+}
+<a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Go back</a>
 
 <a class="btn btn-primary" asp-controller="Hotels" asp-action="Room" asp-route-id="@Model.HotelId" role="button">Add room</a>

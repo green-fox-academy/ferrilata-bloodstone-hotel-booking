@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Hotel;
 using HotelBookingApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
+    [Authorize]
     public class HotelsController : Controller
     {
         private readonly IHotelService hotelService;
@@ -30,14 +30,23 @@ namespace HotelBookingApp.Controllers
             {
                 return NotFound(ex.Message);
             }
-
         }
 
+        [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("/hotel/edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
             var hotel = await hotelService.FindByIdAsync(id);
             return View(hotel);
+        }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpPost("/hotel/edit/{id}")]
+        public async Task<IActionResult> Edit(int id, Hotel hotel)
+        {
+            hotel.HotelId = id;
+            await hotelService.Update(hotel);
+            return RedirectToAction(nameof(Hotel), new { id });
         }
 
         [HttpGet("/hotel/{id}/room")]
@@ -66,7 +75,5 @@ namespace HotelBookingApp.Controllers
             hotel.Rooms.ToList().Add(room);
             return View(hotel);
         }
-
     }
-
 }
