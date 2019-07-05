@@ -12,17 +12,21 @@ namespace HotelBookingApp.Controllers
     public class HotelsController : Controller
     {
         private readonly IHotelService hotelService;
+        private readonly IPropertyTypeService propertyTypeService;
 
-        public HotelsController(IHotelService hotelService)
+        public HotelsController(IHotelService hotelService, IPropertyTypeService propertyTypeService)
         {
             this.hotelService = hotelService;
+            this.propertyTypeService = propertyTypeService;
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("hotel/add")]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            return View(new HotelViewModel());
+            return View(new HotelViewModel {
+                PropertyTypes = await propertyTypeService.FindAll()
+            });
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
