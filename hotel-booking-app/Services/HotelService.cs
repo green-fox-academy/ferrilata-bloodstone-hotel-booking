@@ -1,6 +1,6 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
-using HotelBookingApp.Models.Hotel;
+using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,10 +19,11 @@ namespace HotelBookingApp.Services
             this.applicationContext = applicationContext;
         }
 
-        public async Task Add(Hotel hotel)
+        public async Task<Hotel> Add(Hotel hotel)
         {
             await applicationContext.AddAsync(hotel);
             await applicationContext.SaveChangesAsync();
+            return hotel;
         }
 
         public async Task Delete(long id)
@@ -67,6 +68,18 @@ namespace HotelBookingApp.Services
 
             var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
             return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);
+        }
+
+        public async Task<Hotel> Update(Hotel hotel)
+        {
+            var propertyType = applicationContext.PropertyTypes
+                .Find(hotel.PropertyTypeId)
+                ?? throw new ItemNotFoundException($"Property with id {hotel.PropertyTypeId} is not foud!");
+
+            hotel.PropertyType = propertyType;
+            applicationContext.Update(hotel);
+            await applicationContext.SaveChangesAsync();
+            return hotel;
         }
     }
 }
