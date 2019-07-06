@@ -1,18 +1,43 @@
-﻿@model Hotel
+﻿@model HotelViewModel
 @{
-    ViewData["Title"] = Model.Name;
+    ViewData["Title"] = Model.Hotel.Name;
 }
 
-<h1>@Model.Name</h1>
+<h1>@Model.Hotel.Name</h1>
 
-<div>Number of stars: @Model.StarRating</div>
-<div>The type of the hotel: @Model.PropertyType.Type</div>
-<div>The address of the hotel: @Model.Location.City, @Model.Location.Address, @Model.Location.Country</div>
-<div>Description about the hotel: <br /> @Model.Description</div>
-<div>Rooms in the hotel: @Model.Rooms</div>
+<div>Number of stars: @Model.Hotel.</div>
+<div>The type of the hotel: @Model.Hotel.PropertyType.Type</div>
+<div>The address of the hotel: @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
+<div>Description about the hotel: <br /> @Model.Hotel.Description</div>
+<div>Rooms in the hotel: @Model.Hotel.Rooms</div>
 
 @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
 {
-    <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.HotelId" role="button">Edit</a>
+    <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">Edit</a>
 }
 <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Go back</a>
+<hr />
+<h2>Gallery</h2>
+<div class="container">
+    <div class="row">
+        @if (Model.ImageList.Count() == 0)
+        {
+            <p>No images.</p>
+        }
+        @foreach (var image in Model.ImageList)
+        {
+        <div class="col-md-4 col-lg-3 col-sm-6">
+            <img class="img-fluid border-bottom-25 my-3" src="@image.Path">
+            @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+            {
+                <form action="/hotel/@Model.Hotel.HotelId/images/delete" method="post">
+                    <button class="btn btn-link" type="submit" name="path" value="@image.Path">Delete Image</button>
+                </form>
+                <form action="/hotel/@Model.Hotel.HotelId/thumbnail/update" method="post">
+                    <button class="btn btn-link" type="submit" name="path" value="@image.Path">Set as thumbnail</button>
+                </form>
+            }
+        </div>
+        }
+    </div>
+</div>

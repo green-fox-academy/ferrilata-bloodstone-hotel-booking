@@ -12,6 +12,10 @@
         <span asp-validation-for="@Model.Hotel.Name" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label for="imageList">Upload images</label>
+        <input type="file" name="imageList" class="form-control" multiple />
+    </div>
+    <div class="form-group">
         <label asp-for="@Model.Hotel.Description"></label>
         <input type="text" asp-for="@Model.Hotel.Description" class="form-control" />
         <span asp-validation-for="@Model.Hotel.Description" class="text-danger"></span>
@@ -23,7 +27,7 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <label asp-for="@Model.Hotel.Location.Country"></label>
+            <label asp-for="@Model.Hotel.Location.Country">Country</label>
             <input type="text" asp-for="@Model.Hotel.Location.Country" class="form-control" />
             <span asp-validation-for="@Model.Hotel.Location.Country" class="text-danger"></span>
         </div>

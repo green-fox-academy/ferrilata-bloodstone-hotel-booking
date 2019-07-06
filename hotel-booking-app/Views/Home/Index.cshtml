@@ -23,6 +23,7 @@
 
 <table class="table">
     <tr>
+        <th></th>
         <th>
             <a asp-action="Index"
                asp-route-orderBy="Name"
@@ -61,6 +62,16 @@
     @foreach (var hotel in Model.Hotels)
     {
         <tr>
+            <td>
+                @if (hotel != null && hotel.Thumbnail)
+                {
+                    <img src="@hotel.ThumbnailUrl" />
+                }
+                else
+                {
+                    <img src="~/nopic.png" width="200" height="200" />
+                }
+            </td>
             <td><a class="nav-link" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">@hotel.Name</a></td>
             <td>@hotel.Description</td>
             <td>@hotel.Price</td>
