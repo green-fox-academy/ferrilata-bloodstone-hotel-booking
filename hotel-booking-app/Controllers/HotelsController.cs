@@ -100,5 +100,13 @@ namespace HotelBookingApp.Controllers
             await thumbnailService.UpdateThumbnailFromUrl(id, path);
             return RedirectToAction(nameof(Hotel), new { id });
         }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpPost("/hotel/delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await hotelService.Delete(id);
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
     }
 }
