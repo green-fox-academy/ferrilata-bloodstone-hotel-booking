@@ -37,9 +37,10 @@ namespace HotelBookingApp.Controllers
 
         [Authorize(Roles = "Admin, HotelManager")]
         [HttpPost("hotel/add")]
-        public async Task<IActionResult> Add(HotelViewModel model)
+        public async Task<IActionResult> Add(HotelViewModel model, List<IFormFile> imageList)
         {
             var hotel = await hotelService.Add(model.Hotel);
+            await imageService.UploadImagesAsync(imageList, hotel.HotelId);
             return RedirectToAction(nameof(Hotel), new { id = hotel.HotelId });
         }
 
