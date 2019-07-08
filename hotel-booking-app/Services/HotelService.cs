@@ -58,6 +58,8 @@ namespace HotelBookingApp.Services
                 .Include(h => h.Location)
                 .Include(h => h.PropertyType)
                 .Include(h => h.Rooms)
+                    .ThenInclude(r => r.RoomBeds)
+                        .ThenInclude(b => b.Bed)
                 .SingleOrDefaultAsync(h => h.HotelId == id)
                 ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
             return hotel;
@@ -86,6 +88,14 @@ namespace HotelBookingApp.Services
             applicationContext.Update(hotel);
             await applicationContext.SaveChangesAsync();
             return hotel;
+        }
+
+        public async Task<Room> AddRoom(int hotelId, Room room)
+        {
+            room.HotelId = hotelId;
+            await applicationContext.AddAsync(room);
+            await applicationContext.SaveChangesAsync();
+            return room;
         }
     }
 }
