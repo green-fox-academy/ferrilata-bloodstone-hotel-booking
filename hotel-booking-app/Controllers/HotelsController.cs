@@ -69,22 +69,6 @@ namespace HotelBookingApp.Controllers
             await hotelService.Update(hotel);
             return RedirectToAction(nameof(Hotel), new { id });
         }
-
-        [Authorize(Roles = "Admin, HotelManager")]
-        [HttpGet("/hotel/{id}/room")]
-        public IActionResult Room()
-        {
-            return View(new Room());
-        }
-
-        [Authorize(Roles = "Admin, HotelManager")]
-        [HttpPost("/hotel/{id}/room")]
-        public async Task<IActionResult> Room(int id, Room room)
-        {
-            var hotel = await hotelService.FindByIdAsync(id);
-            await hotelService.AddRoom(id, room);
-            return RedirectToAction(nameof(Hotel));
-        }
     }
 }
 
