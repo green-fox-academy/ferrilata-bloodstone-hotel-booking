@@ -34,7 +34,7 @@
                asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage"
                asp-route-search="@Model.QueryParams.Search">
-                @Html.DisplayNameFor(model => model.Hotels.First().Name)
+                @Localizer[@Html.DisplayNameFor(model =>  model.Hotels.First().Name)]
             </a>
         </th>
         <th>
@@ -44,7 +44,7 @@
                asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage"
                asp-route-search="@Model.QueryParams.Search">
-                @Html.DisplayNameFor(model => model.Hotels.First().Description)
+                @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Description)]
             </a>
         </th>
         <th>
@@ -54,11 +54,11 @@
                asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage"
                asp-route-search="@Model.QueryParams.Search">
-                @Html.DisplayNameFor(model => model.Hotels.First().Price)
+                @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Price)]
             </a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Hotels.First().Location.City)
+            @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Location.City)]
         </th>
     </tr>
 
