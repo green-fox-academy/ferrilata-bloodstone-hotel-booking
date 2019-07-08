@@ -11,61 +11,61 @@
 
 <form asp-action="Edit" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label asp-for="Hotel.Name"></label>
-        <input asp-for="Hotel.Name" class="form-control" />
-        <span asp-validation-for="Hotel.Name" class="text-danger"></span>
+        <label asp-for="@Model.Hotel.Name"></label>
+        <input asp-for="@Model.Hotel.Name" class="form-control" />
+        <span asp-validation-for="@Model.Hotel.Name" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label for="imageList">Upload images</label>
         <input type="file" name="imageList" class="form-control" multiple />
     </div>
     <div class="form-group">
-        <label asp-for="Hotel.Description"></label>
-        <input asp-for="Hotel.Description" class="form-control" />
-        <span asp-validation-for="Hotel.Description" class="text-danger"></span>
+        <label asp-for="@Model.Hotel.Description"></label>
+        <input asp-for="@Model.Hotel.Description" class="form-control" />
+        <span asp-validation-for="@Model.Hotel.Description" class="text-danger"></span>
     </div>
     <div class="row">
-        <input type="hidden" asp-for="Hotel.Location.LocationId" />
+        <input type="hidden" asp-for="@Model.Hotel.Location.LocationId" />
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="Hotel.Location.Country"></label>
-                <input asp-for="Hotel.Location.Country" class="form-control" />
-                <span asp-validation-for="Hotel.Location.Country" class="text-danger"></span>
+                <label asp-for="@Model.Hotel.Location.Country"></label>
+                <input asp-for="@Model.Hotel.Location.Country" class="form-control" />
+                <span asp-validation-for="@Model.Hotel.Location.Country" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="Hotel.Location.Region"></label>
-                <input asp-for="Hotel.Location.Region" class="form-control" />
-                <span asp-validation-for="Hotel.Location.Region" class="text-danger"></span>
+                <label asp-for="@Model.Hotel.Location.Region"></label>
+                <input asp-for="@Model.Hotel.Location.Region" class="form-control" />
+                <span asp-validation-for="@Model.Hotel.Location.Region" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="Hotel.Location.City"></label>
-                <input asp-for="Hotel.Location.City" class="form-control" />
-                <span asp-validation-for="Hotel.Location.City" class="text-danger"></span>
+                <label asp-for="@Model.Hotel.Location.City"></label>
+                <input asp-for="@Model.Hotel.Location.City" class="form-control" />
+                <span asp-validation-for="@Model.Hotel.Location.City" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="Hotel.Location.Address"></label>
-                <input asp-for="Hotel.Location.Address" class="form-control" />
-                <span asp-validation-for="Hotel.Location.Address" class="text-danger"></span>
+                <label asp-for="@Model.Hotel.Location.Address"></label>
+                <input asp-for="@Model.Hotel.Location.Address" class="form-control" />
+                <span asp-validation-for="@Model.Hotel.Location.Address" class="text-danger"></span>
             </div>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Hotel.StarRating"></label>
-        <input asp-for="Hotel.StarRating" class="form-control" />
-        <span asp-validation-for="Hotel.StarRating" class="text-danger"></span>
+        <label asp-for="@Model.Hotel.StarRating"></label>
+        <input asp-for="@Model.Hotel.StarRating" class="form-control" />
+        <span asp-validation-for="@Model.Hotel.StarRating" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="@Model.Hotel.PropertyTypeId"></label>
         <select asp-for="@Model.Hotel.PropertyTypeId" asp-items="@Model.PropertyTypes" class="form-control"></select>
         <span asp-validation-for="@Model.Hotel.PropertyTypeId" class="text-danger"></span>
     </div>
-    <input type="hidden" asp-for="Hotel.PropertyType.PropertyTypeId" />
+    <input type="hidden" asp-for="@Model.Hotel.PropertyType.PropertyTypeId" />
     <button type="submit" class="btn btn-primary">Save</button>
     <a class="btn btn-danger" asp-action="Hotel" asp-route-id="@Model.Hotel.HotelId" role="button">Cancel</a>
 </form>
