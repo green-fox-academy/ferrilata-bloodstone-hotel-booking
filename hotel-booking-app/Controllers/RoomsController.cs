@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBookingApp.Controllers
 {
-    [Authorize]
+
+    [Authorize(Roles = "Admin, HotelManager")]
     public class RoomsController : Controller
     {
         private readonly IHotelService hotelService;
@@ -19,14 +20,12 @@ namespace HotelBookingApp.Controllers
             this.hotelService = hotelService;
         }
 
-        [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("/hotel/{id}/room/new")]
         public IActionResult Add()
         {
             return View(new Room());
         }
 
-        [Authorize(Roles = "Admin, HotelManager")]
         [HttpPost("/hotel/{id}/room/new")]
         public async Task<IActionResult> Add(int id, Room room)
         {
