@@ -10,27 +10,26 @@ using Microsoft.AspNetCore.Mvc;
 namespace HotelBookingApp.Controllers
 {
     [Authorize]
-    public class RoomController : Controller
+    public class RoomsController : Controller
     {
         private readonly IHotelService hotelService;
 
-        public RoomController(IHotelService hotelService)
+        public RoomsController(IHotelService hotelService)
         {
             this.hotelService = hotelService;
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
-        [HttpGet("/hotel/{id}/room")]
+        [HttpGet("/hotel/{id}/room/new")]
         public IActionResult Add()
         {
             return View(new Room());
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
-        [HttpPost("/hotel/{id}/room")]
+        [HttpPost("/hotel/{id}/room/new")]
         public async Task<IActionResult> Add(int id, Room room)
         {
-            var hotel = await hotelService.FindByIdAsync(id);
             await hotelService.AddRoom(id, room);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels");
         }
