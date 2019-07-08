@@ -1,6 +1,9 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Identity
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IViewLocalizer Localizer
 
 <ul class="navbar-nav ml-auto">
     @if (SignInManager.IsSignedIn(User))
@@ -16,12 +19,12 @@
         @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Hotels" asp-action="Add">Add Hotel</a>
+                <a class="nav-link" asp-controller="Hotels" asp-action="Add">@Localizer["Add Hotel"]</a>
             </li>
         }
         <li class="nav-item">
             <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
-                <button type="submit" class="nav-link btn btn-link">Logout</button>
+                <button type="submit" class="nav-link btn btn-link">@Localizer["Logout"]</button>
             </form>
         </li>
     }
