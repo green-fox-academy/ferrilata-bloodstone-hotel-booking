@@ -9,7 +9,20 @@
 <div>The type of the hotel: @Model.Hotel.PropertyType.Type</div>
 <div>The address of the hotel: @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
 <div>Description about the hotel: <br /> @Model.Hotel.Description</div>
-<div>Rooms in the hotel: @Model.Hotel.Rooms</div>
+<div>Rooms in the hotel:</div>
+<ul>
+    @foreach (var room in @Model.Hotel.Rooms)
+    {
+        <li>
+            @room.Name ($@room.Price)
+            <a asp-controller="Rooms" asp-action="NewReservation"
+               asp-route-hotelId="@Model.Hotel.HotelId"
+               asp-route-roomId="@room.RoomId">
+                Reserve
+            </a>
+        </li>
+    }
+</ul>
 
 @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
 {
