@@ -27,7 +27,7 @@
 @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
 {
     <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">Edit</a>
-    <a class="btn btn-primary" asp-controller="Rooms" asp-action="Add" asp-route-id="@Model.Hotel.HotelId" role="button">Add room</a>
+    <a class="btn btn-primary" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">Add room</a>
 }
 <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Go back</a>
 

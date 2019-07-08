@@ -20,17 +20,17 @@ namespace HotelBookingApp.Controllers
             this.hotelService = hotelService;
         }
 
-        [HttpGet("/new")]
+        [HttpGet("new")]
         public IActionResult Add()
         {
             return View(new Room());
         }
 
-        [HttpPost("/new")]
-        public async Task<IActionResult> Add(int id, Room room)
+        [HttpPost("new")]
+        public async Task<IActionResult> Add(int hotelId, Room room)
         {
-            await hotelService.AddRoom(id, room);
-            return RedirectToAction(nameof(HotelsController.Hotel), "Hotels");
+            await hotelService.AddRoom(hotelId, room);
+            return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 
         [HttpGet("{roomId}/reservation/new")]
