@@ -2,9 +2,9 @@
 
 namespace HotelBookingApp.Pages
 {
-    public class RoomViewModel
+    public class ReservationViewModel
     {
-        public Room Room { get; set; }
         public int HotelId { get; set; }
+        public int RoomId { get; set; }
     }
 }
