@@ -11,12 +11,12 @@ namespace HotelBookingApp.Controllers
     [Route("hotel/{hotelId}/rooms")]
     public class RoomsController : Controller
     {
-        private readonly IReservationService roomService;
+        private readonly IReservationService reservationService;
         private readonly IHotelService hotelService;
 
-        public RoomsController(IReservationService roomService, IHotelService hotelService)
+        public RoomsController(IReservationService reservationService, IHotelService hotelService)
         {
-            this.roomService = roomService;
+            this.reservationService = reservationService;
             this.hotelService = hotelService;
         }
 
@@ -45,17 +45,20 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpPost("{roomId}/reservation/new")]
-        public async Task<IActionResult> NewReservationAsync(ReservationViewModel model)
+        public async Task<IActionResult> NewReservation(ReservationViewModel model)
         {
             model.Reservation.RoomId = model.RoomId;
-            var reservation = await roomService.AddAsync(model.Reservation);
+            var reservation = await reservationService.AddAsync(model.Reservation);
             return RedirectToAction(nameof(ConfirmReservation), new { reservationId = reservation.ReservationId });
         }
 
         [HttpGet("{roomId}/reservation/confirmation/{reservationId}")]
-        public IActionResult ConfirmReservation(int reservationId)
+        public async Task<IActionResult> ConfirmReservation(int reservationId)
         {
-            return View();
+            return View(new ReservationViewModel
+            {
+                Reservation = await reservationService.FindById(reservationId)
+            });
         }
     }
 }
