@@ -37,7 +37,7 @@ namespace HotelBookingApp.Services
             this.thumbnailService = thumbnailService;
         }
 
-        public async Task UploadAsync(string imageName, Stream stream)
+        private async Task UploadAsync(string imageName, Stream stream)
         {
             await blobContainer.CreateIfNotExistsAsync();
             BlobContainerPermissions permissions = new BlobContainerPermissions
