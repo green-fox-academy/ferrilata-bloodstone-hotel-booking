@@ -1,4 +1,5 @@
-﻿using HotelBookingApp.Pages;
+﻿using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -21,7 +22,8 @@ namespace HotelBookingApp.Controllers
             return View(new ReservationViewModel
             {
                 HotelId = hotelId,
-                RoomId = roomId
+                RoomId = roomId,
+                Reservation = new Reservation()
             });
         }
 
