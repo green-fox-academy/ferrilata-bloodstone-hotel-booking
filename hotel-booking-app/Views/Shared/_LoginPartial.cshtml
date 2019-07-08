@@ -5,36 +5,39 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject IViewLocalizer Localizer
 
-<ul class="navbar-nav ml-auto">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <span class="navbar-text">
-                @User.Identity.Name
-            </span>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
-        </li>
-        @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+    <ul class="navbar-nav ml-auto">
+        @if (SignInManager.IsSignedIn(User))
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Hotels" asp-action="Add">@Localizer["Add Hotel"]</a>
+                <span class="navbar-text">
+                    @User.Identity.Name
+                </span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Settings">Settings</a>
+            </li>
+            @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Hotels" asp-action="Add">@Localizer["Add Hotel"]</a>
+                </li>
+            }
+            <li class="nav-item">
+                <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit" class="nav-link btn btn-link">@Localizer["Logout"]</button>
+                </form>
             </li>
         }
-        <li class="nav-item">
-            <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
-                <button type="submit" class="nav-link btn btn-link">@Localizer["Logout"]</button>
-            </form>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Signup">Signup</a>
-        </li>
-    }
-</ul>
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Account" asp-action="Signup">Signup</a>
+            </li>
+        }
+    </ul>
