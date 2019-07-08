@@ -48,7 +48,7 @@ namespace HotelBookingApp
                         new CultureInfo("hu")
                     };
 
-                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.DefaultRequestCulture = new RequestCulture("hu");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             });
@@ -69,12 +69,12 @@ namespace HotelBookingApp
             var supportedCultures = new[]
             {
                 new CultureInfo("en-US"),
-                new CultureInfo("fr"),
+                new CultureInfo("hu"),
             };
 
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
-                DefaultRequestCulture = new RequestCulture("en-US"),
+                DefaultRequestCulture = new RequestCulture("hu"),
                 // Formatting numbers, dates, etc.
                 SupportedCultures = supportedCultures,
                 // UI strings that we have localized.
