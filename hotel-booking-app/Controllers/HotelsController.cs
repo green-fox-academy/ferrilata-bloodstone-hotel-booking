@@ -1,10 +1,11 @@
-﻿using HotelBookingApp.Exceptions;
+using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -30,7 +31,8 @@ namespace HotelBookingApp.Controllers
         [HttpGet("hotel/add")]
         public async Task<IActionResult> Add()
         {
-            return View(new HotelViewModel {
+            return View(new HotelViewModel
+            {
                 PropertyTypes = await propertyTypeService.FindAll()
             });
         }
@@ -111,3 +113,4 @@ namespace HotelBookingApp.Controllers
         }
     }
 }
+
