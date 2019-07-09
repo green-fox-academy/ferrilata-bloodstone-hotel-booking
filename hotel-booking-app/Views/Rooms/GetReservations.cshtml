@@ -13,6 +13,7 @@
             <th>room</th>
             <th>confirmed</th>
             <th>email</th>
+            <th>date</th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,11 @@
             <td>@r.Room.Name</td>
             <td>@r.IsConfirmed</td>
             <td>@r.AppicationUser.Email</td>
+            <td>
+                @String.Format("{0:yyyy/MM/dd}", r.FromDate)
+                 - 
+                @String.Format("{0:yyyy/MM/dd}", r.ToDate)
+            </td>
         </tr>
         }
     </tbody>
