@@ -3,6 +3,7 @@ using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
@@ -48,6 +49,7 @@ namespace HotelBookingApp.Controllers
         public async Task<IActionResult> NewReservation(ReservationViewModel model)
         {
             model.Reservation.RoomId = model.RoomId;
+            model.Reservation.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reservation = await reservationService.AddAsync(model.Reservation);
             return RedirectToAction(nameof(ConfirmReservation), new { reservationId = reservation.ReservationId });
         }
