@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingApp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190709073813_AddReservation")]
-    partial class AddReservation
+    [Migration("20190709091913_UpdateReservation")]
+    partial class UpdateReservation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -157,6 +157,8 @@ namespace HotelBookingApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserId");
+
                     b.Property<string>("GuestNames");
 
                     b.Property<int>("GuestNumber");
@@ -166,6 +168,8 @@ namespace HotelBookingApp.Migrations
                     b.Property<int>("RoomId");
 
                     b.HasKey("ReservationId");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("RoomId");
 
@@ -329,6 +333,10 @@ namespace HotelBookingApp.Migrations
 
             modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Reservation", b =>
                 {
+                    b.HasOne("HotelBookingApp.Models.Account.ApplicationUser", "AppicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("HotelBookingApp.Models.HotelModels.Room", "Room")
                         .WithMany()
                         .HasForeignKey("RoomId")

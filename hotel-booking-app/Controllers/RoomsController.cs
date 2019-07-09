@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
-    [Authorize(Roles = "Admin, HotelManager")]
+    [Authorize]
     [Route("hotel/{hotelId}")]
     public class RoomsController : Controller
     {
@@ -21,12 +21,14 @@ namespace HotelBookingApp.Controllers
             this.hotelService = hotelService;
         }
 
+        [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("rooms/new")]
         public IActionResult Add()
         {
             return View(new Room());
         }
 
+        [Authorize(Roles = "Admin, HotelManager")]
         [HttpPost("rooms/new")]
         public async Task<IActionResult> Add(int hotelId, Room room)
         {
@@ -34,6 +36,7 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("rooms/{roomId}/reservations/new")]
         public IActionResult NewReservation(int hotelId, int roomId)
         {
@@ -45,6 +48,7 @@ namespace HotelBookingApp.Controllers
             });
         }
 
+        [Authorize(Roles = "User, Admin")]
         [HttpPost("rooms/{roomId}/reservations/new")]
         public async Task<IActionResult> NewReservation(ReservationViewModel model)
         {
@@ -54,6 +58,7 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(ConfirmReservation), new { reservationId = reservation.ReservationId });
         }
 
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("rooms/{roomId}/reservations/confirmation/{reservationId}")]
         public async Task<IActionResult> ConfirmReservation(int reservationId)
         {
@@ -63,6 +68,7 @@ namespace HotelBookingApp.Controllers
             });
         }
 
+        [Authorize(Roles = "User, Admin")]
         [HttpPost("rooms/{roomId}/reservations/confirmation/{reservationId}")]
         public async Task<IActionResult> ConfirmReservation(int hotelId, int reservationId)
         {
@@ -70,6 +76,7 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 
+        [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("reservations")]
         public async Task<IActionResult> GetReservations(int hotelId)
         {

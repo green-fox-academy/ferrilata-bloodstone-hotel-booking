@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelBookingApp.Migrations
 {
-    public partial class AddReservation : Migration
+    public partial class UpdateReservation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -255,14 +255,21 @@ namespace HotelBookingApp.Migrations
                 {
                     ReservationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    RoomId = table.Column<int>(nullable: false),
                     GuestNumber = table.Column<int>(nullable: false),
                     GuestNames = table.Column<string>(nullable: true),
-                    IsConfirmed = table.Column<bool>(nullable: false)
+                    IsConfirmed = table.Column<bool>(nullable: false),
+                    RoomId = table.Column<int>(nullable: false),
+                    ApplicationUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservations", x => x.ReservationId);
+                    table.ForeignKey(
+                        name: "FK_Reservations_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reservations_Rooms_RoomId",
                         column: x => x.RoomId,
@@ -344,6 +351,11 @@ namespace HotelBookingApp.Migrations
                 name: "IX_Hotels_PropertyTypeId",
                 table: "Hotels",
                 column: "PropertyTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_ApplicationUserId",
+                table: "Reservations",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RoomId",
