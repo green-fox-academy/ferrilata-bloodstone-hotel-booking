@@ -5,16 +5,30 @@
 
 <h1>@Model.Hotel.Name</h1>
 
-<div>Number of stars: @Model.Hotel.</div>
+<div>Number of stars: @Model.Hotel.StarRating</div>
 <div>The type of the hotel: @Model.Hotel.PropertyType.Type</div>
 <div>The address of the hotel: @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
 <div>Description about the hotel: <br /> @Model.Hotel.Description</div>
-<div>Rooms in the hotel: @Model.Hotel.Rooms</div>
+<div>Rooms in the hotel:</div>
+<ul>
+    @foreach (var room in @Model.Hotel.Rooms)
+    {
+        <li>
+            @room.Name ($@room.Price)
+            <a asp-controller="Rooms" asp-action="NewReservation"
+               asp-route-hotelId="@Model.Hotel.HotelId"
+               asp-route-roomId="@room.RoomId">
+                Reserve
+            </a>
+        </li>
+    }
+</ul>
 
 @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
 {
     <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">Edit</a>
-    <a class="btn btn-primary" asp-controller="Rooms" asp-action="Add" asp-route-id="@Model.Hotel.HotelId" role="button">Add room</a>
+    <a class="btn btn-primary" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">Add room</a>
+    <a class="btn btn-primary" asp-controller="Rooms" asp-action="GetReservations" asp-route-hotelId="@Model.Hotel.HotelId" role="button">Reservations</a>
 }
 <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Go back</a>
 
