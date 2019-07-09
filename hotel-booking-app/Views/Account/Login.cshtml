@@ -1,31 +1,33 @@
-﻿@model LoginRequest
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model LoginRequest
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = @Localizer["Login"];
 }
 <div class="mx-auto col-md-6 p-3">
     <div class="card">
         <div class="card-header">
-            <h2>Please login</h2>
+            <h2>@Localizer["Login"]</h2>
         </div>
         <div class="card-body">
             <form asp-controller="User" asp-action="Login" method="post">
                 <div class="form-group">
-                    <label asp-for="Email"></label>
+                    <label asp-for="Email">@Localizer["Email"]</label>
                     <input asp-for="Email" class="form-control" placeholder="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Password"></label>
+                    <label asp-for="Password">@Localizer["Password"]</label>
                     <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="custom-control custom-checkbox">
                     <input class="custom-control-input" type="checkbox" asp-for="RememberMe">
-                    <label class="custom-control-label" asp-for="RememberMe"></label>
+                    <label class="custom-control-label" asp-for="RememberMe">@Localizer["Remember Me"]</label>
                 </div>
                 <div class="form-group mt-2">
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary">@Localizer["Login"]</button>
                 </div>
                 @foreach (var error in Model.ErrorMessages)
                 {
