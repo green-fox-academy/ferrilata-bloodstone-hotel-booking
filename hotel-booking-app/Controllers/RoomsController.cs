@@ -82,5 +82,13 @@ namespace HotelBookingApp.Controllers
             var reservations = await reservationService.FindAllByHotelIdAsync(hotelId);
             return View(reservations);
         }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpPost("reservation/delete/{reservationId}")]
+        public async Task<IActionResult> DeleteReservation(int hotelId, int reservationId)
+        {
+            await reservationService.DeleteAsync(reservationId);
+            return RedirectToAction(nameof(GetReservations), new { id = hotelId });
+        }
     }
 }

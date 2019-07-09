@@ -45,5 +45,12 @@ namespace HotelBookingApp.Services
                 .Where(r => r.Room.HotelId == hotelId)
                 .ToListAsync();
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var reservation = FindByIdAsync(id);
+            context.Remove(reservation);
+            await context.SaveChangesAsync();
+        }
     }
 }
