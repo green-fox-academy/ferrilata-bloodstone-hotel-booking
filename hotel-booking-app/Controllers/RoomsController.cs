@@ -52,7 +52,6 @@ namespace HotelBookingApp.Controllers
         [HttpPost("rooms/{roomId}/reservations/new")]
         public async Task<IActionResult> NewReservation(ReservationViewModel model)
         {
-            model.Reservation.RoomId = model.RoomId;
             model.Reservation.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reservation = await reservationService.AddAsync(model.Reservation);
             return RedirectToAction(nameof(ConfirmReservation), new { reservationId = reservation.ReservationId });
