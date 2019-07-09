@@ -26,12 +26,6 @@ namespace HotelBookingApp.Controllers
                 QueryParams = queryParams
             });
         }
-
-        [HttpGet("Settings")]
-        public IActionResult Settings()
-        {
-            return View();
-        }
     }
 
 }
