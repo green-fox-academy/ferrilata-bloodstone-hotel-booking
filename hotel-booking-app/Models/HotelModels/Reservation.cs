@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace HotelBookingApp.Models.HotelModels
+﻿namespace HotelBookingApp.Models.HotelModels
 {
     public class Reservation
     {
@@ -8,7 +6,7 @@ namespace HotelBookingApp.Models.HotelModels
         public Room Room { get; set; }
         public int RoomId { get; set; }
         public int GuestNumber { get; set; } = 2;
-        public List<string> GuestNames { get; set; }
+        public string GuestNames { get; set; }
         public bool IsConfirmed { get; set; }
     }
 }

@@ -16,14 +16,16 @@ namespace HotelBookingApp.Services
             this.context = context;
         }
 
-        public Task<Reservation> AddAsync(Reservation reservation)
+        public async Task<Reservation> AddAsync(Reservation reservation)
         {
-            throw new NotImplementedException();
+            await context.AddAsync(reservation);
+            await context.SaveChangesAsync();
+            return reservation;
         }
 
-        public Task<Reservation> FindById(int id)
+        public async Task<Reservation> FindById(int id)
         {
-            throw new NotImplementedException();
+            return await context.Reservations.FindAsync(id);
         }
     }
 }

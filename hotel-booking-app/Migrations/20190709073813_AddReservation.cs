@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelBookingApp.Migrations
 {
-    public partial class recreatedb : Migration
+    public partial class AddReservation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -236,7 +236,7 @@ namespace HotelBookingApp.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Price = table.Column<double>(nullable: false),
-                    HotelId = table.Column<int>(nullable: true)
+                    HotelId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -246,7 +246,29 @@ namespace HotelBookingApp.Migrations
                         column: x => x.HotelId,
                         principalTable: "Hotels",
                         principalColumn: "HotelId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    ReservationId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RoomId = table.Column<int>(nullable: false),
+                    GuestNumber = table.Column<int>(nullable: false),
+                    GuestNames = table.Column<string>(nullable: true),
+                    IsConfirmed = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.ReservationId);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Rooms",
+                        principalColumn: "RoomId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -324,6 +346,11 @@ namespace HotelBookingApp.Migrations
                 column: "PropertyTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reservations_RoomId",
+                table: "Reservations",
+                column: "RoomId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoomBeds_BedId",
                 table: "RoomBeds",
                 column: "BedId");
@@ -350,6 +377,9 @@ namespace HotelBookingApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Reservations");
 
             migrationBuilder.DropTable(
                 name: "RoomBeds");
