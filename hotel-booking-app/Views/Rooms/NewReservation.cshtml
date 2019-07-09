@@ -18,12 +18,12 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.Reservation.FromDate"></label>
-        <input asp-for="@Model.Reservation.FromDate" type="date" asp-format="{0:yy-MM-dd}" class="form-control" />
+        <input asp-for="@Model.Reservation.FromDate" type="date" class="form-control" />
         <span asp-validation-for="@Model.Reservation.FromDate" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="@Model.Reservation.ToDate"></label>
-        <input asp-for="@Model.Reservation.ToDate" type="date" asp-format="{0:yy-MM-dd}" class="form-control" />
+        <input asp-for="@Model.Reservation.ToDate" type="date" class="form-control" />
         <span asp-validation-for="@Model.Reservation.ToDate" class="text-danger"></span>
     </div>
     <input type="hidden" asp-for="@Model.Reservation.ApplicationUserId" />

@@ -62,7 +62,7 @@ namespace HotelBookingApp.Controllers
         public async Task<IActionResult> EditReservation(ReservationViewModel model)
         {
             model.Reservation = await reservationService.FindByIdAsync(model.ReservationId);
-            return View(model);
+            return View(nameof(NewReservation), model);
         }
 
         [Authorize(Roles = "User, Admin")]
