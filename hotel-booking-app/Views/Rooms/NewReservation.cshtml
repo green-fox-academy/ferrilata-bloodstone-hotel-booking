@@ -26,6 +26,8 @@
         <input asp-for="@Model.Reservation.ToDate" type="date" asp-format="{0:yy-MM-dd}" class="form-control" />
         <span asp-validation-for="@Model.Reservation.ToDate" class="text-danger"></span>
     </div>
+    <input type="hidden" asp-for="@Model.Reservation.ApplicationUserId" />
+    <input type="hidden" asp-for="@Model.Reservation.ReservationId" />
     <input type="hidden" asp-for="@Model.Reservation.RoomId" value="@Model.RoomId" />
     <button type="submit" class="btn btn-primary">Save</button>
     <a class="btn btn-danger" role="button"

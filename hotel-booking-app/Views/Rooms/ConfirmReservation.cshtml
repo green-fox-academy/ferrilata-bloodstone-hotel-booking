@@ -8,8 +8,9 @@
 <form asp-controller="Rooms" asp-action="ConfirmReservation" method="post">
     <button type="submit" class="btn btn-primary">Save</button>
     <a class="btn btn-danger" role="button" 
-       asp-controller="Rooms" asp-action="NewReservation" 
-       asp-route-hotelId="@Model.HotelId" asp-route-roomId="@Model.RoomId">Go back</a>
+       asp-controller="Rooms" asp-action="EditReservation" 
+       asp-route-hotelId="@Model.HotelId" asp-route-roomId="@Model.RoomId"
+       asp-route-reservationId="@Model.Reservation.ReservationId">Go back</a>
 </form>
 
 

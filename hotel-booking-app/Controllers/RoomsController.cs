@@ -58,11 +58,25 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "User, Admin")]
+        [HttpGet("rooms/{roomId}/reservations/edit/{reservationId}")]
+        public async Task<IActionResult> EditReservation(int hotelId, int roomId, int reservationId)
+        {
+            return View(nameof(NewReservation), new ReservationViewModel
+            {
+                HotelId = hotelId,
+                RoomId = roomId,
+                Reservation = await reservationService.FindByIdAsync(reservationId)
+            });
+        }
+
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("rooms/{roomId}/reservations/confirmation/{reservationId}")]
-        public async Task<IActionResult> ConfirmReservation(int reservationId)
+        public async Task<IActionResult> ConfirmReservation(int hotelId, int roomId, int reservationId)
         {
             return View(new ReservationViewModel
             {
+                HotelId = hotelId,
+                RoomId = roomId,
                 Reservation = await reservationService.FindByIdAsync(reservationId)
             });
         }

@@ -18,7 +18,13 @@ namespace HotelBookingApp.Services
 
         public async Task<Reservation> AddAsync(Reservation reservation)
         {
-            await context.AddAsync(reservation);
+            if (reservation.ReservationId != 0)
+            {
+                context.Update(reservation);
+            } else
+            {
+                await context.AddAsync(reservation);
+            }
             await context.SaveChangesAsync();
             return reservation;
         }
