@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HotelBookingApp.Data;
+using HotelBookingApp.Models.HotelModels;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HotelBookingApp.Data;
-using HotelBookingApp.Models.HotelModels;
 
 namespace HotelBookingApp.Services
 {
@@ -23,18 +23,26 @@ namespace HotelBookingApp.Services
             return reservation;
         }
 
-        public async Task<Reservation> Confirm(int id)
+        public async Task<Reservation> ConfirmAsync(int id)
         {
-            var reservation = await FindById(id);
+            var reservation = await FindByIdAsync(id);
             reservation.IsConfirmed = true;
             context.Update(reservation);
             await context.SaveChangesAsync();
             return reservation;
         }
 
-        public async Task<Reservation> FindById(int id)
+        public async Task<Reservation> FindByIdAsync(int id)
         {
             return await context.Reservations.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<Reservation>> FindAllByHotelIdAsync(int hotelId)
+        {
+            return await context.Reservations
+                .Include(r => r.Room)
+                .Where(r => r.Room.HotelId == hotelId)
+                .ToListAsync();
         }
     }
 }

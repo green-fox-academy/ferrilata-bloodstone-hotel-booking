@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Reservation>
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<h2>Reservations</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>guests</th>
+            <th>room</th>
+            <th>confirmed</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+        <tr>
+            <td>@r.ReservationId</td>
+            <td>@r.GuestNames (@r.GuestNumber)</td>
+            <td>@r.Room.Name</td>
+            <td>@r.IsConfirmed</td>
+        </tr>
+        }
+    </tbody>
+</table>

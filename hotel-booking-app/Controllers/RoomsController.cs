@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace HotelBookingApp.Controllers
 {
     [Authorize(Roles = "Admin, HotelManager")]
-    [Route("hotel/{hotelId}/rooms")]
+    [Route("hotel/{hotelId}")]
     public class RoomsController : Controller
     {
         private readonly IReservationService reservationService;
@@ -20,20 +20,20 @@ namespace HotelBookingApp.Controllers
             this.hotelService = hotelService;
         }
 
-        [HttpGet("new")]
+        [HttpGet("rooms/new")]
         public IActionResult Add()
         {
             return View(new Room());
         }
 
-        [HttpPost("new")]
+        [HttpPost("rooms/new")]
         public async Task<IActionResult> Add(int hotelId, Room room)
         {
             await hotelService.AddRoom(hotelId, room);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 
-        [HttpGet("{roomId}/reservation/new")]
+        [HttpGet("rooms/{roomId}/reservations/new")]
         public IActionResult NewReservation(int hotelId, int roomId)
         {
             return View(new ReservationViewModel
@@ -44,7 +44,7 @@ namespace HotelBookingApp.Controllers
             });
         }
 
-        [HttpPost("{roomId}/reservation/new")]
+        [HttpPost("rooms/{roomId}/reservations/new")]
         public async Task<IActionResult> NewReservation(ReservationViewModel model)
         {
             model.Reservation.RoomId = model.RoomId;
@@ -52,20 +52,27 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(ConfirmReservation), new { reservationId = reservation.ReservationId });
         }
 
-        [HttpGet("{roomId}/reservation/confirmation/{reservationId}")]
+        [HttpGet("rooms/{roomId}/reservations/confirmation/{reservationId}")]
         public async Task<IActionResult> ConfirmReservation(int reservationId)
         {
             return View(new ReservationViewModel
             {
-                Reservation = await reservationService.FindById(reservationId)
+                Reservation = await reservationService.FindByIdAsync(reservationId)
             });
         }
 
-        [HttpPost("{roomId}/reservation/confirmation/{reservationId}")]
+        [HttpPost("rooms/{roomId}/reservations/confirmation/{reservationId}")]
         public async Task<IActionResult> ConfirmReservation(int hotelId, int reservationId)
         {
-            await reservationService.Confirm(reservationId);
+            await reservationService.ConfirmAsync(reservationId);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
+        }
+
+        [HttpGet("reservations")]
+        public async Task<IActionResult> GetReservations(int hotelId)
+        {
+            var reservations = await reservationService.FindAllByHotelIdAsync(hotelId);
+            return View(reservations);
         }
     }
 }

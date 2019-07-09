@@ -28,6 +28,7 @@
 {
     <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">Edit</a>
     <a class="btn btn-primary" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">Add room</a>
+    <a class="btn btn-primary" asp-controller="Rooms" asp-action="GetReservations" asp-route-hotelId="@Model.Hotel.HotelId" role="button">Reservations</a>
 }
 <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Go back</a>
 
