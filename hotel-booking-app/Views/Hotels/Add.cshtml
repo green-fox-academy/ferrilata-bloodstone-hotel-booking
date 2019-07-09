@@ -3,10 +3,10 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Add Hotel";
+    ViewData["Title"] = @Localizer["Add Hotel"];
 }
 
-<h2>Add a Hotel</h2>
+    <h2>@Localizer["Add a Hotel"]</h2>
 
 <form asp-action="Add" method="post" enctype="multipart/form-data">
     <div class="form-group">
