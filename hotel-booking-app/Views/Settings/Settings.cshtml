@@ -1,5 +1,20 @@
-﻿@{
+﻿@using HotelBookingApp.Services
+@inject IDateTimeService DateTimeService
+@{
     ViewData["Title"] = "Settings";
 }
 
-    <h2>UserSettings</h2>
+<h2>UserSettings</h2>
+
+<div class="container body-content">
+    <form asp-controller="Home" asp-action="SetUserTimeZone" method="post">
+        <label for="timeZoneId">Choose your time zone</label>
+        <select name="timeZone">
+            @foreach (var timeZone in DateTimeService.GetTimeZones())
+            {
+                <option value="@timeZone.Id">@timeZone.DisplayName</option>
+            }
+        </select>
+        <button type="submit">Save</button>
+    </form>
+</div>

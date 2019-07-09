@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace HotelBookingApp.Services
 {
-    interface IDateTimeService
+    public interface IDateTimeService
     {
-        IEnumerable<TimeZoneInfo> GetTimeZones();
+       IEnumerable<TimeZoneInfo> GetTimeZones();
     }
 }
