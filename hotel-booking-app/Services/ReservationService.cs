@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Data;
+using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -40,7 +41,10 @@ namespace HotelBookingApp.Services
 
         public async Task<Reservation> FindByIdAsync(int id)
         {
-            return await context.Reservations.FindAsync(id);
+            return await context.Reservations
+                .Include(r => r.Room)
+                .FirstOrDefaultAsync(r => r.ReservationId == id)
+                ?? throw new ItemNotFoundException($"Reservation with id {id} is not found!");
         }
 
         public async Task<IEnumerable<Reservation>> FindAllByHotelIdAsync(int hotelId)

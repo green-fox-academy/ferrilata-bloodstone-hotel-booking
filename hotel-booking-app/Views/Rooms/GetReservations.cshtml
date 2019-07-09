@@ -20,20 +20,27 @@
     <tbody>
         @foreach (var r in Model)
         {
-        <tr>
-            <td>@r.ReservationId</td>
-            <td>@r.GuestNames (@r.GuestNumber)</td>
-            <td>@r.Room.Name</td>
-            <td>@r.IsConfirmed</td>
-            <td>@r.AppicationUser.Email</td>
-            <td>
-                @String.Format("{0:yyyy/MM/dd}", r.FromDate)
-                 - 
-                @String.Format("{0:yyyy/MM/dd}", r.ToDate)
-            </td>
-        </tr>
+            <tr>
+                <td>@r.ReservationId</td>
+                <td>@r.GuestNames (@r.GuestNumber)</td>
+                <td>@r.Room.Name</td>
+                <td>@r.IsConfirmed</td>
+                <td>@r.AppicationUser.Email</td>
+                <td>
+                    @String.Format("{0:yyyy/MM/dd}", r.FromDate)
+                    -
+                    @String.Format("{0:yyyy/MM/dd}", r.ToDate)
+                </td>
+            </tr>
         }
     </tbody>
 </table>
 
-<a class="btn btn-danger" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@Model.FirstOrDefault().Room.HotelId" role="button">Go back</a>
+@if (!Model.Any())
+{
+    <div class="text-center">
+        <p>No results found!</p>
+    </div>
+}
+
+<a class="btn btn-danger" href='javascript:history.go(-1)' role="button">Go back</a>
