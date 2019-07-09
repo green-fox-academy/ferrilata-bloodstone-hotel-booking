@@ -1,6 +1,9 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Identity
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IViewLocalizer Localizer
 
     <ul class="navbar-nav ml-auto">
         @if (SignInManager.IsSignedIn(User))
@@ -11,30 +14,30 @@
                 </span>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                <a class="nav-link" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Settings">Settings</a>
+                <a class="nav-link" asp-controller="Home" asp-action="Settings">@Localizer["Settings"]</a>
             </li>
             @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
             {
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Hotels" asp-action="Add">Add Hotel</a>
+                    <a class="nav-link" asp-controller="Hotels" asp-action="Add">@Localizer["Add Hotel"]</a>
                 </li>
             }
             <li class="nav-item">
                 <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
-                    <button type="submit" class="nav-link btn btn-link">Logout</button>
+                    <button type="submit" class="nav-link btn btn-link">@Localizer["Logout"]</button>
                 </form>
             </li>
         }
         else
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                <a class="nav-link" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Account" asp-action="Signup">Signup</a>
+                <a class="nav-link" asp-controller="Account" asp-action="Signup">@Localizer["Signup"]</a>
             </li>
         }
     </ul>
