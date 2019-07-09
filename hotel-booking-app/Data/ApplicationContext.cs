@@ -13,6 +13,7 @@ namespace HotelBookingApp.Data
         public virtual DbSet<PropertyType> PropertyTypes { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<RoomBed> RoomBeds { get; set; }
+        public virtual DbSet<Reservation> Reservations { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
