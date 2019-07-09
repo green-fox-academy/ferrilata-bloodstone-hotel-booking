@@ -1,15 +1,17 @@
-﻿@model HotelViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model HotelBookingApp.Pages.HotelViewModel
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = Model.Hotel.Name;
 }
 
 <h1>@Model.Hotel.Name</h1>
 
-<div>Number of stars: @Model.Hotel.StarRating</div>
-<div>The type of the hotel: @Model.Hotel.PropertyType.Type</div>
-<div>The address of the hotel: @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
-<div>Description about the hotel: <br /> @Model.Hotel.Description</div>
-<div>Rooms in the hotel:</div>
+<div>@Localizer["Number of stars"]: @Model.Hotel.StarRating</div>
+<div>@Localizer["Hotel type"]: @Model.Hotel.PropertyType.Type</div>
+<div>@Localizer["Address"]: @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
+<div>@Localizer["About"]: <br /> @Model.Hotel.Description</div>
+<div>@Localizer["Rooms:"]:</div>
 <ul>
     @foreach (var room in @Model.Hotel.Rooms)
     {
@@ -18,7 +20,7 @@
             <a asp-controller="Rooms" asp-action="NewReservation"
                asp-route-hotelId="@Model.Hotel.HotelId"
                asp-route-roomId="@room.RoomId">
-                Reserve
+                @Localizer["Reserve"]
             </a>
         </li>
     }
@@ -26,34 +28,34 @@
 
 @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
 {
-    <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">Edit</a>
-    <a class="btn btn-primary" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">Add room</a>
-    <a class="btn btn-primary" asp-controller="Rooms" asp-action="GetReservations" asp-route-hotelId="@Model.Hotel.HotelId" role="button">Reservations</a>
-}
-<a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Go back</a>
+<a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">@Localizer["Edit"]</a>
+<a class="btn btn-primary" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Add room"]</a>
+<a class="btn btn-primary" asp-controller="Rooms" asp-action="GetReservations" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Reservations"]</a>
+    }
+<a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@Localizer["Go back"]</a>
 
-<hr />
-<h2>Gallery</h2>
-<div class="container">
-    <div class="row">
-        @if (Model.ImageList.Count() == 0)
-        {
-            <p>No images.</p>
-        }
-        @foreach (var image in Model.ImageList)
-        {
-            <div class="col-md-4 col-lg-3 col-sm-6">
-                <img class="img-fluid my-3" src="@image.Path">
-                @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
-                {
-                    <form asp-action="DeleteImage" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                        <button class="btn btn-link" type="submit" name="path" value="@image.Path">Delete Image</button>
-                    </form>
-                    <form asp-action="UpdateThumbnail" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                        <button class="btn btn-link" type="submit" name="path" value="@image.Path">Set as thumbnail</button>
-                    </form>
-                }
-            </div>
-        }
+    <hr />
+    <h2>@Localizer["Gallery"]</h2>
+    <div class="container">
+        <div class="row">
+            @if (Model.ImageList.Count() == 0)
+            {
+            <p>@Localizer["No images."]</p>
+            }
+            @foreach (var image in Model.ImageList)
+            {
+                <div class="col-md-4 col-lg-3 col-sm-6">
+                    <img class="img-fluid my-3" src="@image.Path">
+                    @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+                    {
+                        <form asp-action="DeleteImage" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
+                            <button class="btn btn-link" type="submit" name="path" value="@image.Path">@Localizer["Delete Image"]</button>
+                        </form>
+                        <form asp-action="UpdateThumbnail" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
+                            <button class="btn btn-link" type="submit" name="path" value="@image.Path">@Localizer["Set as thumbnail"]</button>
+                        </form>
+                    }
+                </div>
+            }
+        </div>
     </div>
-</div>
