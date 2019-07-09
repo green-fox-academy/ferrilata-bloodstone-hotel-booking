@@ -32,6 +32,7 @@ namespace HotelBookingApp
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IThumbnailService, ThumbnailService>();
             services.AddScoped<IPropertyTypeService, PropertyTypeService>();
+            services.AddScoped<IReservationService, ReservationService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
