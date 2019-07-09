@@ -9,41 +9,32 @@ namespace HotelBookingApp.Configs
 {
     public static class LocalizationConfigs
     {
-        private static string DEFAULT_LANGUAGE = "hu";
+        private static string DEFAULT_LANGUAGE = "en-US";
+        private static List<CultureInfo> supportedCultures = new List<CultureInfo>
+                    {
+                        new CultureInfo(DEFAULT_LANGUAGE),
+                        new CultureInfo("hu-HU")
+                    };
+
+    public static IServiceCollection SetLocalizationSource(this IServiceCollection services)
+        {
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            return services;
+        }
         public static IServiceCollection SetLocalization(this IServiceCollection services)
         {
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                var supportedCultures = new List<CultureInfo>
-                    {
-                        new CultureInfo("en-US"),
-                        new CultureInfo("hu")
-                    };
-
                 options.DefaultRequestCulture = new RequestCulture(DEFAULT_LANGUAGE);
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
+                options.RequestCultureProviders = new List<IRequestCultureProvider>
+                {
+                    new QueryStringRequestCultureProvider(),
+                    new CookieRequestCultureProvider()
+                };
             });
             return services;
-        }
-
-        public static IApplicationBuilder SetLocalization(this IApplicationBuilder app)
-        {
-            var supportedCultures = new[]
-            {
-                new CultureInfo("en-US"),
-                new CultureInfo("hu"),
-            };
-
-            app.UseRequestLocalization(new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture(DEFAULT_LANGUAGE),
-                // Formatting numbers, dates, etc.
-                SupportedCultures = supportedCultures,
-                // UI strings that we have localized.
-                SupportedUICultures = supportedCultures
-            });
-            return app;
         }
     }
 }

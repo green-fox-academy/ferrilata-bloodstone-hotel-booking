@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Builder
-@using Microsoft.AspNetCore.Http.Features
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Options
@@ -16,7 +15,6 @@
 
 <h2>UserSettings</h2>
 <p>@User.Identity.Name</p>
-<p>@user.locale</p>
 
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
