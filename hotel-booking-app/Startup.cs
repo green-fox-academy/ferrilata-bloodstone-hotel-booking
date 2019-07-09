@@ -52,6 +52,7 @@ namespace HotelBookingApp
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             });
+            services.AddScoped<IReservationService, ReservationService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 

@@ -7,8 +7,8 @@ namespace HotelBookingApp.Models.HotelModels
         public int RoomId { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
-
         public IEnumerable<RoomBed> RoomBeds { get; set; }
         public Hotel Hotel { get; set; }
+        public int HotelId { get; set; }
     }
 }
