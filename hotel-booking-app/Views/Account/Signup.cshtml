@@ -1,37 +1,39 @@
-﻿@model SignupRequest
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model SignupRequest
 
 @{
-    ViewData["Title"] = "Signup";
+    ViewData["Title"] = @Localizer["Signup"];
 }
 
 <div class="mx-auto col-md-6 p-3">
     <div class="card">
         <div class="card-header">
-            <h2>Please sign up</h2>
+            <h2>@Localizer["Signup"]</h2>
         </div>
         <div class="card-body">
             <form asp-controller="User" asp-action="Signup" method="post">
                 <div class="form-group">
-                    <label asp-for="Email"></label>
+                    <label asp-for="Email">@Localizer["Email"]</label>
                     <input asp-for="Email" class="form-control" placeholder="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Password"></label>
+                    <label asp-for="Password">@Localizer["Password"]</label>
                     <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="VerifyPassword"></label>
+                    <label asp-for="VerifyPassword">@Localizer["Verify Password"]</label>
                     <input asp-for="VerifyPassword" type="password" class="form-control" placeholder="VerifyPassword" />
                     <span asp-validation-for="VerifyPassword" class="text-danger"></span>
                 </div>
                 <div class="custom-control custom-checkbox">
                     <input class="custom-control-input" type="checkbox" asp-for="IsManager">
-                    <label class="custom-control-label" asp-for="IsManager"></label>
+                    <label class="custom-control-label" asp-for="IsManager">@Localizer["Hotel Manager"]</label>
                 </div>
                 <div class="form-group mt-2">
-                    <button type="submit" class="btn btn-primary">Sign up</button>
+                    <button type="submit" class="btn btn-primary">@Localizer["Signup"]</button>
                 </div>
                 @foreach (var error in Model.ErrorMessages)
                 {
