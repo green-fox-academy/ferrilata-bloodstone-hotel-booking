@@ -3,7 +3,6 @@ using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,10 +12,14 @@ namespace HotelBookingApp.Services
     public class HotelService : IHotelService
     {
         private readonly ApplicationContext applicationContext;
+        private readonly IImageService imageService;
+        private readonly IThumbnailService thumbnailService;
 
-        public HotelService(ApplicationContext applicationContext)
+        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService)
         {
             this.applicationContext = applicationContext;
+            this.imageService = imageService;
+            this.thumbnailService = thumbnailService;
         }
 
         public async Task<Hotel> Add(Hotel hotel)
@@ -26,13 +29,15 @@ namespace HotelBookingApp.Services
             return hotel;
         }
 
-        public async Task Delete(long id)
+        public async Task Delete(int id)
         {
             var hotel = applicationContext.Hotels
                 .SingleOrDefault(h => h.HotelId == id)
                 ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
             applicationContext.Hotels.Remove(hotel);
             await applicationContext.SaveChangesAsync();
+            await thumbnailService.DeleteAsync(id);
+            await imageService.DeleteAllFileAsync(id);
         }
 
         public async Task<IEnumerable<Hotel>> FindAll()
@@ -52,6 +57,9 @@ namespace HotelBookingApp.Services
             var hotel = await applicationContext.Hotels
                 .Include(h => h.Location)
                 .Include(h => h.PropertyType)
+                .Include(h => h.Rooms)
+                    .ThenInclude(r => r.RoomBeds)
+                        .ThenInclude(b => b.Bed)
                 .SingleOrDefaultAsync(h => h.HotelId == id)
                 ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
             return hotel;
@@ -80,6 +88,14 @@ namespace HotelBookingApp.Services
             applicationContext.Update(hotel);
             await applicationContext.SaveChangesAsync();
             return hotel;
+        }
+
+        public async Task<Room> AddRoom(int hotelId, Room room)
+        {
+            room.HotelId = hotelId;
+            await applicationContext.AddAsync(room);
+            await applicationContext.SaveChangesAsync();
+            return room;
         }
     }
 }

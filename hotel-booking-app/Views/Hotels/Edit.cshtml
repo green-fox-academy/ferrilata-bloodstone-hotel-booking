@@ -2,24 +2,27 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<div class="d-inline-flex">
+    <h2>Edit Hotel</h2>
+    <form asp-action="Delete" method="post">
+        <button class="btn btn-danger mx-3" type="submit">Delete</button>
+    </form>
+</div>
 
-<h2>Add a Hotel</h2>
-
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="@Model.Hotel.Name"></label>
         <input asp-for="@Model.Hotel.Name" class="form-control" />
         <span asp-validation-for="@Model.Hotel.Name" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label for="imageList">Upload images</label>
+        <input type="file" name="imageList" class="form-control" multiple />
+    </div>
+    <div class="form-group">
         <label asp-for="@Model.Hotel.Description"></label>
         <input asp-for="@Model.Hotel.Description" class="form-control" />
         <span asp-validation-for="@Model.Hotel.Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Hotel.StarRating"></label>
-        <input asp-for="@Model.Hotel.StarRating" class="form-control" />
-        <span asp-validation-for="@Model.Hotel.StarRating" class="text-danger"></span>
     </div>
     <div class="row">
         <input type="hidden" asp-for="@Model.Hotel.Location.LocationId" />
@@ -53,10 +56,20 @@
         </div>
     </div>
     <div class="form-group">
+        <label asp-for="@Model.Hotel.StarRating"></label>
+        <input asp-for="@Model.Hotel.StarRating" class="form-control" />
+        <span asp-validation-for="@Model.Hotel.StarRating" class="text-danger"></span>
+    </div>
+    <div class="form-group">
         <label asp-for="@Model.Hotel.PropertyTypeId"></label>
         <select asp-for="@Model.Hotel.PropertyTypeId" asp-items="@Model.PropertyTypes" class="form-control"></select>
         <span asp-validation-for="@Model.Hotel.PropertyTypeId" class="text-danger"></span>
     </div>
+    <input type="hidden" asp-for="@Model.Hotel.PropertyType.PropertyTypeId" />
     <button type="submit" class="btn btn-primary">Save</button>
     <a class="btn btn-danger" asp-action="Hotel" asp-route-id="@Model.Hotel.HotelId" role="button">Cancel</a>
+    <input type="hidden" asp-for="@Model.Hotel.Thumbnail" />
+    <input type="hidden" asp-for="@Model.Hotel.ThumbnailUrl" />
 </form>
+
+
