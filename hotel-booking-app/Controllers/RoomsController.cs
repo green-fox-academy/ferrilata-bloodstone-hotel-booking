@@ -60,5 +60,12 @@ namespace HotelBookingApp.Controllers
                 Reservation = await reservationService.FindById(reservationId)
             });
         }
+
+        [HttpPost("{roomId}/reservation/confirmation/{reservationId}")]
+        public async Task<IActionResult> ConfirmReservation(int hotelId, int reservationId)
+        {
+            await reservationService.Confirm(reservationId);
+            return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
+        }
     }
 }

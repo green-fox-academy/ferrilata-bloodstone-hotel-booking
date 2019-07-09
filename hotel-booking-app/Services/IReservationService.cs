@@ -6,6 +6,7 @@ namespace HotelBookingApp.Services
     public interface IReservationService
     {
         Task<Reservation> AddAsync(Reservation reservation);
+        Task<Reservation> Confirm(int id);
         Task<Reservation> FindById(int id);
     }
 }

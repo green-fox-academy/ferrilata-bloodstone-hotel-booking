@@ -23,6 +23,15 @@ namespace HotelBookingApp.Services
             return reservation;
         }
 
+        public async Task<Reservation> Confirm(int id)
+        {
+            var reservation = await FindById(id);
+            reservation.IsConfirmed = true;
+            context.Update(reservation);
+            await context.SaveChangesAsync();
+            return reservation;
+        }
+
         public async Task<Reservation> FindById(int id)
         {
             return await context.Reservations.FindAsync(id);
