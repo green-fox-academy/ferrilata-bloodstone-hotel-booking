@@ -3,6 +3,7 @@ using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,12 +15,14 @@ namespace HotelBookingApp.Services
         private readonly ApplicationContext applicationContext;
         private readonly IImageService imageService;
         private readonly IThumbnailService thumbnailService;
+        private readonly IStringLocalizer<HotelService> localizer;
 
-        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService)
+        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer)
         {
             this.applicationContext = applicationContext;
             this.imageService = imageService;
             this.thumbnailService = thumbnailService;
+            this.localizer = localizer
         }
 
         public async Task<Hotel> Add(Hotel hotel)
@@ -33,7 +36,7 @@ namespace HotelBookingApp.Services
         {
             var hotel = applicationContext.Hotels
                 .SingleOrDefault(h => h.HotelId == id)
-                ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
+                ?? throw new ItemNotFoundException(localizer["Hotel with id: {0} is not found.", id]);
             applicationContext.Hotels.Remove(hotel);
             await applicationContext.SaveChangesAsync();
             await thumbnailService.DeleteAsync(id);
@@ -61,7 +64,7 @@ namespace HotelBookingApp.Services
                     .ThenInclude(r => r.RoomBeds)
                         .ThenInclude(b => b.Bed)
                 .SingleOrDefaultAsync(h => h.HotelId == id)
-                ?? throw new ItemNotFoundException($"Hotel with id: {id} is not found.");
+                ?? throw new ItemNotFoundException(localizer["Hotel with id: {0} is not found.", id]);
             return hotel;
         }
 
@@ -82,7 +85,7 @@ namespace HotelBookingApp.Services
         {
             var propertyType = applicationContext.PropertyTypes
                 .Find(hotel.PropertyTypeId)
-                ?? throw new ItemNotFoundException($"Property with id {hotel.PropertyTypeId} is not foud!");
+                ?? throw new ItemNotFoundException(localizer["Property with id {0} is not foud!", hotel.PropertyTypeId]);
 
             hotel.PropertyType = propertyType;
             applicationContext.Update(hotel);
