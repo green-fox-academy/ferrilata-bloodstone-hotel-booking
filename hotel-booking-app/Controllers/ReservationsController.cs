@@ -21,10 +21,10 @@ namespace HotelBookingApp.Controllers
 
         [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("reservations")]
-        public async Task<IActionResult> Index(int hotelId)
+        public async Task<IActionResult> Index(ReservationViewModel model)
         {
-            var reservations = await reservationService.FindAllByHotelIdAsync(hotelId);
-            return View(reservations);
+            model.Reservations = await reservationService.FindAllByHotelIdAsync(model.HotelId);
+            return View(model);
         }
 
         [Authorize(Roles = "User, Admin")]

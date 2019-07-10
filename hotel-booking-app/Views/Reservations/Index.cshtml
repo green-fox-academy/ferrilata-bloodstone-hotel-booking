@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Reservation>
+﻿@model ReservationViewModel
 @{
     ViewData["Title"] = "Reservations";
 }
@@ -17,25 +17,25 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var reservation in Model)
+        @foreach (var r in Model.Reservations)
         {
             <tr>
-                <td>@reservation.ReservationId</td>
-                <td>@reservation.GuestNames (@reservation.GuestNumber)</td>
-                <td>@reservation.Room.Name</td>
-                <td>@reservation.IsConfirmed</td>
-                <td>@reservation.ApplicationUser.Email</td>
+                <td>@r.ReservationId</td>
+                <td>@r.GuestNames (@r.GuestNumber)</td>
+                <td>@r.Room.Name</td>
+                <td>@r.IsConfirmed</td>
+                <td>@r.ApplicationUser.Email</td>
                 <td>
-                    @String.Format("{0:yyyy/MM/dd}", reservation.FromDate)
+                    @String.Format("{0:yyyy/MM/dd}", r.FromDate)
                     -
-                    @String.Format("{0:yyyy/MM/dd}", reservation.ToDate)
+                    @String.Format("{0:yyyy/MM/dd}", r.ToDate)
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-@if (!Model.Any())
+@if (!Model.Reservations.Any())
 {
     <div class="text-center">
         <p>No results found!</p>
