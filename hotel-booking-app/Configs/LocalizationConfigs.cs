@@ -10,6 +10,8 @@ namespace HotelBookingApp.Configs
     public static class LocalizationConfigs
     {
         private static string DEFAULT_LANGUAGE = "en-US";
+        private static string RESOURCE_FOLDER = "Resources";
+
         private static List<CultureInfo> supportedCultures = new List<CultureInfo>
         {
             new CultureInfo(DEFAULT_LANGUAGE),
@@ -18,7 +20,7 @@ namespace HotelBookingApp.Configs
 
         public static IServiceCollection SetLocalizationSource(this IServiceCollection services)
         {
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddLocalization(options => options.ResourcesPath = RESOURCE_FOLDER);
             return services;
         }
 
