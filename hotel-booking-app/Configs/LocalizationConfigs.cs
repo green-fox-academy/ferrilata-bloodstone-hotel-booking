@@ -11,16 +11,17 @@ namespace HotelBookingApp.Configs
     {
         private static string DEFAULT_LANGUAGE = "en-US";
         private static List<CultureInfo> supportedCultures = new List<CultureInfo>
-                    {
-                        new CultureInfo(DEFAULT_LANGUAGE),
-                        new CultureInfo("hu-HU")
-                    };
+        {
+            new CultureInfo(DEFAULT_LANGUAGE),
+            new CultureInfo("hu-HU")
+        };
 
-    public static IServiceCollection SetLocalizationSource(this IServiceCollection services)
+        public static IServiceCollection SetLocalizationSource(this IServiceCollection services)
         {
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             return services;
         }
+
         public static IServiceCollection SetLocalization(this IServiceCollection services)
         {
             services.Configure<RequestLocalizationOptions>(options =>
