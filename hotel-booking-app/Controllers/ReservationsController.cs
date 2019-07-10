@@ -29,23 +29,18 @@ namespace HotelBookingApp.Controllers
 
         [Authorize(Roles = "User, Admin")]
         [HttpGet("rooms/{roomId}/reservations/new")]
-        public IActionResult Add(int hotelId, int roomId)
+        public IActionResult Add(ReservationViewModel model)
         {
-            return View(new ReservationViewModel
-            {
-                HotelId = hotelId,
-                RoomId = roomId,
-                Reservation = new Reservation()
-            });
+            return View(model);
         }
 
         [Authorize(Roles = "User, Admin")]
         [HttpPost("rooms/{roomId}/reservations/new")]
-        public async Task<IActionResult> Add(ReservationViewModel model)
+        public async Task<IActionResult> Add(Reservation reservation)
         {
-            model.Reservation.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var reservation = await reservationService.AddAsync(model.Reservation);
-            return RedirectToAction(nameof(Confirm), new { reservationId = reservation.ReservationId });
+            reservation.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var newReservation = await reservationService.AddAsync(reservation);
+            return RedirectToAction(nameof(Confirm), new { reservationId = newReservation.ReservationId });
         }
 
         [Authorize(Roles = "User, Admin")]
@@ -73,7 +68,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
-        [HttpPost("reservation/delete/{reservationId}")]
+        [HttpPost("reservations/delete/{reservationId}")]
         public async Task<IActionResult> Delete(int hotelId, int reservationId)
         {
             await reservationService.DeleteAsync(reservationId);
