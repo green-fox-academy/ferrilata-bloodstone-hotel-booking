@@ -24,13 +24,13 @@
     <Content Update="Views\Hotels\Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Rooms\GetReservations.cshtml">
+    <Content Update="Views\Reservations\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Rooms\ConfirmReservation.cshtml">
+    <Content Update="Views\Reservations\Confirm.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Rooms\NewReservation.cshtml">
+    <Content Update="Views\Reservations\Add.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\_LoginPartial.cshtml">

@@ -15,10 +15,10 @@
     @String.Format("{0:yyyy/MM/dd}", Model.Reservation.ToDate)
 </div>
 
-<form asp-controller="Rooms" asp-action="ConfirmReservation" method="post">
+<form asp-controller="Reservations" asp-action="Confirm" method="post">
     <button type="submit" class="btn btn-primary">Save</button>
     <a class="btn btn-danger" role="button"
-       asp-controller="Rooms" asp-action="EditReservation">Go back</a>
+       asp-controller="Reservations" asp-action="Edit">Go back</a>
 </form>
 
 

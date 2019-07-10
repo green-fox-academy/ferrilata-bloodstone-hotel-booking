@@ -5,7 +5,7 @@
 
 <h2>New Reservation</h2>
 
-<form asp-controller="Rooms" asp-action="NewReservation" method="post">
+<form asp-controller="Reservations" asp-action="Add" method="post">
     <div class="form-group">
         <label asp-for="@Model.Reservation.GuestNumber"></label>
         <input asp-for="@Model.Reservation.GuestNumber" class="form-control" />
