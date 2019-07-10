@@ -92,5 +92,23 @@ namespace HotelBookingApp.Controllers
             }
             return Json(true);
         }
+
+        [HttpGet("verifyGuestNames")]
+        public IActionResult VerifyGuestNames(Reservation reservation)
+        {
+            return Json(true);
+        }
+
+        [HttpGet("verifyFromDate")]
+        public IActionResult VerifyFromDate(Reservation reservation)
+        {
+            return Json(true);
+        }
+
+        [HttpGet("verifyToDate")]
+        public IActionResult VerifyToDate(Reservation reservation)
+        {
+            return Json(true);
+        }
     }
 }
