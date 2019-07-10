@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace HotelBookingApp.Controllers
 {
     [Authorize(Roles = "Admin, HotelManager")]
-    [Route("hotels/{hotelId}")]
+    [Route("hotels/{hotelId}/[controller]")]
     public class RoomsController : Controller
     {
         private readonly IHotelService hotelService;
@@ -19,13 +19,13 @@ namespace HotelBookingApp.Controllers
             this.hotelService = hotelService;
         }
 
-        [HttpGet("rooms/new")]
+        [HttpGet("new")]
         public IActionResult Add()
         {
             return View(new Room());
         }
 
-        [HttpPost("rooms/new")]
+        [HttpPost("new")]
         public async Task<IActionResult> Add(int hotelId, Room room)
         {
             await hotelService.AddRoom(hotelId, room);
