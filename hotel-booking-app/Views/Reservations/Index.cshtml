@@ -1,0 +1,45 @@
+﻿@model ReservationViewModel
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<h2>Reservations</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>guests</th>
+            <th>room</th>
+            <th>confirmed</th>
+            <th>email</th>
+            <th>date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model.Reservations)
+        {
+            <tr>
+                <td>@r.ReservationId</td>
+                <td>@r.GuestNames (@r.GuestNumber)</td>
+                <td>@r.Room.Name</td>
+                <td>@r.IsConfirmed</td>
+                <td>@r.ApplicationUser.Email</td>
+                <td>
+                    @String.Format("{0:yyyy/MM/dd}", r.FromDate)
+                    -
+                    @String.Format("{0:yyyy/MM/dd}", r.ToDate)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Reservations.Any())
+{
+    <div class="text-center">
+        <p>No results found!</p>
+    </div>
+}
+
+<a class="btn btn-danger" href='javascript:history.go(-1)' role="button">Go back</a>
