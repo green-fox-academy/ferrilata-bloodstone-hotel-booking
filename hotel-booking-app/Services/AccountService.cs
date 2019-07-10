@@ -1,5 +1,6 @@
 ﻿using HotelBookingApp.Models.Account;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,13 @@ namespace HotelBookingApp.Services
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IStringLocalizer<AccountService> localizer;
 
-        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStringLocalizer<AccountService> localizer)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.localizer = localizer;
         }
 
         public async Task<List<string>> SignInAsync(LoginRequest request)
@@ -24,19 +27,19 @@ namespace HotelBookingApp.Services
             var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, lockoutOnFailure: true);
             if (result.IsLockedOut)
             {
-                errors.Add("User account locked out.");
+                errors.Add(localizer["User account locked out."]);
             }
             if (result.IsNotAllowed)
             {
-                errors.Add("User is not allowed to login.");
+                errors.Add(localizer["User is not allowed to login."]);
             }
             if (result.RequiresTwoFactor)
             {
-                errors.Add("Two factor authentication is required.");
+                errors.Add(localizer["Two factor authentication is required."]);
             }
             if (!result.Succeeded)
             {
-                errors.Add("Invalid login attempt");
+                errors.Add(localizer["Invalid login attempt"]);
             }
             return errors;
         }

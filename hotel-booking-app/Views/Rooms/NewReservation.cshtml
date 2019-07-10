@@ -1,0 +1,26 @@
+﻿@inject IViewLocalizer Localizer
+@model ReservationViewModel
+@{
+    ViewData["Title"] = @Localizer["Reservation"];
+}
+
+<h2>@Localizer["New Reservation"]</h2>
+
+<form asp-controller="Rooms" asp-action="NewReservation" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Reservation.GuestNumber">@Localizer["Number of guests"]</label>
+        <input asp-for="@Model.Reservation.GuestNumber" class="form-control" />
+        <span asp-validation-for="@Model.Reservation.GuestNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Reservation.GuestNames">@Localizer["Full name of guests"]</label>
+        <input asp-for="@Model.Reservation.GuestNames" class="form-control" />
+        <span asp-validation-for="@Model.Reservation.GuestNames" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+    <a class="btn btn-danger" role="button"
+       asp-controller="Hotels" asp-action="Hotel"
+       asp-route-id="@Model.HotelId">@Localizer["Cancel"]</a>
+</form>
+
+
