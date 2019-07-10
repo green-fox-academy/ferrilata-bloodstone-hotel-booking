@@ -1,6 +1,6 @@
 ﻿using HotelBookingApp.Models.Account;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace HotelBookingApp.Models.HotelModels
 {
@@ -11,10 +11,10 @@ namespace HotelBookingApp.Models.HotelModels
         public string GuestNames { get; set; }
         public bool IsConfirmed { get; set; }
 
-        [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
         public DateTime FromDate { get; set; } = DateTime.Now;
 
-        [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
         public DateTime ToDate { get; set; } = DateTime.Now;
         public Room Room { get; set; }
         public int RoomId { get; set; }
