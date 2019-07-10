@@ -10,5 +10,6 @@ namespace HotelBookingApp.Services
         Task<Reservation> ConfirmAsync(int id);
         Task<Reservation> FindByIdAsync(int id);
         Task<IEnumerable<Reservation>> FindAllByHotelIdAsync(int hotelId);
+        Task DeleteAsync(int id);
     }
 }
