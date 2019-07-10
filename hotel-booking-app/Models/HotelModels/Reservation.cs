@@ -10,6 +10,7 @@ namespace HotelBookingApp.Models.HotelModels
         public int ReservationId { get; set; }
 
         [Required]
+        [Range(1, 30)]
         [Remote(action: "VerifyGuestNumber", controller: "Reservations", AdditionalFields = nameof(RoomId))]
         public int GuestNumber { get; set; } = 2;
 

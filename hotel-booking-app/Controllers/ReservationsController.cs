@@ -86,16 +86,16 @@ namespace HotelBookingApp.Controllers
         [HttpGet("verifyGuestNumber")]
         public IActionResult VerifyGuestNumber(Reservation reservation)
         {
-            if (reservation.GuestNumber < 1)
-            {
-                return Json("Guest number should be at least one.");
-            }
             return Json(true);
         }
 
         [HttpGet("verifyGuestNames")]
         public IActionResult VerifyGuestNames(Reservation reservation)
         {
+            if (reservation.GuestNames.Split(",").Length != reservation.GuestNumber)
+            {
+                return Json("Number of guest names does not match the number of guests.");
+            }
             return Json(true);
         }
 
@@ -108,6 +108,10 @@ namespace HotelBookingApp.Controllers
         [HttpGet("verifyToDate")]
         public IActionResult VerifyToDate(Reservation reservation)
         {
+            if (reservation.FromDate >= reservation.ToDate)
+            {
+                return Json("To date must be later.");
+            }
             return Json(true);
         }
     }
