@@ -1,0 +1,36 @@
+﻿@model ReservationViewModel
+@{
+    ViewData["Title"] = "Reservation";
+}
+
+<h2>New Reservation</h2>
+
+<form asp-controller="Reservations" asp-action="Add" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Reservation.GuestNumber"></label>
+        <input asp-for="@Model.Reservation.GuestNumber" class="form-control" />
+        <span asp-validation-for="@Model.Reservation.GuestNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Reservation.GuestNames"></label>
+        <input asp-for="@Model.Reservation.GuestNames" class="form-control" />
+        <span asp-validation-for="@Model.Reservation.GuestNames" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Reservation.FromDate"></label>
+        <input asp-for="@Model.Reservation.FromDate" type="date" class="form-control" />
+        <span asp-validation-for="@Model.Reservation.FromDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Reservation.ToDate"></label>
+        <input asp-for="@Model.Reservation.ToDate" type="date" class="form-control" />
+        <span asp-validation-for="@Model.Reservation.ToDate" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="@Model.Reservation.ApplicationUserId" />
+    <input type="hidden" asp-for="@Model.Reservation.ReservationId" />
+    <input type="hidden" asp-for="@Model.Reservation.RoomId" value="@Model.RoomId" />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-danger" role="button"
+       asp-controller="Hotels" asp-action="Hotel"
+       asp-route-id="@Model.HotelId">Cancel</a>
+</form>

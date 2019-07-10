@@ -1,0 +1,24 @@
+﻿@model ReservationViewModel
+@{
+    ViewData["Title"] = "Confirmation";
+}
+
+<h2>Confirm Reservation</h2>
+
+<div>Room: @Model.Reservation.Room.Name</div>
+<div>Price: @Model.Reservation.Room.Price</div>
+<div>Guest number: @Model.Reservation.GuestNumber</div>
+<div>Names: @Model.Reservation.GuestNames</div>
+<div>
+    Date: @String.Format("{0:yyyy/MM/dd}", Model.Reservation.FromDate)
+    -
+    @String.Format("{0:yyyy/MM/dd}", Model.Reservation.ToDate)
+</div>
+
+<form asp-controller="Reservations" asp-action="Confirm" method="post">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-danger" role="button"
+       asp-controller="Reservations" asp-action="Edit">Go back</a>
+</form>
+
+
