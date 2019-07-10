@@ -1,6 +1,7 @@
 using HotelBookingApp.Configs;
 using HotelBookingApp.Data;
 using HotelBookingApp.Models.Account;
+using HotelBookingApp.Resources;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
+using System.Reflection;
 
 namespace HotelBookingApp
 {
@@ -26,7 +29,14 @@ namespace HotelBookingApp
             services.SetLocalizationSource();
             services.AddMvc()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                .AddDataAnnotationsLocalization();
+                .AddDataAnnotationsLocalization(o =>
+                {
+                    var type = typeof(SharedResources);
+                    var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
+                    var factory = services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
+                    var localizer = factory.Create("SharedResources", assemblyName.Name);
+                    o.DataAnnotationLocalizerProvider = (t, f) => localizer;
+                });
             services.AddCustomDatabase(Configuration);
             services.AddCustomIdentity();
             services.AddAutoMapper();
