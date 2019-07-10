@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -17,7 +16,7 @@
                 <a class="nav-link" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Settings">@Localizer["Settings"]</a>
+                <a class="nav-link" asp-controller="Settings" asp-action="Settings">@Localizer["Settings"]</a>
             </li>
             @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
             {
