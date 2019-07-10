@@ -81,5 +81,11 @@ namespace HotelBookingApp.Controllers
             await reservationService.DeleteAsync(reservationId);
             return RedirectToAction(nameof(Index), new { id = hotelId });
         }
+
+        [HttpGet("verifyGuestNumber")]
+        public IActionResult VerifyGuestNumber(int guestNumber)
+        {
+            return Json(true);
+        }
     }
 }
