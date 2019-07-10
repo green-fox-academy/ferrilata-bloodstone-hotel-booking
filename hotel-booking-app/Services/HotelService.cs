@@ -22,7 +22,7 @@ namespace HotelBookingApp.Services
             this.applicationContext = applicationContext;
             this.imageService = imageService;
             this.thumbnailService = thumbnailService;
-            this.localizer = localizer
+            this.localizer = localizer;
         }
 
         public async Task<Hotel> Add(Hotel hotel)
