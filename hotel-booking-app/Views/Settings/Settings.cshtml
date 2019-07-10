@@ -13,8 +13,7 @@
     var user = await UserManager.GetUserAsync(User);
 }
 
-    <h2>@Localizer["Settings"]</h2>
-<p>@User.Identity.Name</p>
+<h2>@Localizer["Settings"]</h2>
 
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
