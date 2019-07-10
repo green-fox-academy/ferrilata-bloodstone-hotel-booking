@@ -37,8 +37,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Resources\Views\Rooms\" />
-  </ItemGroup>
-
 </Project>
