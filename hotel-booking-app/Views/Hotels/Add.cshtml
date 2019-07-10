@@ -1,6 +1,4 @@
 ﻿@model HotelBookingApp.Pages.HotelViewModel
-@using HotelBookingApp.Services
-@inject IDateTimeService DateTimeService
 @inject IViewLocalizer Localizer
 
 @{
@@ -32,7 +30,7 @@
     <div class="form-group">
         <label asp-for="@Model.Hotel.TimeZoneId">@Localizer["Choose your time zone"]</label>
         <select asp-for="@Model.Hotel.TimeZoneId" class="form-control">
-            @foreach (var timeZone in DateTimeService.GetTimeZones())
+            @foreach (var timeZone in TimeZoneInfo.GetSystemTimeZones())
             {
                 <option value="@timeZone.BaseUtcOffset">@timeZone.DisplayName</option>
             }
