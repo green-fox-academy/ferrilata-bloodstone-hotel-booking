@@ -34,7 +34,6 @@ namespace HotelBookingApp
             services.AddScoped<IHotelService, HotelService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IThumbnailService, ThumbnailService>();
-            services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddScoped<IPropertyTypeService, PropertyTypeService>();
             services.SetLocalization();
         }
