@@ -80,8 +80,9 @@ namespace HotelBookingAppTests.Utils
                 new Model { Name = "Roza" },
                 new Model { Name = "Anna" },
             };
-            var mockSet = MockProvider.GetQueriable(dataList);
-            return mockSet.Object;
+            //var mockSet = MockProvider.GetQueriable(dataList);
+            IQueryable<Model> mockSet = null;
+            return mockSet;
         }
 
         public class Model
