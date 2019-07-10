@@ -9,7 +9,6 @@ namespace HotelBookingApp.Models.HotelModels
     {
         public int ReservationId { get; set; }
 
-        [Range(1, 20)]
         [Remote(action: "VerifyGuestNumber", controller: "Reservations")]
         public int GuestNumber { get; set; } = 2;
 

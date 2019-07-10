@@ -1,4 +1,5 @@
-﻿using HotelBookingApp.Pages;
+﻿using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -83,8 +84,12 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("verifyGuestNumber")]
-        public IActionResult VerifyGuestNumber(int guestNumber)
+        public IActionResult VerifyGuestNumber(Reservation reservation)
         {
+            if (reservation.GuestNumber < 1)
+            {
+                return Json("Guest number should be at least one.");
+            }
             return Json(true);
         }
     }
