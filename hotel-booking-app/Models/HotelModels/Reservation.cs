@@ -7,7 +7,12 @@ namespace HotelBookingApp.Models.HotelModels
     public class Reservation
     {
         public int ReservationId { get; set; }
+
+        [Range(1, 20)]
         public int GuestNumber { get; set; } = 2;
+
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
         public string GuestNames { get; set; }
         public bool IsConfirmed { get; set; }
 
