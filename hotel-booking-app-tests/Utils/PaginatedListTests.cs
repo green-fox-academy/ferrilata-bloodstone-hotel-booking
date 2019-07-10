@@ -63,7 +63,6 @@
 
 //            Assert.Equal(source.First(), paginatedList[0]);
 //        }
-
 //        private IQueryable<Model> InitSource()
 //        {
 //            var dataList = new List<Model> {
@@ -83,7 +82,6 @@
 //            var mockSet = MockProvider.GetQueriable(dataList);
 //            return mockSet.Object;
 //        }
-
 //        public class Model
 //        {
 //            public string Name { get; set; }

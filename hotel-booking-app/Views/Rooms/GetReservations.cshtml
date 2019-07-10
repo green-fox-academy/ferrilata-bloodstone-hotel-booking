@@ -1,0 +1,33 @@
+﻿@inject IViewLocalizer Localizer
+@model IEnumerable<Reservation>
+@{
+    ViewData["Title"] = @Localizer["Reservations"];
+}
+
+<h2>@Localizer["Reservations"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Localizer["Id"]</th>
+            <th>@Localizer["Guests"]</th>
+            <th>@Localizer["Room"]</th>
+            <th>@Localizer["Confirmed"]</th>
+            <th>@Localizer["Email"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.ReservationId</td>
+                <td>@r.GuestNames (@r.GuestNumber)</td>
+                <td>@r.Room.Name</td>
+                <td>@r.IsConfirmed</td>
+                <td>@r.ApplicationUser.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-danger" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@Model.FirstOrDefault().Room.HotelId" role="button">@Localizer["Go back"]</a>
