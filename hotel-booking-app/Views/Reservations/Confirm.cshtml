@@ -6,9 +6,10 @@
 <h2>Confirm Reservation</h2>
 
 <div>Room: @Model.Reservation.Room.Name</div>
-<div>Price: @Model.Reservation.Room.Price</div>
+<div>Room price: @Model.Reservation.Room.Price</div>
 <div>Guest number: @Model.Reservation.GuestNumber</div>
 <div>Names: @Model.Reservation.GuestNames</div>
+<div>Number of nights: @Model.Reservation.NumberOfNights</div>
 <div>
     Date: @String.Format("{0:yyyy/MM/dd}", Model.Reservation.FromDate)
     -

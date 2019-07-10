@@ -31,5 +31,7 @@ namespace HotelBookingApp.Models.HotelModels
         public int RoomId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
+
+        public int NumberOfNights { get => (ToDate - FromDate).Days; }
     }
 }
