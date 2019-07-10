@@ -2,6 +2,7 @@
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,10 +12,12 @@ namespace HotelBookingApp.Services
     public class ReservationService : IReservationService
     {
         private readonly ApplicationContext context;
+        private readonly IStringLocalizer<ReservationService> localizer;
 
-        public ReservationService(ApplicationContext context)
+        public ReservationService(ApplicationContext context, IStringLocalizer<ReservationService> localizer)
         {
             this.context = context;
+            this.localizer = localizer;
         }
 
         public async Task<Reservation> AddAsync(Reservation reservation)
@@ -44,7 +47,7 @@ namespace HotelBookingApp.Services
             return await context.Reservations
                 .Include(r => r.Room)
                 .FirstOrDefaultAsync(r => r.ReservationId == id)
-                ?? throw new ItemNotFoundException($"Reservation with id {id} is not found!");
+                ?? throw new ItemNotFoundException(localizer["Reservation with id {0} is not found!", id]);
         }
 
         public async Task<IEnumerable<Reservation>> FindAllByHotelIdAsync(int hotelId)

@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HotelManager" xml:space="preserve">
-    <value>Hotel menedzser</value>
-  </data>
-  <data name="Remember Me" xml:space="preserve">
-    <value>Emlékezz rám</value>
-  </data>
-  <data name="Sign up as a Hotel Manager" xml:space="preserve">
-    <value>Bejelentkezés hotel menedzserként</value>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>Felhasználó</value>
-  </data>
-  <data name="Your password must contain at least one upper case letter, one number and no special characters." xml:space="preserve">
-    <value>A jelszónak tartalmaznia kell legalább egy nagy betűt, egy számot és nem tartalmazhat speciális karaktereket.</value>
+  <data name="Reservation with id {0} is not found!" xml:space="preserve">
+    <value>Ezzel az id-val {0} nem található foglalás!</value>
   </data>
 </root>

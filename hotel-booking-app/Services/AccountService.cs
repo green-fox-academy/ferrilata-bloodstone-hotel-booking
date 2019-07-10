@@ -1,7 +1,6 @@
 ﻿using HotelBookingApp.Models.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
