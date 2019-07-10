@@ -10,13 +10,6 @@ namespace HotelBookingApp.Controllers
     [Authorize]
     public class SettingsController : Controller
     {
-        private readonly IDateTimeService dateTimeService;
-
-        public SettingsController(IDateTimeService dateTimeService)
-        {
-            this.dateTimeService = dateTimeService;
-        }
-
         [HttpGet("Settings")]
         public IActionResult Settings()
         {
