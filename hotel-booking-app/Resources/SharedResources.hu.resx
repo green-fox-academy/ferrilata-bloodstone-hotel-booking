@@ -126,6 +126,12 @@
   <data name="Sign up as a Hotel Manager" xml:space="preserve">
     <value>Bejelentkezés hotel menedzserként</value>
   </data>
+  <data name="The field Password must be a string with a minimum length of '{2}' and a maximum length of '{1}'." xml:space="preserve">
+    <value>A jelszónak minimum '{2}' és maximum '{1}' karakterből kell állnia.</value>
+  </data>
+  <data name="The two password do not match." xml:space="preserve">
+    <value>A két jelszó nem egyezik.</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Felhasználó</value>
   </data>
