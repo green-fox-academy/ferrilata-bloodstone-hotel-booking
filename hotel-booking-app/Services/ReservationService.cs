@@ -51,7 +51,7 @@ namespace HotelBookingApp.Services
         {
             return await context.Reservations
                 .Include(r => r.Room)
-                .Include(r => r.AppicationUser)
+                .Include(r => r.ApplicationUser)
                 .Where(r => r.Room.HotelId == hotelId)
                 .ToListAsync();
         }

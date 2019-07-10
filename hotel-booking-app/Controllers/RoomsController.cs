@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace HotelBookingApp.Controllers
 {
     [Authorize]
-    [Route("hotel/{hotelId}")]
+    [Route("hotels/{hotelId}")]
     public class RoomsController : Controller
     {
         private readonly IReservationService reservationService;

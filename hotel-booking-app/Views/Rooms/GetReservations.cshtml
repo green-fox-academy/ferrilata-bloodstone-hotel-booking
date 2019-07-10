@@ -14,22 +14,21 @@
             <th>confirmed</th>
             <th>email</th>
             <th>date</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var r in Model)
+        @foreach (var reservation in Model)
         {
             <tr>
-                <td>@r.ReservationId</td>
-                <td>@r.GuestNames (@r.GuestNumber)</td>
-                <td>@r.Room.Name</td>
-                <td>@r.IsConfirmed</td>
-                <td>@r.AppicationUser.Email</td>
+                <td>@reservation.ReservationId</td>
+                <td>@reservation.GuestNames (@reservation.GuestNumber)</td>
+                <td>@reservation.Room.Name</td>
+                <td>@reservation.IsConfirmed</td>
+                <td>@reservation.ApplicationUser.Email</td>
                 <td>
-                    @String.Format("{0:yyyy/MM/dd}", r.FromDate)
+                    @String.Format("{0:yyyy/MM/dd}", reservation.FromDate)
                     -
-                    @String.Format("{0:yyyy/MM/dd}", r.ToDate)
+                    @String.Format("{0:yyyy/MM/dd}", reservation.ToDate)
                 </td>
             </tr>
         }

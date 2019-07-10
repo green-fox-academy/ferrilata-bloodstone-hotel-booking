@@ -28,7 +28,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
-        [HttpGet("hotel/add")]
+        [HttpGet("hotels/add")]
         public async Task<IActionResult> Add()
         {
             return View(new HotelViewModel
@@ -38,7 +38,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
-        [HttpPost("hotel/add")]
+        [HttpPost("hotels/add")]
         public async Task<IActionResult> Add(HotelViewModel model, List<IFormFile> imageList)
         {
             var hotel = await hotelService.Add(model.Hotel);
@@ -46,7 +46,7 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(Hotel), new { id = hotel.HotelId });
         }
 
-        [HttpGet("/hotel/{id}")]
+        [HttpGet("hotels/{id}")]
         public async Task<IActionResult> Hotel(int id)
         {
             try
@@ -67,7 +67,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
-        [HttpGet("/hotel/edit/{id}")]
+        [HttpGet("hotels/edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
             return View(new HotelViewModel
@@ -79,7 +79,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
-        [HttpPost("/hotel/edit/{id}")]
+        [HttpPost("hotels/edit/{id}")]
         public async Task<IActionResult> Edit(int id, Hotel hotel, List<IFormFile> imageList)
         {
             hotel.HotelId = id;
@@ -89,7 +89,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
-        [HttpPost("/hotel/{id}/images/delete")]
+        [HttpPost("hotels/{id}/images/delete")]
         public async Task<IActionResult> DeleteImage(int id, string path)
         {
             await imageService.DeleteFileAsync(path);
@@ -97,7 +97,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
-        [HttpPost("/hotel/{id}/thumbnail/update")]
+        [HttpPost("hotels/{id}/thumbnail/update")]
         public async Task<IActionResult> UpdateThumbnail(int id, string path)
         {
             await thumbnailService.UpdateThumbnailFromUrl(id, path);
@@ -105,7 +105,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
-        [HttpPost("/hotel/delete/{id}")]
+        [HttpPost("hotels/delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await hotelService.Delete(id);
