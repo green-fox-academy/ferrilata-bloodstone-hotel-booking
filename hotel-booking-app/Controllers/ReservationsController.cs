@@ -13,10 +13,12 @@ namespace HotelBookingApp.Controllers
     public class ReservationsController : Controller
     {
         private readonly IReservationService reservationService;
+        private readonly IRoomService roomService;
 
-        public ReservationsController(IReservationService reservationService)
+        public ReservationsController(IReservationService reservationService, IRoomService roomService)
         {
             this.reservationService = reservationService;
+            this.roomService = roomService;
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
@@ -84,9 +86,9 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("verifyGuestNumber")]
-        public IActionResult VerifyGuestNumber(Reservation reservation)
+        public async Task<IActionResult> VerifyGuestNumber(Reservation reservation)
         {
-            var room = new Room(); // var room = roomService.FindById(reservation.RoomId);
+            var room = await roomService.FindByIdAsync(reservation.RoomId);
             if (room.Capacity < reservation.GuestNumber)
             {
                 return Json($"This room only has capacity for {room.Capacity} person(s).");
