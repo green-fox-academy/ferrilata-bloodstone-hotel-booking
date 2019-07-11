@@ -49,7 +49,7 @@
                 @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
                 {
                     <form asp-action="DeleteImage" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                        <button class="btn btn-link" type="submit" name="path" value="@image.Path" style="position: absolute; top: -3px; right: -6px;"><i title=@Localizer["Delete Image"] class="far fa-times-circle fa-red-river text-danger"></i></button>
+                        <button class="btn btn-link" type="submit" name="path" value="@image.Path" style="position: absolute; top: -6px; right: -14px;"><i title=@Localizer["Delete Image"] class="far fa-times-circle fa-red-river text-danger fa-2x"></i></button>
                     </form>
                     <form asp-action="UpdateThumbnail" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
                         <button class="btn btn-link" type="submit" name="path" value="@image.Path">@Localizer["Set as thumbnail"]<i class="fas fa-level-up-alt mx-2"></i></button>
