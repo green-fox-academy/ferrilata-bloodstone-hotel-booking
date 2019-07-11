@@ -79,8 +79,8 @@
 //                new Model { Name = "Roza" },
 //                new Model { Name = "Anna" },
 //            };
-//            //var mockSet = MockProvider.GetQueriable(dataList);
-//            //return mockSet.Object;
+//            var mockSet = MockProvider.GetQueriable(dataList);
+//            return mockSet.Object;
 //        }
 //        public class Model
 //        {

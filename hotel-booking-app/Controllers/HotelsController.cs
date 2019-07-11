@@ -41,9 +41,14 @@ namespace HotelBookingApp.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add(HotelViewModel model, List<IFormFile> imageList)
         {
-            var hotel = await hotelService.Add(model.Hotel);
-            await imageService.UploadImagesAsync(imageList, hotel.HotelId);
-            return RedirectToAction(nameof(Hotel), new { id = hotel.HotelId });
+            if (!ModelState.IsValid)
+            {
+                model.PropertyTypes = await propertyTypeService.FindAll();
+                return View(model);
+            }
+                var hotel = await hotelService.Add(model.Hotel);
+                await imageService.UploadImagesAsync(imageList, hotel.HotelId);
+                return RedirectToAction(nameof(Hotel), new { id = hotel.HotelId });
         }
 
         [HttpGet("{id}")]
@@ -85,7 +90,7 @@ namespace HotelBookingApp.Controllers
             hotel.HotelId = id;
             await hotelService.Update(hotel);
             await imageService.UploadImagesAsync(imageList, id);
-            return RedirectToAction(nameof(Hotel), new { id } );
+            return RedirectToAction(nameof(Hotel), new { id });
         }
 
         [Authorize(Roles = "Admin, HotelManager")]

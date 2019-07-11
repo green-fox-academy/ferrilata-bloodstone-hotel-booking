@@ -1,19 +1,20 @@
 ﻿@model ReservationViewModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Reservations";
+    ViewData["Title"] = @Localizer["Reservations"];
 }
 
-<h2>Reservations</h2>
+    <h2>@Localizer["Reservations"]</h2>
 
 <table class="table">
     <thead>
         <tr>
-            <th>id</th>
-            <th>guests</th>
-            <th>room</th>
-            <th>confirmed</th>
-            <th>email</th>
-            <th>date</th>
+            <th>@Localizer["Id"]</th>
+            <th>@Localizer["Guests"]</th>
+            <th>@Localizer["Room"]</th>
+            <th>@Localizer["Confirmed"]</th>
+            <th>@Localizer["Email"]</th>
+            <th>@Localizer["Date"]</th>
         </tr>
     </thead>
     <tbody>
@@ -38,8 +39,8 @@
 @if (!Model.Reservations.Any())
 {
     <div class="text-center">
-        <p>No results found!</p>
+        <p>@Localizer["No results found!"]</p>
     </div>
 }
 
-<a class="btn btn-danger" href='javascript:history.go(-1)' role="button">Go back</a>
+<a class="btn btn-danger" href='javascript:history.go(-1)' role="button">@Localizer["Go back"]</a>

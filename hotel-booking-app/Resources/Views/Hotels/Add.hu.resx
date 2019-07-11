@@ -159,4 +159,7 @@
   <data name="Star rating" xml:space="preserve">
     <value>Csillagok száma</value>
   </data>
+  <data name="Choose your time zone" xml:space="preserve">
+    <value>Időzóna</value>
+  </data>
 </root>

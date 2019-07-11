@@ -117,16 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Confirm Reservation" xml:space="preserve">
-    <value>Foglalás megerősítése</value>
+  <data name="HotelManager" xml:space="preserve">
+    <value>Hotel menedzser</value>
   </data>
-  <data name="Confirmation" xml:space="preserve">
-    <value>Megerősítés</value>
+  <data name="Remember Me" xml:space="preserve">
+    <value>Emlékezz rám</value>
   </data>
-  <data name="Go back" xml:space="preserve">
-    <value>Vissza</value>
+  <data name="Sign up as a Hotel Manager" xml:space="preserve">
+    <value>Bejelentkezés hotel menedzserként</value>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Mentés</value>
+  <data name="The field Password must be a string with a minimum length of '{2}' and a maximum length of '{1}'." xml:space="preserve">
+    <value>A jelszónak minimum '{2}' és maximum '{1}' karakterből kell állnia.</value>
+  </data>
+  <data name="The two password do not match." xml:space="preserve">
+    <value>A két jelszó nem egyezik.</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Felhasználó</value>
+  </data>
+  <data name="Your password must contain at least one upper case letter, one number and no special characters." xml:space="preserve">
+    <value>A jelszónak tartalmaznia kell legalább egy nagy betűt, egy számot és nem tartalmazhat speciális karaktereket.</value>
   </data>
 </root>

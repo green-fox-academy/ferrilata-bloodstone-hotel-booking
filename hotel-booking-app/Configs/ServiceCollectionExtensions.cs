@@ -1,16 +1,22 @@
 ﻿using AutoMapper;
 using HotelBookingApp.Data;
 using HotelBookingApp.Models.Account;
+using HotelBookingApp.Resources;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using System;
+using System.Reflection;
 
 namespace HotelBookingApp.Configs
 {
     public static class ServiceCollectionExtensions
     {
+        private static readonly string SHARED_RESOURCE_FOLDER_NAME = "SharedResources";
+
         public static IServiceCollection AddCustomDatabase(this IServiceCollection services, IConfiguration config)
         {
             var isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production";
@@ -47,6 +53,21 @@ namespace HotelBookingApp.Configs
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+            return services;
+        }
+
+        public static IServiceCollection AddMvcWithLocalization(this IServiceCollection services)
+        {
+            services.AddMvc()
+               .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+               .AddDataAnnotationsLocalization(o =>
+               {
+                   var type = typeof(SharedResources);
+                   var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
+                   var factory = services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
+                   var localizer = factory.Create(SHARED_RESOURCE_FOLDER_NAME, assemblyName.Name);
+                   o.DataAnnotationLocalizerProvider = (t, f) => localizer;
+               });
             return services;
         }
     }
