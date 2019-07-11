@@ -127,13 +127,16 @@
     <value>Leírás</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Fő oldal</value>
+    <value>Főoldal</value>
   </data>
   <data name="List of Hotels" xml:space="preserve">
     <value>Hotellista</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Név</value>
+  </data>
+  <data name="No results found!" xml:space="preserve">
+    <value>Nincs találat!</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>Ár</value>

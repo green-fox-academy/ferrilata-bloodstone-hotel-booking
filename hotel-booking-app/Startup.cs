@@ -5,7 +5,6 @@ using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,9 +23,7 @@ namespace HotelBookingApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.SetLocalizationSource();
-            services.AddMvc()
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                .AddDataAnnotationsLocalization();
+            services.AddMvcWithLocalization();
             services.AddCustomDatabase(Configuration);
             services.AddCustomIdentity();
             services.AddAutoMapper();

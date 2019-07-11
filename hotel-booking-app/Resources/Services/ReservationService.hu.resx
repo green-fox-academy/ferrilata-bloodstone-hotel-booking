@@ -117,22 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add Hotel" xml:space="preserve">
-    <value>Hotel hozzáadása</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Főoldal</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Bejelentkezés</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Kijelentkezés</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Beállítások</value>
-  </data>
-  <data name="Signup" xml:space="preserve">
-    <value>Regisztráció</value>
+  <data name="Reservation with id {0} is not found!" xml:space="preserve">
+    <value>Ezzel az id-val {0} nem található foglalás!</value>
   </data>
 </root>
