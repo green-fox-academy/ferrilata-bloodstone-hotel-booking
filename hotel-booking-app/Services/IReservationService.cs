@@ -1,5 +1,5 @@
 ﻿using HotelBookingApp.Models.HotelModels;
-using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +11,8 @@ namespace HotelBookingApp.Services
         Task<Reservation> ConfirmAsync(int id);
         Task<Reservation> FindByIdAsync(int id);
         Task<IEnumerable<Reservation>> FindAllByHotelIdAsync(int hotelId);
+        Task<IEnumerable<Reservation>> FindAllConfirmedByRoomIdAsync(int roomId);
+        Task<bool> IsIntervalOccupied(Reservation reservation);
         Task DeleteAsync(int id);
     }
 }

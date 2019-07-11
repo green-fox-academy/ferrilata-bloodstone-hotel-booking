@@ -19,7 +19,8 @@ namespace HotelBookingApp.Models.HotelModels
         public string GuestNames { get; set; }
 
         [DataType(DataType.Date)]
-        [Remote(action: "VerifyFromDate", controller: "Reservations", AdditionalFields = nameof(ToDate) + "," + nameof(GuestNumber))]
+        [Remote(action: "VerifyFromDate", controller: "Reservations", 
+            AdditionalFields = nameof(ToDate) + "," + nameof(GuestNumber) + "," + nameof(RoomId))]
         public DateTime FromDate { get; set; } = DateTime.Now;
 
         [DataType(DataType.Date)]
