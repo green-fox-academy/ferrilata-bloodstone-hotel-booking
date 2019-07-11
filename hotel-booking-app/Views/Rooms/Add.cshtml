@@ -1,5 +1,4 @@
-﻿@model Room
-
+﻿@model RoomViewModel
 @{
     ViewData["Title"] = "Add Room";
 }
@@ -7,14 +6,27 @@
 <h1>Add a new room</h1>
 <form asp-controller="Rooms" asp-action="Add" method="post">
     <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" type="text" class="form-control" placeholder="Name of the room" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <label asp-for="@Model.Room.Name"></label>
+        <input asp-for="@Model.Room.Name" type="text" class="form-control" placeholder="Name of the room" />
+        <span asp-validation-for="@Model.Room.Name" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Price"></label>
-        <input asp-for="Price" type="number" class="form-control" placeholder="Price of the room" />
-        <span asp-validation-for="Price" class="text-danger"></span>
+        <label asp-for="@Model.Room.Price"></label>
+        <input asp-for="@Model.Room.Price" type="number" class="form-control" placeholder="Price of the room" />
+        <span asp-validation-for="@Model.Room.Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+
+        @for (int i = 0; i < 4; i++)
+        {
+            <label asp-for="@Model.BedsIdInRoom">Select bed type</label>
+
+            @for (int j = 0; j < 2; j++)
+            {
+                <select asp-for="@Model.BedsIdInRoom[j]" asp-items="@Model.Beds" class="form-control"></select>
+            }
+        }
     </div>
 
     <div class="form-group">

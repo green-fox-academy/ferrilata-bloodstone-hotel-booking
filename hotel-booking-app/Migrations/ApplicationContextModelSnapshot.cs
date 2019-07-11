@@ -155,7 +155,7 @@ namespace HotelBookingApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("HotelId");
+                    b.Property<int>("HotelId");
 
                     b.Property<string>("Name");
 
@@ -308,7 +308,8 @@ namespace HotelBookingApp.Migrations
                 {
                     b.HasOne("HotelBookingApp.Models.HotelModels.Hotel", "Hotel")
                         .WithMany("Rooms")
-                        .HasForeignKey("HotelId");
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HotelBookingApp.Models.HotelModels.RoomBed", b =>
