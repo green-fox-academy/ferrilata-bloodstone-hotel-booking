@@ -27,6 +27,16 @@
         <input type="number" asp-for="@Model.Hotel.StarRating" class="form-control" />
         <span asp-validation-for="@Model.Hotel.StarRating" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="@Model.Hotel.TimeZoneId">@Localizer["Choose your time zone"]</label>
+        <select asp-for="@Model.Hotel.TimeZoneId" class="form-control">
+            @foreach (var timeZone in TimeZoneInfo.GetSystemTimeZones())
+            {
+                <option value="@timeZone.BaseUtcOffset">@timeZone.DisplayName</option>
+            }
+        </select>
+        <span asp-validation-for="@Model.Hotel.TimeZoneId" class="text-danger"></span>
+    </div>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">

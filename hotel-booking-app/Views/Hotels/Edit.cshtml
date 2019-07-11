@@ -1,4 +1,4 @@
-﻿@model HotelBookingApp.Pages.HotelViewModel
+@model HotelViewModel
 @inject IViewLocalizer Localizer
 
 @{
@@ -61,6 +61,16 @@
         <label asp-for="@Model.Hotel.StarRating">@Localizer["Star rating"]</label>
         <input asp-for="@Model.Hotel.StarRating" class="form-control" />
         <span asp-validation-for="@Model.Hotel.StarRating" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Hotel.TimeZoneId">@Localizer["Choose your time zone"]</label>
+        <select asp-for="@Model.Hotel.TimeZoneId" class="form-control">
+            @foreach (var timeZone in TimeZoneInfo.GetSystemTimeZones())
+            {
+                <option value="@timeZone.BaseUtcOffset">@timeZone.DisplayName</option>
+            }
+        </select>
+        <span asp-validation-for="@Model.Hotel.TimeZoneId" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="@Model.Hotel.PropertyTypeId">@Localizer["Porperty type"]</label>

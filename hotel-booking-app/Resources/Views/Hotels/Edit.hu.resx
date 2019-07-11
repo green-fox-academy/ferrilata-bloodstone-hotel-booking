@@ -123,6 +123,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>Mégse</value>
   </data>
+  <data name="Choose your time zone" xml:space="preserve">
+    <value>Időzóna</value>
+  </data>
   <data name="City" xml:space="preserve">
     <value>Város</value>
   </data>

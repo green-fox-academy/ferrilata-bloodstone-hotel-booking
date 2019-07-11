@@ -1,4 +1,5 @@
-﻿using HotelBookingApp.Models.Account;
+using HotelBookingApp.Models.Account;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -8,14 +9,9 @@ using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
+    [Authorize]
     public class SettingsController : Controller
     {
-        private readonly UserManager<ApplicationUser> UserManager;
-
-        public SettingsController(UserManager<ApplicationUser> userManager)
-        {
-            this.UserManager = userManager;
-        }
 
         [HttpGet("Settings")]
         public IActionResult Settings()
