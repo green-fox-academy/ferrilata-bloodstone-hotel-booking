@@ -86,6 +86,11 @@ namespace HotelBookingApp.Controllers
         [HttpGet("verifyGuestNumber")]
         public IActionResult VerifyGuestNumber(Reservation reservation)
         {
+            var room = new Room(); // var room = roomService.FindById(reservation.RoomId);
+            if (room.Capacity < reservation.GuestNumber)
+            {
+                return Json($"This room only has capacity for {room.Capacity} person(s).");
+            }
             return Json(true);
         }
 

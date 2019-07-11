@@ -10,5 +10,7 @@ namespace HotelBookingApp.Models.HotelModels
         public IEnumerable<RoomBed> RoomBeds { get; set; }
         public Hotel Hotel { get; set; }
         public int HotelId { get; set; }
+
+        public int Capacity { get => 2; }
     }
 }
