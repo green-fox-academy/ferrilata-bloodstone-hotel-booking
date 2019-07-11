@@ -21,7 +21,7 @@ namespace HotelBookingApp.Controllers
 
         [HttpGet("new")]
         public IActionResult Add()
-        {          
+        {
             return View(new Room());
         }
 
