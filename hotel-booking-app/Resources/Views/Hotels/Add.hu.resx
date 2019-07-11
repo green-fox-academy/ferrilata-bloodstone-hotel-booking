@@ -162,4 +162,16 @@
   <data name="Choose your time zone" xml:space="preserve">
     <value>Időzóna</value>
   </data>
+  <data name="Apartment" xml:space="preserve">
+    <value>Apartman</value>
+  </data>
+  <data name="Guesthouse" xml:space="preserve">
+    <value>Vendégház</value>
+  </data>
+  <data name="Hostel" xml:space="preserve">
+    <value>Hostel</value>
+  </data>
+  <data name="Hotel" xml:space="preserve">
+    <value>Hotel</value>
+  </data>
 </root>

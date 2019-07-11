@@ -120,6 +120,9 @@
   <data name="Address" xml:space="preserve">
     <value>Cím</value>
   </data>
+  <data name="Apartment" xml:space="preserve">
+    <value>Apartman</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Mégse</value>
   </data>
@@ -143,6 +146,15 @@
   </data>
   <data name="Edit Hotel" xml:space="preserve">
     <value>Hotel szerkesztése</value>
+  </data>
+  <data name="Guesthouse" xml:space="preserve">
+    <value>Vendégház</value>
+  </data>
+  <data name="Hostel" xml:space="preserve">
+    <value>Hostel</value>
+  </data>
+  <data name="Hotel" xml:space="preserve">
+    <value>Hotel</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Név</value>
