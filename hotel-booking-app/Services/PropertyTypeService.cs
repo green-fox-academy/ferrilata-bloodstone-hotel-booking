@@ -1,11 +1,10 @@
-﻿using System;
+﻿using HotelBookingApp.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HotelBookingApp.Data;
-using HotelBookingApp.Models.HotelModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingApp.Services
 {

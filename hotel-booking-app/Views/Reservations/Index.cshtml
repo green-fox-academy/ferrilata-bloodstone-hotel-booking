@@ -1,0 +1,46 @@
+﻿@model ReservationViewModel
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["Reservations"];
+}
+
+    <h2>@Localizer["Reservations"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Localizer["Id"]</th>
+            <th>@Localizer["Guests"]</th>
+            <th>@Localizer["Room"]</th>
+            <th>@Localizer["Confirmed"]</th>
+            <th>@Localizer["Email"]</th>
+            <th>@Localizer["Date"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model.Reservations)
+        {
+            <tr>
+                <td>@r.ReservationId</td>
+                <td>@r.GuestNames (@r.GuestNumber)</td>
+                <td>@r.Room.Name</td>
+                <td>@r.IsConfirmed</td>
+                <td>@r.ApplicationUser.Email</td>
+                <td>
+                    @String.Format("{0:yyyy/MM/dd}", r.FromDate)
+                    -
+                    @String.Format("{0:yyyy/MM/dd}", r.ToDate)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Reservations.Any())
+{
+    <div class="text-center">
+        <p>@Localizer["No results found!"]</p>
+    </div>
+}
+
+<a class="btn btn-danger" href='javascript:history.go(-1)' role="button">@Localizer["Go back"]</a>

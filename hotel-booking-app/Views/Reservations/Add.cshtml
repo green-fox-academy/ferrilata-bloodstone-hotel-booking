@@ -1,0 +1,37 @@
+﻿@model ReservationViewModel
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["Reservation"];
+}
+
+<h2>@Localizer["New Reservation"]</h2>
+
+<form asp-controller="Reservations" asp-action="Add" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Reservation.GuestNumber">@Localizer["Number of guests"]</label>
+        <input asp-for="@Model.Reservation.GuestNumber" class="form-control" />
+        <span asp-validation-for="@Model.Reservation.GuestNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Reservation.GuestNames">@Localizer["Full name of guests"]</label>
+        <input asp-for="@Model.Reservation.GuestNames" class="form-control" />
+        <span asp-validation-for="@Model.Reservation.GuestNames" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Reservation.FromDate">@Localizer["Check-in day"]</label>
+        <input asp-for="@Model.Reservation.FromDate" type="date" class="form-control" />
+        <span asp-validation-for="@Model.Reservation.FromDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Reservation.ToDate">@Localizer["Check-out day"]</label>
+        <input asp-for="@Model.Reservation.ToDate" type="date" class="form-control" />
+        <span asp-validation-for="@Model.Reservation.ToDate" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="@Model.Reservation.ApplicationUserId" />
+    <input type="hidden" asp-for="@Model.Reservation.ReservationId" />
+    <input type="hidden" asp-for="@Model.Reservation.RoomId" value="@Model.RoomId" />
+    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+    <a class="btn btn-danger" role="button"
+       asp-controller="Hotels" asp-action="Hotel"
+       asp-route-id="@Model.HotelId">@Localizer["Cancel"]</a>
+</form>

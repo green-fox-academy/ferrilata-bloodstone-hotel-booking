@@ -1,22 +1,24 @@
 ﻿@model IndexPageView
 
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = Localizer["Home"];
 }
 
 <div class="row">
     <div class="col-md-3">
-        <h2>List of Hotels</h2>
+        <h2>@Localizer["List of Hotels"]</h2>
     </div>
     <div class="col-md-9 d-flex justify-content-end">
         <form asp-action="Index" class="form-inline flex-nowrap" method="get">
             <input asp-for="@Model.QueryParams.Search" class="form-control" />
             <input type="hidden" asp-for="@Model.QueryParams.OrderBy" />
             <input type="hidden" asp-for="@Model.QueryParams.Desc" />
-            <button type="submit" class="btn btn-default mx-2">Search by city</button>
+            <button type="submit" class="btn btn-default mx-2">@Localizer["Search by city"]</button>
         </form>
         <form asp-action="Index" class="form-inline" method="get">
-            <button type="submit" class="btn btn-danger">Clear filters</button>
+            <button type="submit" class="btn btn-danger">@Localizer["Clear filters"]</button>
         </form>
     </div>
 </div>
@@ -31,7 +33,7 @@
                asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage"
                asp-route-search="@Model.QueryParams.Search">
-                @Html.DisplayNameFor(model => model.Hotels.First().Name)
+                @Localizer[@Html.DisplayNameFor(model =>  model.Hotels.First().Name)]
             </a>
         </th>
         <th>
@@ -41,7 +43,7 @@
                asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage"
                asp-route-search="@Model.QueryParams.Search">
-                @Html.DisplayNameFor(model => model.Hotels.First().Description)
+                @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Description)]
             </a>
         </th>
         <th>
@@ -51,11 +53,11 @@
                asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage"
                asp-route-search="@Model.QueryParams.Search">
-                @Html.DisplayNameFor(model => model.Hotels.First().Price)
+                @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Price)]
             </a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Hotels.First().Location.City)
+            @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Location.City)]
         </th>
     </tr>
 
@@ -84,7 +86,7 @@
 @if (!Model.Hotels.Any())
 {
     <div class="text-center">
-        <p>No results found!</p>
+        <p>@Localizer["No results found!"]</p>
     </div>
 }
 

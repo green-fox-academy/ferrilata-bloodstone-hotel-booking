@@ -107,6 +107,8 @@ namespace HotelBookingApp.Migrations
 
                     b.Property<string>("ThumbnailUrl");
 
+                    b.Property<string>("TimeZoneId");
+
                     b.HasKey("HotelId");
 
                     b.HasIndex("LocationId")
@@ -147,6 +149,37 @@ namespace HotelBookingApp.Migrations
                     b.HasKey("PropertyTypeId");
 
                     b.ToTable("PropertyTypes");
+                });
+
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Reservation", b =>
+                {
+                    b.Property<int>("ReservationId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("GuestNames");
+
+                    b.Property<int>("GuestNumber");
+
+                    b.Property<bool>("IsConfirmed");
+
+                    b.Property<int>("RoomId");
+
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("ReservationId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Room", b =>
@@ -301,6 +334,18 @@ namespace HotelBookingApp.Migrations
                     b.HasOne("HotelBookingApp.Models.HotelModels.PropertyType", "PropertyType")
                         .WithMany()
                         .HasForeignKey("PropertyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Reservation", b =>
+                {
+                    b.HasOne("HotelBookingApp.Models.Account.ApplicationUser", "AppicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("HotelBookingApp.Models.HotelModels.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
