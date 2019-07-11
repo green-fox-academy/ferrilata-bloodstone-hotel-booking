@@ -7,7 +7,7 @@
 <h1>@Model.Hotel.Name</h1>
 
 <div>@Localizer["Number of stars"]: @Model.Hotel.StarRating</div>
-<div>@Localizer["Hotel type"]: @Model.Hotel.PropertyType.Type</div>
+<div>@Localizer["Hotel type"]: @Localizer[@Model.Hotel.PropertyType.Type]</div>
 <div>@Localizer["Address"]: @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
 <div>@Localizer["About"]: <br /> @Model.Hotel.Description</div>
 <div>@Localizer["Rooms"]:</div>
