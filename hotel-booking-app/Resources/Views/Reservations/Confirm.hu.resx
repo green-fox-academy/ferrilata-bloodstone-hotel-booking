@@ -123,6 +123,9 @@
   <data name="Confirmation" xml:space="preserve">
     <value>Megerősítés</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Dátum</value>
+  </data>
   <data name="Full name of guests" xml:space="preserve">
     <value>Vendégek teljes neve</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Number of guests" xml:space="preserve">
     <value>Vendégek száma</value>
+  </data>
+  <data name="Number of nights" xml:space="preserve">
+    <value>Éjszakák száma</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>Ár</value>

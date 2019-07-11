@@ -10,8 +10,10 @@
 <div>@Localizer["Price"]: @Model.Reservation.Room.Price</div>
 <div>@Localizer["Number of guests"]: @Model.Reservation.GuestNumber</div>
 <div>@Localizer["Full name of guests"]: @Model.Reservation.GuestNames</div>
+<div>@Localizer["Number of nights"]: @Model.Reservation.NumberOfNights</div>
+
 <div>
-    Date: @String.Format("{0:yyyy/MM/dd}", Model.Reservation.FromDate)
+    @Localizer["Date"]: @String.Format("{0:yyyy/MM/dd}", Model.Reservation.FromDate)
     -
     @String.Format("{0:yyyy/MM/dd}", Model.Reservation.ToDate)
 </div>

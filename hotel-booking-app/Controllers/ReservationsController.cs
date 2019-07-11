@@ -29,26 +29,34 @@ namespace HotelBookingApp.Controllers
 
         [Authorize(Roles = "User, Admin")]
         [HttpGet("rooms/{roomId}/reservations/new")]
-        public IActionResult Add(ReservationViewModel model)
+        public IActionResult Add(int hotelId, int roomId)
         {
-            return View(model);
+            return View(new ReservationViewModel { HotelId = hotelId, RoomId = roomId });
         }
 
         [Authorize(Roles = "User, Admin")]
         [HttpPost("rooms/{roomId}/reservations/new")]
-        public async Task<IActionResult> Add(Reservation reservation)
+        public async Task<IActionResult> Add(ReservationViewModel model)
         {
-            reservation.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var newReservation = await reservationService.AddAsync(reservation);
-            return RedirectToAction(nameof(Confirm), new { reservationId = newReservation.ReservationId });
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            model.Reservation.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var reservation = await reservationService.AddAsync(model.Reservation);
+            return RedirectToAction(nameof(Confirm), new { reservationId = reservation.ReservationId });
         }
 
         [Authorize(Roles = "User, Admin")]
         [HttpGet("rooms/{roomId}/reservations/edit/{reservationId}")]
-        public async Task<IActionResult> Edit(ReservationViewModel model)
+        public async Task<IActionResult> Edit(int hotelId, int roomId, int reservationId)
         {
-            model.Reservation = await reservationService.FindByIdAsync(model.ReservationId);
-            return View(nameof(Add), model);
+            var reservation = await reservationService.FindByIdAsync(reservationId);
+            return View(nameof(Add), new ReservationViewModel
+            {
+                HotelId = hotelId, RoomId = roomId, Reservation = reservation
+            });
         }
 
         [Authorize(Roles = "User, Admin")]
@@ -73,6 +81,38 @@ namespace HotelBookingApp.Controllers
         {
             await reservationService.DeleteAsync(reservationId);
             return RedirectToAction(nameof(Index), new { id = hotelId });
+        }
+
+        [HttpGet("verifyGuestNumber")]
+        public IActionResult VerifyGuestNumber(Reservation reservation)
+        {
+            return Json(true);
+        }
+
+        [HttpGet("verifyGuestNames")]
+        public IActionResult VerifyGuestNames(Reservation reservation)
+        {
+            if (reservation.GuestNames.Split(",").Length != reservation.GuestNumber)
+            {
+                return Json("Number of guest names does not match the number of guests.");
+            }
+            return Json(true);
+        }
+
+        [HttpGet("verifyFromDate")]
+        public IActionResult VerifyFromDate(Reservation reservation)
+        {
+            return Json(true);
+        }
+
+        [HttpGet("verifyToDate")]
+        public IActionResult VerifyToDate(Reservation reservation)
+        {
+            if (reservation.FromDate >= reservation.ToDate)
+            {
+                return Json("To date must be later.");
+            }
+            return Json(true);
         }
     }
 }
