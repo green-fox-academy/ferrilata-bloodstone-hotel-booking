@@ -59,9 +59,10 @@
     }
 </style>
 
-<div style="min-width: 420px;">
-    <div class="d-inline-flex">
-        <div class="" style="min-width: 220px; max-width: 220px;">
+<div>
+    <h1>@Model.Hotel.Name</h1>
+    <div class="d-flex">
+        <div class="">
             @if (Model.Hotel.ThumbnailUrl != null && Model.Hotel.Thumbnail)
             {
                 <img class="img-fluid" src="@Model.Hotel.ThumbnailUrl" alt="thumbnail" />
@@ -71,9 +72,7 @@
                 <img class="img-fluid" src="~/nopic.png" alt="thumbnail" />
             }
         </div>
-        <div>
-            <h1>@Model.Hotel.Name</h1>
-
+        <div class="ml-3">
             <div><b>@Localizer["Number of stars"]:</b> @Model.Hotel.StarRating</div>
             <div><b>@Localizer["Hotel type"]:</b> @Localizer[@Model.Hotel.PropertyType.Type]</div>
             <div><b>@Localizer["Address"]:</b> @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
@@ -81,7 +80,7 @@
     </div>
     <div>
         <br />
-        <h5>@Localizer["About"]:</h5>
+        <h5>@Localizer["About"] </h5>
         <p>@Model.Hotel.Description</p>
     </div>
     <div>
@@ -101,21 +100,19 @@
             </li>
         }
     </ul>
-    <div class="form-check flex-md-wrap">
+    <div class="">
         <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@Localizer["Go back"]</a>
-        <div class="dropdown my-2">
-            @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
-            {
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @Localizer["Options"]
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">@Localizer["Edit"]</a>
-                    <a class="dropdown-item" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Add room"]</a>
-                    <a class="dropdown-item" asp-controller="Reservations" asp-action="Index" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Reservations"]</a>
-                </div>
-            }
-        </div>
+        @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+        {
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @Localizer["Options"]
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">@Localizer["Edit"]</a>
+                <a class="dropdown-item" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Add room"]</a>
+                <a class="dropdown-item" asp-controller="Reservations" asp-action="Index" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Reservations"]</a>
+            </div>
+        }
     </div>
 </div>
 <hr />
