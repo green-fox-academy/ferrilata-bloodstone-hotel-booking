@@ -7,7 +7,7 @@
 <style>
     .overlay {
         position: absolute;
-        top: 15px;
+        top: 16px;
         left: 15px;
         background: rgba(0, 0, 0, 0.7);
         color: #f1f1f1;
@@ -28,22 +28,35 @@
         color: #ababab;
     }
 
+        #trash:hover {
+            color: #ffffff;
+        }
+
     #thumb {
         color: #b40000;
     }
 
-    #thumb:hover, #trash:hover {
-        transform: scale(1.5);
+        #thumb:hover {
+            color: #ff0000;
+        }
+
+        #thumb:hover, #trash:hover {
+            transform: scale(1.5);
+        }
+
+    #btn-thumbnail {
+        position: absolute;
+        top: 0px;
+        left: 10px;
+        border-radius: 0px;
     }
 
-    #trash:hover {
-        color: #ffffff;
+    #btn-delete {
+        position: absolute;
+        top: 0px;
+        left: 50px;
+        border-radius: 0px;
     }
-    
-    #thumb:hover {
-        color: #ff0000;
-    }
-
 </style>
 
 <h1>@Model.Hotel.Name</h1>
@@ -92,14 +105,14 @@
                 @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
                 {
                     <div class="overlay">
-                        <form asp-action="DeleteImage" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                            <button class="btn btn-link" type="submit" name="path" value="@image.Path" style="position: absolute; top: 0px; left: 50px; border-radius: 0px;">
-                                <i id="thumb" class="far fa-trash-alt" title=@Localizer["Delete"]></i>
+                        <form asp-action="UpdateThumbnail" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
+                            <button id="btn-thumbnail" class="btn btn-link" type="submit" name="path" value="@image.Path" title="@Localizer["Set as thumbnail"]">
+                                <i id="trash" class="fas fa-thumbtack"></i>
                             </button>
                         </form>
-                        <form asp-action="UpdateThumbnail" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                            <button class="btn btn-link" type="submit" name="path" value="@image.Path" title="@Localizer["Set as thumbnail"]" style="position: absolute; top: 0px; left: 10px; border-radius: 0px;">
-                                <i id="trash" class="fas fa-thumbtack"></i>
+                        <form asp-action="DeleteImage" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
+                            <button id="btn-delete" class="btn btn-link" type="submit" name="path" value="@image.Path">
+                                <i id="thumb" class="far fa-trash-alt" title=@Localizer["Delete image"]></i>
                             </button>
                         </form>
                     </div>
