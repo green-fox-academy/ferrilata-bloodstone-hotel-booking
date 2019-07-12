@@ -94,28 +94,10 @@ namespace HotelBookingApp.Services
             return hotel;
         }
 
-        public async Task<Bed> FindBedById(int bedId)
-        {
-            var bed = await applicationContext.Beds.FindAsync(bedId);
-                return bed;
-        }
         public async Task<Room> AddRoom(int hotelId, Room room)
         {
             room.HotelId = hotelId;
             await applicationContext.AddAsync(room);
-
-            //foreach (var number in bedNumber/*bedsIdInRoom*/)
-            //{
-            //    var roomBed = new RoomBed
-            //    {
-            //        RoomId = room.RoomId,
-            //        BedId = bedId,
-            //        Room = room,
-            //        Bed = await FindBedById(bedId),
-            //        BedNumber = number
-            //    };
-            //    await applicationContext.AddAsync(roomBed);
-            //}
             await applicationContext.SaveChangesAsync();
             return room;
         }
@@ -124,6 +106,12 @@ namespace HotelBookingApp.Services
         {
             var room = applicationContext.Rooms.Find(roomId);
             return room;
+        }
+
+        public async Task<Bed> FindBedById(int bedId)
+        {
+            var bed = await applicationContext.Beds.FindAsync(bedId);
+            return bed;
         }
 
         public async Task<RoomBed> AddBed(BedViewModel model)

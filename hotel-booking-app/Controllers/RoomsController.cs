@@ -28,15 +28,14 @@ namespace HotelBookingApp.Controllers
         [HttpGet("new")]
         public IActionResult Add()
         {
-            var beds = bedService.FindAll();
-            var roomViewModel = new RoomViewModel();
-            return View(roomViewModel);
+            var room = new Room();
+            return View(room);
         }
 
         [HttpPost("new")]
-        public async Task<IActionResult> Add(int hotelId, RoomViewModel model)
+        public async Task<IActionResult> Add(int hotelId, Room room)
         {
-            await hotelService.AddRoom(hotelId, model.Room);
+            await hotelService.AddRoom(hotelId, room);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 
