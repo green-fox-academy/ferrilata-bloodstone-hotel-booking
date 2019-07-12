@@ -20,5 +20,13 @@ namespace HotelBookingApp.Services
         {
             return await context.Rooms.FindAsync(id);
         }
+
+        public async Task<Room> AddRoom(int hotelId, Room room)
+        {
+            room.HotelId = hotelId;
+            await context.AddAsync(room);
+            await context.SaveChangesAsync();
+            return room;
+        }
     }
 }

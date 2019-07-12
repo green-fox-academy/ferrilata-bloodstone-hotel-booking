@@ -17,11 +17,13 @@ namespace HotelBookingApp.Controllers
     public class RoomsController : Controller
     {
         private readonly IHotelService hotelService;
+        private readonly IRoomService roomService;
         private readonly IBedService bedService;
 
-        public RoomsController(IHotelService hotelService, IBedService bedService)
+        public RoomsController(IHotelService hotelService, IBedService bedService, IRoomService roomService)
         {
             this.hotelService = hotelService;
+            this.roomService = roomService;
             this.bedService = bedService;
         }
 
@@ -34,7 +36,7 @@ namespace HotelBookingApp.Controllers
         [HttpPost("new")]
         public async Task<IActionResult> Add(int hotelId, Room room)
         {
-            await hotelService.AddRoom(hotelId, room);
+            await roomService.AddRoom(hotelId, room);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 
@@ -51,7 +53,7 @@ namespace HotelBookingApp.Controllers
         [HttpPost("{roomId}/beds/new")]
         public async Task<IActionResult> AddBed(int hotelId, BedViewModel model)
         {
-            await hotelService.AddBed(model);
+            await bedService.AddBed(model);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
     }

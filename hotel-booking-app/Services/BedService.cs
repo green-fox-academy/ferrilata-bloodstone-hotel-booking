@@ -1,5 +1,6 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Pages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -32,6 +33,19 @@ namespace HotelBookingApp.Services
         {
             var bed = await applicationContext.Beds.FindAsync(bedId);
             return bed;
+        }
+
+        public async Task<RoomBed> AddBed(BedViewModel model)
+        {
+            var roomBed = new RoomBed
+            {
+                RoomId = model.RoomId,
+                BedId = model.BedId,
+                BedNumber = model.BedNumber
+            };
+            await applicationContext.AddAsync(roomBed);
+            await applicationContext.SaveChangesAsync();
+            return roomBed;
         }
     }
 }

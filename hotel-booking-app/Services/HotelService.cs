@@ -99,26 +99,5 @@ namespace HotelBookingApp.Services
             await applicationContext.SaveChangesAsync();
             return hotel;
         }
-
-        public async Task<Room> AddRoom(int hotelId, Room room)
-        {
-            room.HotelId = hotelId;
-            await applicationContext.AddAsync(room);
-            await applicationContext.SaveChangesAsync();
-            return room;
-        }
-
-        public async Task<RoomBed> AddBed(BedViewModel model)
-        {
-            var roomBed = new RoomBed
-            {
-                RoomId = model.RoomId,
-                BedId = model.BedId,
-                BedNumber = model.BedNumber
-            };
-            await applicationContext.AddAsync(roomBed);
-            await applicationContext.SaveChangesAsync();
-            return roomBed;
-        }
     }
 }
