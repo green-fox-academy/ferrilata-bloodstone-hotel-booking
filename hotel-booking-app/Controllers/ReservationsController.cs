@@ -13,10 +13,12 @@ namespace HotelBookingApp.Controllers
     public class ReservationsController : Controller
     {
         private readonly IReservationService reservationService;
+        private readonly IRoomService roomService;
 
-        public ReservationsController(IReservationService reservationService)
+        public ReservationsController(IReservationService reservationService, IRoomService roomService)
         {
             this.reservationService = reservationService;
+            this.roomService = roomService;
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
@@ -71,6 +73,11 @@ namespace HotelBookingApp.Controllers
         [HttpPost("rooms/{roomId}/reservations/confirmation/{reservationId}")]
         public async Task<IActionResult> Confirm(int hotelId, int reservationId)
         {
+            var reservation = await reservationService.FindByIdAsync(reservationId);
+            if (await reservationService.IsIntervalOccupied(reservation))
+            {
+                return RedirectToAction(nameof(Edit), new { hotelId, roomId = reservation.RoomId, reservationId });
+            }
             await reservationService.ConfirmAsync(reservationId);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
@@ -84,8 +91,13 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("verifyGuestNumber")]
-        public IActionResult VerifyGuestNumber(Reservation reservation)
+        public async Task<IActionResult> VerifyGuestNumber(Reservation reservation)
         {
+            var room = await roomService.FindByIdAsync(reservation.RoomId);
+            if (room.Capacity < reservation.GuestNumber)
+            {
+                return Json($"This room only has capacity for {room.Capacity} person(s).");
+            }
             return Json(true);
         }
 
@@ -100,8 +112,12 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("verifyFromDate")]
-        public IActionResult VerifyFromDate(Reservation reservation)
+        public async Task<IActionResult> VerifyFromDate(Reservation reservation)
         {
+            if (await reservationService.IsIntervalOccupied(reservation))
+            {
+                return Json($"Room is already occupied in this interval: {reservation.FromDate} - {reservation.ToDate}");
+            }
             return Json(true);
         }
 
