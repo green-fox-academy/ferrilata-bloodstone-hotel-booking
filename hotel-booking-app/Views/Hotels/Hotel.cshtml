@@ -7,7 +7,7 @@
 <h1>@Model.Hotel.Name</h1>
 
 <div>@Localizer["Number of stars"]: @Model.Hotel.StarRating</div>
-<div>@Localizer["Hotel type"]: @Model.Hotel.PropertyType.Type</div>
+<div>@Localizer["Hotel type"]: @Localizer[@Model.Hotel.PropertyType.Type]</div>
 <div>@Localizer["Address"]: @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
 <div>@Localizer["About"]: <br /> @Model.Hotel.Description</div>
 <div>@Localizer["Rooms"]:</div>
@@ -40,6 +40,7 @@
 
 <hr />
 <h2>@Localizer["Gallery"]</h2>
+
 <div class="container">
     <div class="row">
         @if (Model.ImageList.Count() == 0)
@@ -53,10 +54,10 @@
                 @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
                 {
                     <form asp-action="DeleteImage" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                        <button class="btn btn-link" type="submit" name="path" value="@image.Path">@Localizer["Delete Image"]</button>
+                        <button class="btn btn-link" type="submit" name="path" value="@image.Path" style="position: absolute; top: -3px; right: -6px;"><i title=@Localizer["Delete Image"] class="far fa-times-circle fa-red-river text-danger"></i></button>
                     </form>
                     <form asp-action="UpdateThumbnail" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                        <button class="btn btn-link" type="submit" name="path" value="@image.Path">@Localizer["Set as thumbnail"]</button>
+                        <button class="btn btn-link" type="submit" name="path" value="@image.Path">@Localizer["Set as thumbnail"]<i class="fas fa-level-up-alt mx-2"></i></button>
                     </form>
                 }
             </div>
