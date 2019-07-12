@@ -59,35 +59,55 @@
     }
 </style>
 
-<h1>@Model.Hotel.Name</h1>
+<div class="container col">
+    <div class="d-inline-flex">
+        <div class="container">
+            @if (Model.Hotel.ThumbnailUrl != null && Model.Hotel.Thumbnail)
+            {
+                <img class="img-thumbnail" src="@Model.Hotel.ThumbnailUrl" alt="thumbnail" />
+            }
+            else
+            {
+                <img class="img-thumbnail" src="~/nopic.png" alt="thumbnail" />
+            }
+        </div>
+        <div class="container">
+            <h1>@Model.Hotel.Name</h1>
 
-<div>@Localizer["Number of stars"]: @Model.Hotel.StarRating</div>
-<div>@Localizer["Hotel type"]: @Localizer[@Model.Hotel.PropertyType.Type]</div>
-<div>@Localizer["Address"]: @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
-<div>@Localizer["About"]: <br /> @Model.Hotel.Description</div>
-<div>@Localizer["Rooms"]:</div>
-<ul>
-    @foreach (var room in @Model.Hotel.Rooms)
-    {
-        <li>
-            @room.Name ($@room.Price)
-            <a asp-controller="Reservations" asp-action="Add"
-               asp-route-hotelId="@Model.Hotel.HotelId"
-               asp-route-roomId="@room.RoomId">
-                @Localizer["Reserve"]
-            </a>
-        </li>
-    }
-</ul>
-
-@if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
-{
-    <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">@Localizer["Edit"]</a>
-    <a class="btn btn-primary" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Add room"]</a>
-    <a class="btn btn-primary" asp-controller="Reservations" asp-action="Index" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Reservations"]</a>
-}
-<a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@Localizer["Go back"]</a>
-
+            <div>@Localizer["Number of stars"]: @Model.Hotel.StarRating</div>
+            <div>@Localizer["Hotel type"]: @Localizer[@Model.Hotel.PropertyType.Type]</div>
+            <div><b>@Localizer["Address"]:</b> @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
+            <div>
+                <br />
+                <h5>@Localizer["About"]:</h5>
+                @Model.Hotel.Description
+            </div>
+            <div>@Localizer["Rooms"]:</div>
+            <ul>
+                @foreach (var room in @Model.Hotel.Rooms)
+                {
+                    <li>
+                        @room.Name ($@room.Price)
+                        <a asp-controller="Reservations" asp-action="Add"
+                           asp-route-hotelId="@Model.Hotel.HotelId"
+                           asp-route-roomId="@room.RoomId">
+                            @Localizer["Reserve"]
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="buttons">
+        @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+        {
+            <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">@Localizer["Edit"]</a>
+            <a class="btn btn-primary" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Add room"]</a>
+            <a class="btn btn-primary" asp-controller="Reservations" asp-action="Index" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Reservations"]</a>
+        }
+        <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@Localizer["Go back"]</a>
+    </div>
+</div>
 <hr />
 <h2>@Localizer["Gallery"]</h2>
 
