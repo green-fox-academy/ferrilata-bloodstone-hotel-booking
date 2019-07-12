@@ -19,19 +19,6 @@
     </div>
 
     <div class="form-group">
-
-        @for (int i = 0; i < 4; i++)
-        {
-            <label asp-for="@Model.BedsIdInRoom">Select bed type</label>
-
-            @for (int j = 0; j < 2; j++)
-            {
-                <select asp-for="@Model.BedsIdInRoom[j]" asp-items="@Model.Beds" class="form-control"></select>
-            }
-        }
-    </div>
-
-    <div class="form-group">
         <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
     </div>
 </form>

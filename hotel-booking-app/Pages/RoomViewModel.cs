@@ -10,12 +10,6 @@ namespace HotelBookingApp.Pages
     public class RoomViewModel
     {
         public Room Room { get; set; }
-        public IEnumerable<SelectListItem> Beds { get; set; }
-
-        //public IEnumerable<Bed> Beds { get; set; }
-
-        public List<int> BedsIdInRoom { get; set; }
-
-        //public IEnumerable<SelectListItem> Beds { get; set; }
+        public IEnumerable<Bed> Beds { get; set; }
     }
 }

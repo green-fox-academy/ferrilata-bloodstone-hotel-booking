@@ -18,14 +18,9 @@ namespace HotelBookingApp.Services
             this.applicationContext = applicationContext;
         }
 
-        //public IEnumerable<Bed> FindAll()
-        //{
-        //    return applicationContext.Beds;
-        //}
-
         public IEnumerable<SelectListItem> FindAll()
         {
-            return  applicationContext.Beds
+            return applicationContext.Beds
                 .Select(b => new SelectListItem { Value = Convert.ToString(b.BedId), Text = b.Type })
                 .ToList();
         }

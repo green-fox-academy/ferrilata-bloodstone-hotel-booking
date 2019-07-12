@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Pages;
 using HotelBookingApp.Utils;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,7 +15,9 @@ namespace HotelBookingApp.Services
         Task Delete(int hotelId);
         Task<Hotel> FindByIdAsync(int id);
         Task<Hotel> Update(Hotel hotel);
-        Task<Room> AddRoom(int hotelId, Room room, List<int> bedsIdInRoom);
+        Task<Room> AddRoom(int hotelId, Room room);
         Task<Bed> FindBedById(int bedId);
+        Room FindRoomById(int roomId);
+        Task<RoomBed> AddBed(BedViewModel model);
     }
 }

@@ -9,7 +9,6 @@ namespace HotelBookingApp.Services
 {
     public interface IBedService
     {
-        //IEnumerable<Bed> FindAll();
         IEnumerable<SelectListItem> FindAll();
     }
 }

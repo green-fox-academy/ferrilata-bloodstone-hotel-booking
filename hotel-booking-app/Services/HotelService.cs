@@ -1,6 +1,7 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Pages;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -98,24 +99,46 @@ namespace HotelBookingApp.Services
             var bed = await applicationContext.Beds.FindAsync(bedId);
                 return bed;
         }
-        public async Task<Room> AddRoom(int hotelId, Room room, List<int> bedsIdInRoom)
+        public async Task<Room> AddRoom(int hotelId, Room room)
         {
             room.HotelId = hotelId;
             await applicationContext.AddAsync(room);
 
-            foreach (var bedId in bedsIdInRoom)
-            {
-                var roomBed = new RoomBed
-                {
-                    RoomId = room.RoomId,
-                    BedId = bedId,
-                    Room = room,
-                    Bed = await FindBedById(bedId)
-                };
-                await applicationContext.AddAsync(roomBed);
-            }
+            //foreach (var number in bedNumber/*bedsIdInRoom*/)
+            //{
+            //    var roomBed = new RoomBed
+            //    {
+            //        RoomId = room.RoomId,
+            //        BedId = bedId,
+            //        Room = room,
+            //        Bed = await FindBedById(bedId),
+            //        BedNumber = number
+            //    };
+            //    await applicationContext.AddAsync(roomBed);
+            //}
             await applicationContext.SaveChangesAsync();
             return room;
+        }
+
+        public Room FindRoomById(int roomId)
+        {
+            var room = applicationContext.Rooms.Find(roomId);
+            return room;
+        }
+
+        public async Task<RoomBed> AddBed(BedViewModel model)
+        {
+            var roomBed = new RoomBed
+            {
+                RoomId = model.RoomId,
+                Room = FindRoomById(model.RoomId),
+                BedId = model.BedId,
+                Bed = await FindBedById(model.BedId),
+                BedNumber = model.BedNumber
+            };
+            await applicationContext.AddAsync(roomBed);
+            await applicationContext.SaveChangesAsync();
+            return roomBed;
         }
     }
 }
