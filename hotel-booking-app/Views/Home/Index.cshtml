@@ -75,8 +75,7 @@
                 }
             </td>
             <td>
-                <a class="nav-link" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">
-                    @hotel.Name</a>
+                <a class="nav-link" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">@hotel.Name</a>
                 @for (int star = 0; star < hotel.StarRating; star++)
                 {
                     <i class="fas fa-star"></i>
