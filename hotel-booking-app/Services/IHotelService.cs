@@ -16,8 +16,6 @@ namespace HotelBookingApp.Services
         Task<Hotel> FindByIdAsync(int id);
         Task<Hotel> Update(Hotel hotel);
         Task<Room> AddRoom(int hotelId, Room room);
-        Task<Bed> FindBedById(int bedId);
-        Room FindRoomById(int roomId);
         Task<RoomBed> AddBed(BedViewModel model);
     }
 }

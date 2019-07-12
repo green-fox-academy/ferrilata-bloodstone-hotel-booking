@@ -1,10 +1,10 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Models.HotelModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
-//using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,11 +21,17 @@ namespace HotelBookingApp.Services
             this.localizer = localizer;
         }
 
-        public IEnumerable<SelectListItem> FindAll()
+        public async Task<IEnumerable<SelectListItem>> FindAll()
         {
-            return applicationContext.Beds
+            return await applicationContext.Beds
                 .Select(b => new SelectListItem { Value = Convert.ToString(b.BedId), Text = localizer[b.Type] })
-                .ToList();
+                .ToListAsync();
+        }
+
+        public async Task<Bed> FindBedById(int bedId)
+        {
+            var bed = await applicationContext.Beds.FindAsync(bedId);
+            return bed;
         }
     }
 }

@@ -18,12 +18,18 @@ namespace HotelBookingApp.Services
         private readonly IThumbnailService thumbnailService;
         private readonly IStringLocalizer<HotelService> localizer;
 
-        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer)
+        private readonly IBedService bedService;
+        private readonly IRoomService roomService;
+
+        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer, 
+            IBedService bedService, IRoomService roomService)
         {
             this.applicationContext = applicationContext;
             this.imageService = imageService;
             this.thumbnailService = thumbnailService;
             this.localizer = localizer;
+            this.bedService = bedService;
+            this.roomService = roomService;
         }
 
         public async Task<Hotel> Add(Hotel hotel)
@@ -102,26 +108,12 @@ namespace HotelBookingApp.Services
             return room;
         }
 
-        public Room FindRoomById(int roomId)
-        {
-            var room = applicationContext.Rooms.Find(roomId);
-            return room;
-        }
-
-        public async Task<Bed> FindBedById(int bedId)
-        {
-            var bed = await applicationContext.Beds.FindAsync(bedId);
-            return bed;
-        }
-
         public async Task<RoomBed> AddBed(BedViewModel model)
         {
             var roomBed = new RoomBed
             {
                 RoomId = model.RoomId,
-                Room = FindRoomById(model.RoomId),
                 BedId = model.BedId,
-                Bed = await FindBedById(model.BedId),
                 BedNumber = model.BedNumber
             };
             await applicationContext.AddAsync(roomBed);

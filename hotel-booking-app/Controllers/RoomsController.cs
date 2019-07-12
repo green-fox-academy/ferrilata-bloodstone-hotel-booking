@@ -28,11 +28,7 @@ namespace HotelBookingApp.Controllers
         [HttpGet("new")]
         public IActionResult Add(int hotelId)
         {
-            var room = new Room
-            {
-                HotelId = hotelId
-            };
-            return View(room);
+            return View(new Room { HotelId = hotelId });
         }
 
         [HttpPost("new")]
@@ -42,20 +38,17 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 
-        [HttpGet("{roomId}/bed/new")]
-        public IActionResult AddBed(int hotelId, int roomId)
+        [HttpGet("{roomId}/beds/new")]
+        public async Task<IActionResult> AddBed(int hotelId, int roomId)
         {
-            var beds = bedService.FindAll();
-            var bedViewModel = new BedViewModel
+            var beds = await bedService.FindAll();
+            return View(new BedViewModel
             {
-                Beds = beds,
-                RoomId = roomId,
-                HotelId = hotelId
-            };
-            return View(bedViewModel);
+                Beds = beds, RoomId = roomId, HotelId = hotelId
+            });
         }
 
-        [HttpPost("{roomId}/bed/new")]
+        [HttpPost("{roomId}/beds/new")]
         public async Task<IActionResult> AddBed(int hotelId, BedViewModel model)
         {
             await hotelService.AddBed(model);
