@@ -8,7 +8,7 @@
 <h1>Add a new bed to the room</h1>
 <form asp-controller="Rooms" asp-action="AddBed" method="post">
     <div class="form-group">
-        <label asp-for="@Model.BedId">Select bed type</label>
+        <label asp-for="@Model.BedId">@Localizer["Select bed type"]</label>
         <select asp-for="@Model.BedId" asp-items="@Model.Beds" class="form-control"></select>
         <input type="number" asp-for="@Model.BedNumber" class="form-control" placeholder="Number of this type of bed" />
     </div>
