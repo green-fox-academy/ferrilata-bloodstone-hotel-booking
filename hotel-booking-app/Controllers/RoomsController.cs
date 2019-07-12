@@ -46,7 +46,8 @@ namespace HotelBookingApp.Controllers
             var bedViewModel = new BedViewModel
             {
                 Beds = beds,
-                RoomId = roomId
+                RoomId = roomId,
+                HotelId = hotelId
             };
             return View(bedViewModel);
         }

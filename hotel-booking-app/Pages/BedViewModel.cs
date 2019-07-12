@@ -13,6 +13,6 @@ namespace HotelBookingApp.Pages
         public int RoomId { get; set; }
         public int BedId { get; set; }
         public int BedNumber { get; set; }
-        //public RoomBed RoomBed { get; set; }
+        public int HotelId { get; set; }
     }
 }
