@@ -40,7 +40,7 @@ namespace HotelBookingApp.Controllers
             return View(request);
         }
 
-        [HttpPost("logout")]
+        [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
             await accountService.SignOutAsync();
