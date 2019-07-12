@@ -40,7 +40,7 @@ namespace HotelBookingApp.Data
             }
             var beds = new Bed[]
             {
-                new Bed { Type = "full bed", Size = 1},
+                new Bed { Type = "full bed", Size = 2},
                 new Bed { Type = "twin bed", Size = 2},
                 new Bed { Type = "single bed", Size = 1},
                 new Bed { Type = "sofa bed", Size = 1}

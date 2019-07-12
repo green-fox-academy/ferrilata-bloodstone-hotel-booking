@@ -13,9 +13,9 @@ namespace HotelBookingApp.Services
     public class BedService : IBedService
     {
         private readonly ApplicationContext applicationContext;
-        private readonly IStringLocalizer<PropertyTypeService> localizer;
+        private readonly IStringLocalizer<BedService> localizer;
 
-        public BedService(ApplicationContext applicationContext, IStringLocalizer<PropertyTypeService> localizer)
+        public BedService(ApplicationContext applicationContext, IStringLocalizer<BedService> localizer)
         {
             this.applicationContext = applicationContext;
             this.localizer = localizer;

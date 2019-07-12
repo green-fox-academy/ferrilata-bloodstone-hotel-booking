@@ -117,61 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About" xml:space="preserve">
-    <value>A hotelről</value>
+  <data name="Add a new bed type to the room" xml:space="preserve">
+    <value>Új ágytípus hozzáadása a szobához</value>
   </data>
-  <data name="Add bed" xml:space="preserve">
+  <data name="Add Bed" xml:space="preserve">
     <value>Ágy hozzáadása</value>
   </data>
-  <data name="Add room" xml:space="preserve">
-    <value>Szoba hozzáadása</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Mégse</value>
   </data>
-  <data name="Address" xml:space="preserve">
-    <value>Cím</value>
+  <data name="Number of this bed" xml:space="preserve">
+    <value>Ágyak száma ebből a típusból</value>
   </data>
-  <data name="Apartment" xml:space="preserve">
-    <value>Apartman</value>
+  <data name="Save" xml:space="preserve">
+    <value>Mentés</value>
   </data>
-  <data name="Delete Image" xml:space="preserve">
-    <value>Kép törlése</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Szerkeszt</value>
-  </data>
-  <data name="Gallery" xml:space="preserve">
-    <value>Galéria</value>
-  </data>
-  <data name="Go back" xml:space="preserve">
-    <value>Visszalép</value>
-  </data>
-  <data name="Guesthouse" xml:space="preserve">
-    <value>Vendégház</value>
-  </data>
-  <data name="Hostel" xml:space="preserve">
-    <value>Hostel</value>
-  </data>
-  <data name="Hotel" xml:space="preserve">
-    <value>Hotel</value>
-  </data>
-  <data name="Hotel type" xml:space="preserve">
-    <value>Szállás típusa:</value>
-  </data>
-  <data name="No images." xml:space="preserve">
-    <value>Nincsenek képek.</value>
-  </data>
-  <data name="Number of stars" xml:space="preserve">
-    <value>Csillagok száma</value>
-  </data>
-  <data name="Reservations" xml:space="preserve">
-    <value>Foglalások</value>
-  </data>
-  <data name="Reserve" xml:space="preserve">
-    <value>Lefoglalás</value>
-  </data>
-  <data name="Rooms" xml:space="preserve">
-    <value>Szobák</value>
-  </data>
-  <data name="Set as thumbnail" xml:space="preserve">
-    <value>Beállítás bélyegképként</value>
+  <data name="Select bed type" xml:space="preserve">
+    <value>Ágy típusa</value>
   </data>
 </root>
