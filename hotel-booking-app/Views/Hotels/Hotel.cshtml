@@ -7,7 +7,7 @@
 <div>
     <h1>@Model.Hotel.Name</h1>
     <div class="d-flex">
-        <div class="">
+        <div>
             @if (Model.Hotel.ThumbnailUrl != null && Model.Hotel.Thumbnail)
             {
                 <img class="img-fluid" src="@Model.Hotel.ThumbnailUrl" alt="thumbnail" />
@@ -18,7 +18,12 @@
             }
         </div>
         <div class="ml-3">
-            <div><b>@Localizer["Number of stars"]:</b> @Model.Hotel.StarRating</div>
+            <div>
+                @for (int star = 0; star < @Model.Hotel.StarRating; star++)
+{
+                <i class="fas fa-star text-warning"></i>
+}
+                    </div>
             <div><b>@Localizer["Hotel type"]:</b> @Localizer[@Model.Hotel.PropertyType.Type]</div>
             <div><b>@Localizer["Address"]:</b> @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
         </div>
