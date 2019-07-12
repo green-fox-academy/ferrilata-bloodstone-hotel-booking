@@ -117,14 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add a new room" xml:space="preserve">
+    <value>Új szoba hozzáadása</value>
+  </data>
   <data name="Add Room" xml:space="preserve">
     <value>Szoba hozzáadása</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Mégse</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Név</value>
   </data>
+  <data name="Name of the room" xml:space="preserve">
+    <value>Szoba megnevezése</value>
+  </data>
   <data name="Price" xml:space="preserve">
     <value>Ár</value>
+  </data>
+  <data name="Price of the room per night" xml:space="preserve">
+    <value>Szoba ára éjszakánként</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Mentés</value>

@@ -47,6 +47,11 @@
                    asp-route-roomId="@room.RoomId">
                     @Localizer["Reserve"]
                 </a>
+                <a asp-controller="Rooms" asp-action="AddBed"
+                   asp-route-hotelId="@Model.Hotel.HotelId"
+                   asp-route-roomId="@room.RoomId">
+                    @Localizer["Add bed"]
+                </a>
             </li>
         }
     </ul>
