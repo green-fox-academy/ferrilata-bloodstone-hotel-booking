@@ -154,13 +154,16 @@
     <value>Hotel</value>
   </data>
   <data name="Hotel type" xml:space="preserve">
-    <value>Szállás típusa:</value>
+    <value>Szállás típusa</value>
   </data>
   <data name="No images." xml:space="preserve">
     <value>Nincsenek képek.</value>
   </data>
   <data name="Number of stars" xml:space="preserve">
     <value>Csillagok száma</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opciók</value>
   </data>
   <data name="Reservations" xml:space="preserve">
     <value>Foglalások</value>
