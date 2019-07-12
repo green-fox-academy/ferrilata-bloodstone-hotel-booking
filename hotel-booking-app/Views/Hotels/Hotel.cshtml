@@ -59,53 +59,63 @@
     }
 </style>
 
-<div class="container col">
+<div style="min-width: 420px;">
     <div class="d-inline-flex">
-        <div class="container">
+        <div class="" style="min-width: 220px; max-width: 220px;">
             @if (Model.Hotel.ThumbnailUrl != null && Model.Hotel.Thumbnail)
             {
-                <img class="img-thumbnail" src="@Model.Hotel.ThumbnailUrl" alt="thumbnail" />
+                <img class="img-fluid" src="@Model.Hotel.ThumbnailUrl" alt="thumbnail" />
             }
             else
             {
-                <img class="img-thumbnail" src="~/nopic.png" alt="thumbnail" />
+                <img class="img-fluid" src="~/nopic.png" alt="thumbnail" />
             }
         </div>
-        <div class="container">
+        <div>
             <h1>@Model.Hotel.Name</h1>
 
-            <div>@Localizer["Number of stars"]: @Model.Hotel.StarRating</div>
-            <div>@Localizer["Hotel type"]: @Localizer[@Model.Hotel.PropertyType.Type]</div>
+            <div><b>@Localizer["Number of stars"]:</b> @Model.Hotel.StarRating</div>
+            <div><b>@Localizer["Hotel type"]:</b> @Localizer[@Model.Hotel.PropertyType.Type]</div>
             <div><b>@Localizer["Address"]:</b> @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
-            <div>
-                <br />
-                <h5>@Localizer["About"]:</h5>
-                @Model.Hotel.Description
-            </div>
-            <div>@Localizer["Rooms"]:</div>
-            <ul>
-                @foreach (var room in @Model.Hotel.Rooms)
-                {
-                    <li>
-                        @room.Name ($@room.Price)
-                        <a asp-controller="Reservations" asp-action="Add"
-                           asp-route-hotelId="@Model.Hotel.HotelId"
-                           asp-route-roomId="@room.RoomId">
-                            @Localizer["Reserve"]
-                        </a>
-                    </li>
-                }
-            </ul>
         </div>
     </div>
-    <div class="buttons">
-        @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+    <div>
+        <br />
+        <h5>@Localizer["About"]:</h5>
+        <p>@Model.Hotel.Description</p>
+    </div>
+    <div class="">
+        <br />
+        <b>@Localizer["Rooms"]:</b>
+    </div>
+    <ul>
+        @foreach (var room in @Model.Hotel.Rooms)
         {
-            <a class="btn btn-primary" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">@Localizer["Edit"]</a>
-            <a class="btn btn-primary" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Add room"]</a>
-            <a class="btn btn-primary" asp-controller="Reservations" asp-action="Index" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Reservations"]</a>
+            <li>
+                @room.Name ($@room.Price)
+                <a asp-controller="Reservations" asp-action="Add"
+                   asp-route-hotelId="@Model.Hotel.HotelId"
+                   asp-route-roomId="@room.RoomId">
+                    @Localizer["Reserve"]
+                </a>
+            </li>
         }
+    </ul>
+    <div class="form-check flex-md-wrap">
         <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@Localizer["Go back"]</a>
+        <div class="dropdown my-2">
+            @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+            {
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @Localizer["Options"]
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.Hotel.HotelId" role="button">@Localizer["Edit"]</a>
+                    <a class="dropdown-item" asp-controller="Rooms" asp-action="Add" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Add room"]</a>
+                    <a class="dropdown-item" asp-controller="Reservations" asp-action="Index" asp-route-hotelId="@Model.Hotel.HotelId" role="button">@Localizer["Reservations"]</a>
+                </div>
+            }
+        </div>
     </div>
 </div>
 <hr />
