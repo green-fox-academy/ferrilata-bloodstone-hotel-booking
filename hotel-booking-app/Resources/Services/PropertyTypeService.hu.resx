@@ -117,49 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Address" xml:space="preserve">
-    <value>Cím</value>
+  <data name="Apartment" xml:space="preserve">
+    <value>Apartman</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Mégse</value>
+  <data name="Guesthouse" xml:space="preserve">
+    <value>Vendégház</value>
   </data>
-  <data name="Choose your time zone" xml:space="preserve">
-    <value>Időzóna</value>
+  <data name="Hostel" xml:space="preserve">
+    <value>Hostel</value>
   </data>
-  <data name="City" xml:space="preserve">
-    <value>Város</value>
-  </data>
-  <data name="Country" xml:space="preserve">
-    <value>Ország</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Törlés</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Leírás</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Szerkesztés</value>
-  </data>
-  <data name="Edit Hotel" xml:space="preserve">
-    <value>Hotel szerkesztése</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Név</value>
-  </data>
-  <data name="Property type" xml:space="preserve">
-    <value>Szállás típusa</value>
-  </data>
-  <data name="Region" xml:space="preserve">
-    <value>Régió / Megye</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Mentés</value>
-  </data>
-  <data name="Star rating" xml:space="preserve">
-    <value>Csillagok száma</value>
-  </data>
-  <data name="Upload images" xml:space="preserve">
-    <value>Képek feltöltése</value>
+  <data name="Hotel" xml:space="preserve">
+    <value>Hotel</value>
   </data>
 </root>

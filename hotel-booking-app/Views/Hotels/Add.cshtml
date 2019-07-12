@@ -69,12 +69,8 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.Hotel.PropertyTypeId">@Localizer["Property type"]</label>
-        <select asp-for="@Model.Hotel.PropertyTypeId" class="form-control">
-            @for (int i = 0; i < @Model.PropertyTypes.Count(); i++)
-            {
-                int j = i + 1;
-                <option value=@j>@Localizer[@Model.PropertyTypes.ToList()[i].Text]</option>
-            }
+        <select asp-for="@Model.Hotel.PropertyTypeId" asp-items="@Model.PropertyTypes"class="form-control">
+           
         </select>
         <span asp-validation-for="@Model.Hotel.PropertyTypeId" class="text-danger"></span>
     </div>
