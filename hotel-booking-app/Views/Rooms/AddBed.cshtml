@@ -1,0 +1,22 @@
+﻿@model BedViewModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = @Localizer["Add Bed"];
+}
+
+<h1>@Localizer["Add a new bed type to the room"]</h1>
+<form asp-controller="Rooms" asp-action="AddBed" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.BedId">@Localizer["Select bed type"]</label>
+        <select asp-for="@Model.BedId" asp-items="@Model.Beds" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.BedNumber">@Localizer["Number of this bed"]</label>
+        <input type="number" asp-for="@Model.BedNumber" class="form-control" placeholder=@Localizer["Number of this bed"] />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+        <a class="btn btn-danger" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@Model.HotelId" role="button">@Localizer["Cancel"]</a>
+    </div>
+</form>

@@ -1,6 +1,7 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Pages;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -17,12 +18,18 @@ namespace HotelBookingApp.Services
         private readonly IThumbnailService thumbnailService;
         private readonly IStringLocalizer<HotelService> localizer;
 
-        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer)
+        private readonly IBedService bedService;
+        private readonly IRoomService roomService;
+
+        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer, 
+            IBedService bedService, IRoomService roomService)
         {
             this.applicationContext = applicationContext;
             this.imageService = imageService;
             this.thumbnailService = thumbnailService;
             this.localizer = localizer;
+            this.bedService = bedService;
+            this.roomService = roomService;
         }
 
         public async Task<Hotel> Add(Hotel hotel)
@@ -91,14 +98,6 @@ namespace HotelBookingApp.Services
             applicationContext.Update(hotel);
             await applicationContext.SaveChangesAsync();
             return hotel;
-        }
-
-        public async Task<Room> AddRoom(int hotelId, Room room)
-        {
-            room.HotelId = hotelId;
-            await applicationContext.AddAsync(room);
-            await applicationContext.SaveChangesAsync();
-            return room;
         }
     }
 }

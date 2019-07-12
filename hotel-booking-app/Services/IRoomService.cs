@@ -9,5 +9,6 @@ namespace HotelBookingApp.Services
     public interface IRoomService
     {
         Task<Room> FindByIdAsync(int id);
+        Task<Room> AddRoom(int hotelId, Room room);
     }
 }
