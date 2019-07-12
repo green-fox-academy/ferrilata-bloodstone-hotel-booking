@@ -26,9 +26,12 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("new")]
-        public IActionResult Add()
+        public IActionResult Add(int hotelId)
         {
-            var room = new Room();
+            var room = new Room
+            {
+                HotelId = hotelId
+            };
             return View(room);
         }
 
