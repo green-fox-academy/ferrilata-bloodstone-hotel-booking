@@ -3,6 +3,10 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
+      "library": "bootstrap-star-rating@4.0.6",
+      "destination": "wwwroot/lib/bootstrap-star-rating/"
+    },
+    {
       "library": "font-awesome@5.9.0",
       "destination": "wwwroot/lib/font-awesome/"
     }

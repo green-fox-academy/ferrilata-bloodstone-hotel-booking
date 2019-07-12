@@ -5,7 +5,7 @@
     ViewData["Title"] = @Localizer["Add Hotel"];
 }
 
-    <h2>@Localizer["Add a Hotel"]</h2>
+<h2>@Localizer["Add a Hotel"]</h2>
 
 <form asp-action="Add" method="post" enctype="multipart/form-data">
     <div class="form-group">
@@ -24,7 +24,7 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.Hotel.StarRating">@Localizer["Star rating"]</label>
-        <input type="number" asp-for="@Model.Hotel.StarRating" class="form-control" />
+        <input type="number" asp-for="@Model.Hotel.StarRating" class="rating" min=0 max=5 step=1 />
         <span asp-validation-for="@Model.Hotel.StarRating" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -69,7 +69,7 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.Hotel.PropertyTypeId">@Localizer["Property type"]</label>
-        <select asp-for="@Model.Hotel.PropertyTypeId" asp-items="@Model.PropertyTypes"class="form-control"></select>
+        <select asp-for="@Model.Hotel.PropertyTypeId" asp-items="@Model.PropertyTypes" class="form-control"></select>
         <span asp-validation-for="@Model.Hotel.PropertyTypeId" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">@Localizer["Add"]</button>

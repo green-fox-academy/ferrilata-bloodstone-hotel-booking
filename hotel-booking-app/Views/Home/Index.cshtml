@@ -74,7 +74,13 @@
                     <img src="~/nopic.png" width="200" height="200" />
                 }
             </td>
-            <td><a class="nav-link" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">@hotel.Name</a></td>
+            <td>
+                <a class="nav-link" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">@hotel.Name</a>
+                @for (int star = 0; star < hotel.StarRating; star++)
+                {
+                    <i class="fas fa-star text-warning"></i>
+                }
+            </td>
             <td>@hotel.Description</td>
             <td>@hotel.Price</td>
             <td>@hotel.Location.City</td>
