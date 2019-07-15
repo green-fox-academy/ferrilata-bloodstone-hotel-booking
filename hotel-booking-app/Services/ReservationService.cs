@@ -1,10 +1,8 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -76,6 +74,7 @@ namespace HotelBookingApp.Services
                 .Include(r => r.ApplicationUser)
                 .Where(r => r.ApplicationUserId == userId)
                 .Where(r => r.IsConfirmed)
+                .OrderBy(r => r.FromDate)
                 .ToListAsync();
         }
 
