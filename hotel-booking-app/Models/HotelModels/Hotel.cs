@@ -10,9 +10,8 @@ namespace HotelBookingApp.Models.HotelModels
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; }
         public int StarRating { get; set; }
-        public String TimeZoneId { get; set; }
+        public string TimeZoneId { get; set; }
         public Location Location { get; set; }
         public int LocationId { get; set; }
         public PropertyType PropertyType { get; set; }
