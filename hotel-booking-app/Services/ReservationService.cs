@@ -95,7 +95,7 @@ namespace HotelBookingApp.Services
 
         public async Task DeleteAsync(int id)
         {
-            var reservation = FindByIdAsync(id);
+            var reservation = await FindByIdAsync(id);
             context.Remove(reservation);
             await context.SaveChangesAsync();
         }

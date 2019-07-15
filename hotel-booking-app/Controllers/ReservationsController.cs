@@ -93,12 +93,12 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 
-        [Authorize(Roles = "Admin, HotelManager")]
-        [HttpPost("reservations/delete/{reservationId}")]
-        public async Task<IActionResult> Delete(int hotelId, int reservationId)
+        [Authorize(Roles = "Admin, User")]
+        [HttpPost("/reservations/delete/{reservationId}")]
+        public async Task<IActionResult> Delete(int reservationId)
         {
             await reservationService.DeleteAsync(reservationId);
-            return RedirectToAction(nameof(Index), new { id = hotelId });
+            return RedirectToAction(nameof(MyReservations));
         }
 
         [HttpGet("verifyGuestNumber")]
