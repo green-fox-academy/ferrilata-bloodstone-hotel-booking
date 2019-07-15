@@ -47,16 +47,6 @@
             </a>
         </th>
         <th>
-            <a asp-action="Index"
-               asp-route-orderBy="Price"
-               asp-route-desc="@Model.QueryParams.NextDesc"
-               asp-route-pageSize="@Model.QueryParams.PageSize"
-               asp-route-currentPage="@Model.QueryParams.CurrentPage"
-               asp-route-search="@Model.QueryParams.Search">
-                @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Price)]
-            </a>
-        </th>
-        <th>
             @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Location.City)]
         </th>
     </tr>
@@ -75,14 +65,15 @@
                 }
             </td>
             <td>
-                <a class="nav-link" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">@hotel.Name</a>
-                @for (int star = 0; star < hotel.StarRating; star++)
-                {
-                    <i class="fas fa-star text-warning"></i>
-                }
+                <a asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">@hotel.Name</a>
+                <div class="text-center">
+                    @for (int star = 0; star < hotel.StarRating; star++)
+                    {
+                        <i class="fas fa-star text-warning"></i>
+                    }
+                </div>
             </td>
-            <td>@hotel.Description</td>
-            <td>@hotel.Price</td>
+            <td>@hotel.ShortDescription</td>
             <td>@hotel.Location.City</td>
         </tr>
     }
