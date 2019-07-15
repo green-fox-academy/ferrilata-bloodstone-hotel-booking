@@ -38,9 +38,9 @@
     </div>
     <table class="table">
         <tr>
-            <th>Room Name</th>
-            <th>Price</th>
-            <th>Beds in the room</th>
+            <th>@Localizer["Room Name"]</th>
+            <th>@Localizer["Price"]</th>
+            <th>@Localizer["Beds in the room"]</th>
             <th></th>
             <th></th>
         </tr>
@@ -52,9 +52,9 @@
                 <td>
                     @foreach (var roomBed in room.RoomBeds)
                     {
-                        <ul>
-                            @roomBed.Bed.Type: @roomBed.BedNumber 
-                        </ul>
+                    <ul>
+                        @Localizer[@roomBed.Bed.Type]: @roomBed.BedNumber
+                    </ul>
                     }
                 </td>
                 <td>
