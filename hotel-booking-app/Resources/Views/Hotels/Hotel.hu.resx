@@ -132,11 +132,17 @@
   <data name="Apartment" xml:space="preserve">
     <value>Apartman</value>
   </data>
+  <data name="Beds in the room" xml:space="preserve">
+    <value>Ágyak a szobában</value>
+  </data>
   <data name="Delete Image" xml:space="preserve">
     <value>Kép törlése</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Szerkeszt</value>
+  </data>
+  <data name="full bed" xml:space="preserve">
+    <value>francia ágy</value>
   </data>
   <data name="Gallery" xml:space="preserve">
     <value>Galéria</value>
@@ -165,16 +171,31 @@
   <data name="Options" xml:space="preserve">
     <value>Opciók</value>
   </data>
+  <data name="Price" xml:space="preserve">
+    <value>Ár</value>
+  </data>
   <data name="Reservations" xml:space="preserve">
     <value>Foglalások</value>
   </data>
   <data name="Reserve" xml:space="preserve">
     <value>Lefoglalás</value>
   </data>
+  <data name="Room Name" xml:space="preserve">
+    <value>Szoba neve</value>
+  </data>
   <data name="Rooms" xml:space="preserve">
     <value>Szobák</value>
   </data>
   <data name="Set as thumbnail" xml:space="preserve">
     <value>Beállítás bélyegképként</value>
+  </data>
+  <data name="single bed" xml:space="preserve">
+    <value>egyszemélyes ágy</value>
+  </data>
+  <data name="sofa bed" xml:space="preserve">
+    <value>kanapé ágy</value>
+  </data>
+  <data name="twin bed" xml:space="preserve">
+    <value>duplaágy</value>
   </data>
 </root>
