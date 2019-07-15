@@ -47,16 +47,6 @@
             </a>
         </th>
         <th>
-            <a asp-action="Index"
-               asp-route-orderBy="Price"
-               asp-route-desc="@Model.QueryParams.NextDesc"
-               asp-route-pageSize="@Model.QueryParams.PageSize"
-               asp-route-currentPage="@Model.QueryParams.CurrentPage"
-               asp-route-search="@Model.QueryParams.Search">
-                @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Price)]
-            </a>
-        </th>
-        <th>
             @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Location.City)]
         </th>
     </tr>
