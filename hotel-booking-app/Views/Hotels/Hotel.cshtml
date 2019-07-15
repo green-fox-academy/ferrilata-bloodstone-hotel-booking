@@ -52,9 +52,9 @@
                 <td>
                     @foreach (var roomBed in room.RoomBeds)
                     {
-                    <ul>
-                        @Localizer[@roomBed.Bed.Type]: @roomBed.BedNumber
-                    </ul>
+                        <ul>
+                            @Localizer[@roomBed.Bed.Type]: @roomBed.BedNumber
+                        </ul>
                     }
                 </td>
                 <td>
@@ -65,11 +65,14 @@
                     </a>
                 </td>
                 <td>
-                    <a asp-controller="Rooms" asp-action="AddBed"
-                       asp-route-hotelId="@Model.Hotel.HotelId"
-                       asp-route-roomId="@room.RoomId">
-                        @Localizer["Add bed"]
-                    </a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+                    {
+                        <a asp-controller="Rooms" asp-action="AddBed"
+                           asp-route-hotelId="@Model.Hotel.HotelId"
+                           asp-route-roomId="@room.RoomId">
+                            @Localizer["Add bed"]
+                        </a>
+                    }
                 </td>
             </tr>
         }
