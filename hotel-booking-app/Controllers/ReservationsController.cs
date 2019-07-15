@@ -29,6 +29,14 @@ namespace HotelBookingApp.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet("/reservations/my-reservations")]
+        public async Task<IActionResult> MyReservations(ReservationViewModel model)
+        {
+            model.Reservations = await reservationService.FindAllByHotelIdAsync(model.HotelId);
+            return View(nameof(Index), model);
+        }
+
         [Authorize(Roles = "User, Admin")]
         [HttpGet("rooms/{roomId}/reservations/new")]
         public IActionResult Add(int hotelId, int roomId)
