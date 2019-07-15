@@ -65,13 +65,15 @@
                 }
             </td>
             <td>
-                <a class="nav-link" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">@hotel.Name</a>
-                @for (int star = 0; star < hotel.StarRating; star++)
-                {
-                    <i class="fas fa-star text-warning"></i>
-                }
+                <a asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">@hotel.Name</a>
+                <div class="text-center">
+                    @for (int star = 0; star < hotel.StarRating; star++)
+                    {
+                        <i class="fas fa-star text-warning"></i>
+                    }
+                </div>
             </td>
-            <td>@hotel.Description</td>
+            <td>@hotel.ShortDescription</td>
             <td>@hotel.Location.City</td>
         </tr>
     }

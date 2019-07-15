@@ -19,5 +19,16 @@ namespace HotelBookingApp.Models.HotelModels
         public IEnumerable<Room> Rooms { get; set; }
         public bool Thumbnail { get; set; } = false;
         public string ThumbnailUrl { get; set; }
+
+        public string ShortDescription
+        {
+            get
+            {
+                int maxLength = 300;
+                return Description != null && Description.Length > maxLength
+                    ? Description.Substring(0, maxLength) + "..."
+                    : Description;
+            }
+        }
     }
 }
