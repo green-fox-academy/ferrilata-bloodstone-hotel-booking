@@ -5,7 +5,6 @@ using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,19 +22,23 @@ namespace HotelBookingApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.SetLocalizationSource();
+            services.AddMvcWithLocalization();
             services.AddCustomDatabase(Configuration);
             services.AddCustomIdentity();
             services.AddAutoMapper();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IHotelService, HotelService>();
+            services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IThumbnailService, ThumbnailService>();
             services.AddScoped<IPropertyTypeService, PropertyTypeService>();
-            services.AddScoped<IReservationService, ReservationService>();
+            services.AddScoped<IBedService, BedService>();
+            services.SetLocalization();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationContext applicationContext)
         {
             if (env.IsDevelopment())
@@ -51,6 +54,7 @@ namespace HotelBookingApp
             app.UseAuthentication();
             ApplicationUserInitializer.SeedData(userManager, roleManager);
             app.UseStaticFiles();
+            app.UseRequestLocalization();
             app.UseMvc();
         }
     }

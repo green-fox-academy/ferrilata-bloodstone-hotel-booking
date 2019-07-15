@@ -95,7 +95,8 @@ namespace HotelBookingApp.Migrations
 
                     b.Property<int>("LocationId");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("Price");
 
@@ -106,6 +107,8 @@ namespace HotelBookingApp.Migrations
                     b.Property<bool>("Thumbnail");
 
                     b.Property<string>("ThumbnailUrl");
+
+                    b.Property<string>("TimeZoneId");
 
                     b.HasKey("HotelId");
 
@@ -157,13 +160,18 @@ namespace HotelBookingApp.Migrations
 
                     b.Property<string>("ApplicationUserId");
 
-                    b.Property<string>("GuestNames");
+                    b.Property<DateTime>("FromDate");
+
+                    b.Property<string>("GuestNames")
+                        .IsRequired();
 
                     b.Property<int>("GuestNumber");
 
                     b.Property<bool>("IsConfirmed");
 
                     b.Property<int>("RoomId");
+
+                    b.Property<DateTime>("ToDate");
 
                     b.HasKey("ReservationId");
 
@@ -198,6 +206,8 @@ namespace HotelBookingApp.Migrations
                     b.Property<int>("RoomId");
 
                     b.Property<int>("BedId");
+
+                    b.Property<int>("BedNumber");
 
                     b.HasKey("RoomId", "BedId");
 
@@ -331,7 +341,7 @@ namespace HotelBookingApp.Migrations
 
             modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Reservation", b =>
                 {
-                    b.HasOne("HotelBookingApp.Models.Account.ApplicationUser", "AppicationUser")
+                    b.HasOne("HotelBookingApp.Models.Account.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
 
