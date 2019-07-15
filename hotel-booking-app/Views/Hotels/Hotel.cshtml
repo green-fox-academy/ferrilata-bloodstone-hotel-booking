@@ -20,10 +20,10 @@
         <div class="ml-3">
             <div>
                 @for (int star = 0; star < @Model.Hotel.StarRating; star++)
-{
-                <i class="fas fa-star text-warning"></i>
-}
-                    </div>
+                {
+                    <i class="fas fa-star text-warning"></i>
+                }
+            </div>
             <div><b>@Localizer["Hotel type"]:</b> @Localizer[@Model.Hotel.PropertyType.Type]</div>
             <div><b>@Localizer["Address"]:</b> @Model.Hotel.Location.City, @Model.Hotel.Location.Address, @Model.Hotel.Location.Country</div>
         </div>
@@ -35,26 +35,46 @@
     </div>
     <div>
         <br />
-        <b>@Localizer["Rooms"]:</b>
     </div>
-    <ul>
+    <table class="table">
+        <tr>
+            <th>Room Name</th>
+            <th>Price</th>
+            <th>Beds in the room</th>
+            <th></th>
+            <th></th>
+        </tr>
         @foreach (var room in @Model.Hotel.Rooms)
         {
-            <li>
-                @room.Name ($@room.Price)
-                <a asp-controller="Reservations" asp-action="Add"
-                   asp-route-hotelId="@Model.Hotel.HotelId"
-                   asp-route-roomId="@room.RoomId">
-                    @Localizer["Reserve"]
-                </a>
-                <a asp-controller="Rooms" asp-action="AddBed"
-                   asp-route-hotelId="@Model.Hotel.HotelId"
-                   asp-route-roomId="@room.RoomId">
-                    @Localizer["Add bed"]
-                </a>
-            </li>
+            <tr>
+                <td>@room.Name</td>
+                <td>$@room.Price</td>
+                <td>
+                    @foreach (var roomBed in room.RoomBeds)
+                    {
+                        <ul>
+                            @roomBed.Bed.Type: @roomBed.BedNumber 
+                        </ul>
+                    }
+                </td>
+                <td>
+                    <a asp-controller="Reservations" asp-action="Add"
+                       asp-route-hotelId="@Model.Hotel.HotelId"
+                       asp-route-roomId="@room.RoomId">
+                        @Localizer["Reserve"]
+                    </a>
+                </td>
+                <td>
+                    <a asp-controller="Rooms" asp-action="AddBed"
+                       asp-route-hotelId="@Model.Hotel.HotelId"
+                       asp-route-roomId="@room.RoomId">
+                        @Localizer["Add bed"]
+                    </a>
+                </td>
+            </tr>
         }
-    </ul>
+    </table>
+
     <div class="">
         <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@Localizer["Go back"]</a>
         @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
