@@ -2,6 +2,7 @@ using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
+using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -115,6 +116,17 @@ namespace HotelBookingApp.Controllers
         {
             await hotelService.Delete(id);
             return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpGet("my-hotels")]
+        public async Task<IActionResult> MyHotels(QueryParams queryParams)
+        {
+            return View(new IndexPageView
+            {
+                Hotels = await hotelService.FindWithQuery(queryParams),
+                QueryParams = queryParams
+            });
         }
     }
 }
