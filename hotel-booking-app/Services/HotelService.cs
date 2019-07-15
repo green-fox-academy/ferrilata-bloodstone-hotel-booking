@@ -18,18 +18,12 @@ namespace HotelBookingApp.Services
         private readonly IThumbnailService thumbnailService;
         private readonly IStringLocalizer<HotelService> localizer;
 
-        private readonly IBedService bedService;
-        private readonly IRoomService roomService;
-
-        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer, 
-            IBedService bedService, IRoomService roomService)
+        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer)
         {
             this.applicationContext = applicationContext;
             this.imageService = imageService;
             this.thumbnailService = thumbnailService;
             this.localizer = localizer;
-            this.bedService = bedService;
-            this.roomService = roomService;
         }
 
         public async Task<Hotel> Add(Hotel hotel)
@@ -50,18 +44,6 @@ namespace HotelBookingApp.Services
             await imageService.DeleteAllFileAsync(id);
         }
 
-        public async Task<IEnumerable<Hotel>> FindAll()
-        {
-            return await applicationContext.Hotels.ToListAsync();
-        }
-
-        public async Task<IEnumerable<Hotel>> FindAllOrderByName()
-        {
-            return await applicationContext.Hotels
-                .OrderBy(h => h.Name)
-                .ToListAsync();
-        }
-
         public async Task<Hotel> FindByIdAsync(int id)
         {
             var hotel = await applicationContext.Hotels
@@ -74,7 +56,6 @@ namespace HotelBookingApp.Services
                 ?? throw new ItemNotFoundException(localizer["Hotel with id: {0} is not found.", id]);
             return hotel;
         }
-
 
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
         {
