@@ -64,27 +64,34 @@ namespace HotelBookingApp.Services
 
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
         {
-            var filteredHotels = applicationContext.Hotels
-                .Include(h => h.Location)
-                .Where(h =>
-                    string.IsNullOrEmpty(queryParams.Search)
-                    || h.Location.City.Contains(queryParams.Search));
-
-            var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
-            return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);
+            var filteredHotels = GetHotels();
+            return await GetPaginatedHotels(filteredHotels, queryParams);
         }
 
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams, string userId)
         {
-            var filteredHotels = applicationContext.Hotels
-                .Include(h => h.Location)
-                .Where(h => h.ApplicationUserId == userId)
-                .Where(h =>
-                    string.IsNullOrEmpty(queryParams.Search)
-                    || h.Location.City.Contains(queryParams.Search));
+            var filteredHotels = GetHotels()
+                .Where(h => h.ApplicationUserId == userId);
+            return await GetPaginatedHotels(filteredHotels, queryParams);
+        }
 
+        private IQueryable<Hotel> GetHotels()
+        {
+            return applicationContext.Hotels.Include(h => h.Location);
+        }
+
+        private async Task<PaginatedList<Hotel>> GetPaginatedHotels(IQueryable<Hotel> hotels, QueryParams queryParams)
+        {
+            var filteredHotels = FilterByCity(hotels, queryParams);
             var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
             return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);
+        }
+
+        private IQueryable<Hotel> FilterByCity(IQueryable<Hotel> hotels, QueryParams queryParams)
+        {
+            return hotels.Where(h =>
+                string.IsNullOrEmpty(queryParams.Search)
+                || h.Location.City.Contains(queryParams.Search));
         }
 
         public async Task<Hotel> Update(Hotel hotel)
