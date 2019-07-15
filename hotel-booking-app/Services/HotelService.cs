@@ -1,8 +1,10 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
+using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Utils;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
@@ -18,7 +20,10 @@ namespace HotelBookingApp.Services
         private readonly IThumbnailService thumbnailService;
         private readonly IStringLocalizer<HotelService> localizer;
 
-        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer)
+        public HotelService(ApplicationContext applicationContext, 
+            IImageService imageService, 
+            IThumbnailService thumbnailService, 
+            IStringLocalizer<HotelService> localizer)
         {
             this.applicationContext = applicationContext;
             this.imageService = imageService;
@@ -58,6 +63,18 @@ namespace HotelBookingApp.Services
         }
 
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
+        {
+            var filteredHotels = applicationContext.Hotels
+                .Include(h => h.Location)
+                .Where(h =>
+                    string.IsNullOrEmpty(queryParams.Search)
+                    || h.Location.City.Contains(queryParams.Search));
+
+            var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
+            return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);
+        }
+
+        public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams, string userId)
         {
             var filteredHotels = applicationContext.Hotels
                 .Include(h => h.Location)

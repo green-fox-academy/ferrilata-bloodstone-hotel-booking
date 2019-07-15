@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
@@ -132,9 +133,10 @@ namespace HotelBookingApp.Controllers
         [HttpGet("my-hotels")]
         public async Task<IActionResult> MyHotels(QueryParams queryParams)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return View(nameof(Index), new IndexPageView
             {
-                Hotels = await hotelService.FindWithQuery(queryParams),
+                Hotels = await hotelService.FindWithQuery(queryParams, userId),
                 QueryParams = queryParams
             });
         }
