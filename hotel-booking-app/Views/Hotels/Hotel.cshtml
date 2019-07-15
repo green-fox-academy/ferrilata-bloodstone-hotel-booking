@@ -33,9 +33,6 @@
         <h5>@Localizer["About"] </h5>
         <p>@Model.Hotel.Description</p>
     </div>
-    <div>
-        <br />
-    </div>
     <table class="table">
         <tr>
             <th>@Localizer["Room Name"]</th>
@@ -53,7 +50,7 @@
                     @foreach (var roomBed in room.RoomBeds)
                     {
                         <ul>
-                            <uli>@Localizer[@roomBed.Bed.Type]: @roomBed.BedNumber</uli>
+                            <li>@Localizer[@roomBed.Bed.Type]: @roomBed.BedNumber</li>
                         </ul>
                     }
                 </td>
