@@ -28,6 +28,16 @@ namespace HotelBookingApp.Controllers
             this.propertyTypeService = propertyTypeService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Index(QueryParams queryParams)
+        {
+            return View(new IndexPageView
+            {
+                Hotels = await hotelService.FindWithQuery(queryParams),
+                QueryParams = queryParams
+            });
+        }
+
         [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("add")]
         public async Task<IActionResult> Add()
