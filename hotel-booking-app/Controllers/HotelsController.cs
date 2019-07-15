@@ -41,6 +41,19 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
+        [HttpGet("my-hotels")]
+        public async Task<IActionResult> MyHotels(QueryParams queryParams)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return View(nameof(Index), new IndexPageView
+            {
+                Hotels = await hotelService.FindWithQuery(queryParams, userId),
+                QueryParams = queryParams,
+                ActionName = nameof(MyHotels)
+            });
+        }
+
+        [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("add")]
         public async Task<IActionResult> Add()
         {
@@ -70,14 +83,11 @@ namespace HotelBookingApp.Controllers
         {
             try
             {
-                var hotel = await hotelService.FindByIdAsync(id);
-                var images = await imageService.GetImageListAsync(id);
-                var model = new HotelViewModel
+                return View(new HotelViewModel
                 {
-                    Hotel = hotel,
-                    ImageList = images
-                };
-                return View(model);
+                    Hotel = await hotelService.FindByIdAsync(id),
+                    ImageList = await imageService.GetImageListAsync(id)
+                });
             }
             catch (ItemNotFoundException ex)
             {
@@ -129,19 +139,6 @@ namespace HotelBookingApp.Controllers
         {
             await hotelService.Delete(id);
             return RedirectToAction(nameof(HomeController.Index), "Home");
-        }
-
-        [Authorize(Roles = "Admin, HotelManager")]
-        [HttpGet("my-hotels")]
-        public async Task<IActionResult> MyHotels(QueryParams queryParams)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return View(nameof(Index), new IndexPageView
-            {
-                Hotels = await hotelService.FindWithQuery(queryParams, userId),
-                QueryParams = queryParams,
-                ActionName = nameof(MyHotels)
-            });
         }
     }
 }
