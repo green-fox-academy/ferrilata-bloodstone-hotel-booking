@@ -95,10 +95,16 @@ namespace HotelBookingApp.Controllers
 
         [Authorize(Roles = "Admin, User")]
         [HttpPost("/reservations/delete/{reservationId}")]
-        public async Task<IActionResult> Delete(int reservationId)
+        public async Task<IActionResult> Delete(int hotelId, int reservationId)
         {
             await reservationService.DeleteAsync(reservationId);
-            return RedirectToAction(nameof(MyReservations));
+            if (hotelId == 0)
+            {
+                return RedirectToAction(nameof(MyReservations));
+            } else
+            {
+                return RedirectToAction(nameof(Index), new { hotelId });
+            }
         }
 
         [HttpGet("verifyGuestNumber")]
