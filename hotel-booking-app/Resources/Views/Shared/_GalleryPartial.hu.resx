@@ -117,28 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="City" xml:space="preserve">
-    <value>Város</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Törlés</value>
   </data>
-  <data name="Clear filters" xml:space="preserve">
-    <value>Szűrők törlése</value>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galéria</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Leírás</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Főoldal</value>
-  </data>
-  <data name="List of Hotels" xml:space="preserve">
-    <value>Hotellista</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Név</value>
-  </data>
-  <data name="No results found!" xml:space="preserve">
-    <value>Nincs találat!</value>
-  </data>
-  <data name="Search by city" xml:space="preserve">
-    <value>Keresés város alapján</value>
+  <data name="Set as thumbnail" xml:space="preserve">
+    <value>Beállítás bélyegképnek</value>
   </data>
 </root>
