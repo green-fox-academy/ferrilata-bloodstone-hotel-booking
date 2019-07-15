@@ -31,10 +31,13 @@ namespace HotelBookingApp.Controllers
 
         [Authorize(Roles = "Admin, User")]
         [HttpGet("/reservations/my-reservations")]
-        public async Task<IActionResult> MyReservations(ReservationViewModel model)
+        public async Task<IActionResult> MyReservations()
         {
-            model.Reservations = await reservationService.FindAllByHotelIdAsync(model.HotelId);
-            return View(nameof(Index), model);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return View(nameof(Index), new ReservationViewModel
+            {
+                Reservations = await reservationService.FindAllByUserId(userId)
+            });
         }
 
         [Authorize(Roles = "User, Admin")]

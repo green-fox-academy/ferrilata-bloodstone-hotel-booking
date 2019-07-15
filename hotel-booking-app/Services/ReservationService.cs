@@ -69,6 +69,16 @@ namespace HotelBookingApp.Services
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Reservation>> FindAllByUserId(string userId)
+        {
+            return await context.Reservations
+                .Include(r => r.Room)
+                .Include(r => r.ApplicationUser)
+                .Where(r => r.ApplicationUserId == userId)
+                .Where(r => r.IsConfirmed)
+                .ToListAsync();
+        }
+
         public async Task<bool> IsIntervalOccupied(Reservation reservation)
         {
             var confirmedReservations = await FindAllConfirmedByRoomIdAsync(reservation.RoomId);
