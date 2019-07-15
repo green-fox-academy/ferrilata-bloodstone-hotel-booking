@@ -31,11 +31,14 @@
                 <td>@String.Format("{0:yyyy/MM/dd}", r.FromDate)</td>
                 <td>@String.Format("{0:yyyy/MM/dd}", r.ToDate)</td>
                 <td>
-                    <form action="/reservations/delete/@r.ReservationId" method="post">
-                        <input type="hidden" name="reservationId" value="@r.ReservationId" />
-                        <input type="hidden" name="hotelId" value="@Model.HotelId" />
-                        <button type="submit" class="btn btn-danger">Cancel</button>
-                    </form>
+                    @if (r.IsCancelable)
+                    {
+                        <form action="/reservations/delete/@r.ReservationId" method="post">
+                            <input type="hidden" name="reservationId" value="@r.ReservationId" />
+                            <input type="hidden" name="hotelId" value="@Model.HotelId" />
+                            <button type="submit" class="btn btn-danger">@Localizer["Cancel"]</button>
+                        </form>
+                    }
                 </td>
             </tr>
         }

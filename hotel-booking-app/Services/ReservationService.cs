@@ -74,7 +74,8 @@ namespace HotelBookingApp.Services
                 .Include(r => r.ApplicationUser)
                 .Where(r => r.ApplicationUserId == userId)
                 .Where(r => r.IsConfirmed)
-                .OrderBy(r => r.FromDate)
+                .OrderBy(r => !r.IsCancelable)
+                    .ThenBy(r => r.FromDate)
                 .ToListAsync();
         }
 
@@ -95,8 +96,11 @@ namespace HotelBookingApp.Services
         public async Task DeleteAsync(int id)
         {
             var reservation = await FindByIdAsync(id);
-            context.Remove(reservation);
-            await context.SaveChangesAsync();
+            if (reservation.IsCancelable)
+            {
+                context.Remove(reservation);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

@@ -34,5 +34,6 @@ namespace HotelBookingApp.Models.HotelModels
         public string ApplicationUserId { get; set; }
 
         public int NumberOfNights { get => (ToDate - FromDate).Days; }
+        public bool IsCancelable { get => FromDate >= DateTime.Now.AddDays(1); }
     }
 }
