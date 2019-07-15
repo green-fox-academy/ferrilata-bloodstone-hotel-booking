@@ -58,9 +58,10 @@ namespace HotelBookingApp.Controllers
                 model.PropertyTypes = await propertyTypeService.FindAll();
                 return View(model);
             }
-                var hotel = await hotelService.Add(model.Hotel);
-                await imageService.UploadImagesAsync(imageList, hotel.HotelId);
-                return RedirectToAction(nameof(Hotel), new { id = hotel.HotelId });
+            model.Hotel.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var hotel = await hotelService.Add(model.Hotel);
+            await imageService.UploadImagesAsync(imageList, hotel.HotelId);
+            return RedirectToAction(nameof(Hotel), new { id = hotel.HotelId });
         }
 
         [HttpGet("{id}")]

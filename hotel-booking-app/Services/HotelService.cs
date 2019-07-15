@@ -78,6 +78,7 @@ namespace HotelBookingApp.Services
         {
             var filteredHotels = applicationContext.Hotels
                 .Include(h => h.Location)
+                .Where(h => h.ApplicationUserId == userId)
                 .Where(h =>
                     string.IsNullOrEmpty(queryParams.Search)
                     || h.Location.City.Contains(queryParams.Search));
