@@ -35,7 +35,8 @@ namespace HotelBookingApp.Controllers
             return View(new IndexPageView
             {
                 Hotels = await hotelService.FindWithQuery(queryParams),
-                QueryParams = queryParams
+                QueryParams = queryParams,
+                ActionName = nameof(Index)
             });
         }
 
@@ -138,7 +139,8 @@ namespace HotelBookingApp.Controllers
             return View(nameof(Index), new IndexPageView
             {
                 Hotels = await hotelService.FindWithQuery(queryParams, userId),
-                QueryParams = queryParams
+                QueryParams = queryParams,
+                ActionName = nameof(MyHotels)
             });
         }
     }
