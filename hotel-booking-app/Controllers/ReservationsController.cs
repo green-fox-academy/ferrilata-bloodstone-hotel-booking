@@ -1,8 +1,10 @@
-﻿using HotelBookingApp.Models.HotelModels;
+﻿using HotelBookingApp.Models.EmailModels;
+using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SendGrid.Helpers.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -14,11 +16,13 @@ namespace HotelBookingApp.Controllers
     {
         private readonly IReservationService reservationService;
         private readonly IRoomService roomService;
+        private readonly IEmailService emailService;
 
-        public ReservationsController(IReservationService reservationService, IRoomService roomService)
+        public ReservationsController(IReservationService reservationService, IRoomService roomService, IEmailService emailService)
         {
             this.reservationService = reservationService;
             this.roomService = roomService;
+            this.emailService = emailService;
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
@@ -44,9 +48,9 @@ namespace HotelBookingApp.Controllers
             {
                 return View(model);
             }
-
             model.Reservation.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reservation = await reservationService.AddAsync(model.Reservation);
+            await emailService.SendMailAsync(reservation, User.Identity.Name);
             return RedirectToAction(nameof(Confirm), new { reservationId = reservation.ReservationId });
         }
 
