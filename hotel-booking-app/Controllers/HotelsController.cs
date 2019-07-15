@@ -132,7 +132,7 @@ namespace HotelBookingApp.Controllers
         [HttpGet("my-hotels")]
         public async Task<IActionResult> MyHotels(QueryParams queryParams)
         {
-            return View(new IndexPageView
+            return View(nameof(Index), new IndexPageView
             {
                 Hotels = await hotelService.FindWithQuery(queryParams),
                 QueryParams = queryParams
