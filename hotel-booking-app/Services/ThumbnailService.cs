@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Net;
+using Microsoft.AspNetCore.Hosting;
 
 namespace HotelBookingApp.Services
 {
@@ -22,9 +23,16 @@ namespace HotelBookingApp.Services
         private CloudBlobContainer blobContainer;
         private ApplicationContext applicationContext;
 
-        public ThumbnailService(IConfiguration configuration, ApplicationContext applicationContext)
+        public ThumbnailService(IConfiguration configuration, ApplicationContext applicationContext, IHostingEnvironment env)
         {
-            accessKey = configuration.GetConnectionString("AzureStorageKey");
+            if (env.IsProduction())
+            {
+                accessKey = configuration.GetConnectionString("AzureStorageKey");
+            }
+            else
+            {
+                accessKey = configuration.GetConnectionString("AzureEmulatedStorageKey");
+            }
             account = CloudStorageAccount.Parse(this.accessKey);
             blobClient = account.CreateCloudBlobClient();
             blobContainer = blobClient.GetContainerReference(blobContainerName);
