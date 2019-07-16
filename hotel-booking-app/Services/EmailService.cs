@@ -39,8 +39,8 @@ namespace HotelBookingApp.Services
             msg.AddTo(new EmailAddress(userEmail));
             msg.SetFooterSetting(
                      true,
-                     "Some Footer HTML",
-                     "<strong><hr><div>© 2019 - Hotel Booking</div></strong>");
+                     html: "<strong><hr><div>© 2019 - Hotel Booking</div></strong>",
+                     text: "© 2019 - Hotel Booking");
             var response = await client.SendEmailAsync(msg);
             return response;
         }
@@ -92,25 +92,7 @@ namespace HotelBookingApp.Services
 
         public async Task<string> ConvertReservationToPlainTextAsync(Reservation reservation)
         {
-            reservation.Room = await context.Rooms
-                .Include(room => room.RoomBeds)
-                .ThenInclude(roomBed => roomBed.Bed)
-                .Where(room => room.RoomId == reservation.RoomId)
-                .FirstOrDefaultAsync();
-            var body = new StringBuilder();
-            body.Append($"Thank you for your booking!\n\n");
-            body.Append("Your reservation was successful!\n\n");
-            body.Append($"Room: {reservation.Room.Name}\n");
-            body.Append($"Number of guests: {reservation.GuestNumber} person\n");
-            body.Append($"Guests: {reservation.GuestNames}\n");
-            body.Append($"Number of nights: {reservation.NumberOfNights}\n");
-            body.Append($"Check-in on: {reservation.FromDate} ({reservation.FromDate.DayOfYear})\n");
-            body.Append($"Check-out on: {reservation.ToDate} ({reservation.ToDate.DayOfYear})\n");
-            body.Append($"Details of the room:\n");
-            body.Append($"Name: {reservation.Room.Name}\n");
-            body.Append($"Price: {reservation.Room.Price}\n");
-            body.Append($"Bed type: {GetBedTypes(reservation.Room.RoomBeds)}");
-            return body.ToString();
+            return "Not implemented yet.";
         }
 
         private string GetBedTypes(IEnumerable<RoomBed> roomBeds)
