@@ -87,7 +87,40 @@ namespace HotelBookingApp.Services
 
         public async Task<string> ConvertReservationToPlainTextAsync(Reservation reservation)
         {
-            return "Not implemented yet.";
+            var body = new StringBuilder();
+            reservation.Room = await roomService.GetRoomWithAllProperties(reservation.RoomId);
+            body.Append($"Thank you for your booking!");
+            body.Append("\n\n\n");
+            body.Append("Your reservation was successful!");
+            body.Append("\n\n\n");
+            body.Append($"Hotel: {reservation.Room.Hotel.Name}");
+            body.Append("\n\n");
+            body.Append($"Address: " +
+                $"{reservation.Room.Hotel.Location.Address}, " +
+                $"{reservation.Room.Hotel.Location.City}, " +
+                $"{reservation.Room.Hotel.Location.Country}");
+            body.Append("\n\n\n");
+            body.Append($"Room: {reservation.Room.Name}");
+            body.Append("\n\n");
+            body.Append($"Number of guests: {reservation.GuestNumber} person(s)");
+            body.Append("\n\n");
+            body.Append($"Guests: {reservation.GuestNames}");
+            body.Append("\n\n");
+            body.Append($"Number of nights: {reservation.NumberOfNights}");
+            body.Append("\n\n");
+            body.Append($"Check-in on: {reservation.FromDate} ({reservation.FromDate.DayOfWeek})");
+            body.Append("\n\n");
+            body.Append($"Check-out on: {reservation.ToDate} ({reservation.ToDate.DayOfWeek})");
+            body.Append("\n\n\n");
+            body.Append($"Details of the room:");
+            body.Append("\n\n");
+            body.Append($"Name: {reservation.Room.Name}");
+            body.Append("\n\n\n");
+            body.Append($"Price: ${reservation.Room.Price}");
+            body.Append("\n\n\n");
+            body.Append($"Bed type: {GetBedTypes(reservation.Room.RoomBeds)}");
+            body.Append("\n\n");
+            return body.ToString();
         }
 
         private string GetBedTypes(IEnumerable<RoomBed> roomBeds)
