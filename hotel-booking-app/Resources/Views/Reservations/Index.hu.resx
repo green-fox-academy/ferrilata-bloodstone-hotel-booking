@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Cancel" xml:space="preserve">
+    <value>Lemondás</value>
+  </data>
   <data name="Confirmed" xml:space="preserve">
     <value>Megerősítve</value>
   </data>
@@ -125,6 +128,9 @@
   </data>
   <data name="Email" xml:space="preserve">
     <value>E-mail</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>Vége</value>
   </data>
   <data name="Go back" xml:space="preserve">
     <value>Vissza</value>
@@ -143,5 +149,8 @@
   </data>
   <data name="Room" xml:space="preserve">
     <value>Szoba</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
   </data>
 </root>
