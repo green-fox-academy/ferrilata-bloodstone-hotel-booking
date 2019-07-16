@@ -21,7 +21,7 @@ namespace HotelBookingApp.Services
         private readonly IBedService bedService;
         private readonly IRoomService roomService;
 
-        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer, 
+        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer,
             IBedService bedService, IRoomService roomService)
         {
             this.applicationContext = applicationContext;
@@ -80,9 +80,12 @@ namespace HotelBookingApp.Services
         {
             var filteredHotels = applicationContext.Hotels
                 .Include(h => h.Location)
+                .Include(h => h.Rooms)
+                    .ThenInclude(r => r.RoomBeds)
+                    .ThenInclude(b => b.Bed)
                 .Where(h =>
-                    string.IsNullOrEmpty(queryParams.Search)
-                    || h.Location.City.Contains(queryParams.Search));
+                    (string.IsNullOrEmpty(queryParams.Search)
+                    || h.Location.City.Contains(queryParams.Search)) && h.Capacity >= queryParams.GuestNumber);
 
             var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
             return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);

@@ -12,6 +12,7 @@
     </div>
     <div class="col-md-9 d-flex justify-content-end">
         <form asp-action="Index" class="form-inline flex-nowrap" method="get">
+            <input asp-for="@Model.QueryParams.GuestNumber" class="form-control" />
             <input asp-for="@Model.QueryParams.Search" class="form-control" />
             <input type="hidden" asp-for="@Model.QueryParams.OrderBy" />
             <input type="hidden" asp-for="@Model.QueryParams.Desc" />
