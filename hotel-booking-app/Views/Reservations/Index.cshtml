@@ -33,7 +33,7 @@
                 <td>
                     @if (r.IsCancelable)
                     {
-                        <form asp-controller="Reservations" asp-action="Confirm" method="post">
+                        <form action="/reservations/delete/@r.ReservationId" method="post">
                             <input type="hidden" name="reservationId" value="@r.ReservationId" />
                             <input type="hidden" name="hotelId" value="@Model.HotelId" />
                             <button type="submit" class="btn btn-danger">@Localizer["Cancel"]</button>
