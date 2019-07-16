@@ -1,10 +1,8 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Models.HotelModels;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,12 +12,14 @@ namespace HotelBookingApp.Services
 {
     public class EmailService : IEmailService
     {
+        private readonly IRoomService roomService;
         private ISendGridClient client;
         private ApplicationContext context;
         private string apiKey;
 
-        public EmailService(ApplicationContext context, IConfiguration configuration)
+        public EmailService(ApplicationContext context, IConfiguration configuration, IRoomService roomService)
         {
+            this.roomService = roomService;
             this.context = context;
             apiKey = configuration.GetConnectionString("SendGridApiKey");
         }
@@ -39,7 +39,7 @@ namespace HotelBookingApp.Services
             msg.AddTo(new EmailAddress(userEmail));
             msg.SetFooterSetting(
                      true,
-                     html: "<strong><hr><div>© 2019 - Hotel Booking</div></strong>",
+                     html: "<hr><div>© 2019 - Hotel Booking</div>",
                      text: "© 2019 - Hotel Booking");
             var response = await client.SendEmailAsync(msg);
             return response;
@@ -47,18 +47,13 @@ namespace HotelBookingApp.Services
 
         public async Task<string> ConvertReservationToHtmlAsync(Reservation reservation)
         {
-            reservation.Room = await context.Rooms
-                .Include(room => room.Hotel)
-                .ThenInclude(hotel => hotel.Location)
-                .Include(room => room.RoomBeds)
-                .ThenInclude(roomBed => roomBed.Bed)
-                .Where(room => room.RoomId == reservation.RoomId)
-                .FirstOrDefaultAsync();
             var body = new StringBuilder();
+            reservation.Room = await roomService.GetRoomWithAllProperties(reservation.RoomId);
             body.Append($"Thank you for your booking!");
             body.Append("<br><br>");
             body.Append("Your reservation was successful!");
-            body.Append("<br><br><div>");
+            body.Append("<br><br>");
+            body.Append("<div>");
             body.Append("<div style=\"" + "float: left; margin - right: 5px;" + "\">");
             body.Append("<img src=\"" + reservation.Room.Hotel.ThumbnailUrl + "\" width=\"" + 96 + "\" + /></div><br><h3>" + reservation.Room.Hotel.Name + "</h3> ");
             body.Append("<br>");
