@@ -88,7 +88,7 @@ namespace HotelBookingApp.Controllers
             {
                 return RedirectToAction(nameof(Edit), new { hotelId, roomId = reservation.RoomId, reservationId });
             }
-            await reservationService.ConfirmAsync(reservationId);
+            await reservationService.ConfirmAsync(reservationId, User.Identity.Name);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 

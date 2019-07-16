@@ -35,13 +35,13 @@ namespace HotelBookingApp.Services
             return reservation;
         }
 
-        public async Task<Reservation> ConfirmAsync(int id)
+        public async Task<Reservation> ConfirmAsync(int id, string userName)
         {
             var reservation = await FindByIdAsync(id);
             reservation.IsConfirmed = true;
             context.Update(reservation);
             await context.SaveChangesAsync();
-            await emailService.SendMailAsync(reservation, User.Identity.Name);
+            await emailService.SendMailAsync(reservation, userName);
             return reservation;
         }
 
