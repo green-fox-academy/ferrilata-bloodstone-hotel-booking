@@ -1,3 +1,4 @@
+using HotelBookingApp.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,6 +20,8 @@ namespace HotelBookingApp.Models.HotelModels
         public IEnumerable<Room> Rooms { get; set; }
         public bool Thumbnail { get; set; } = false;
         public string ThumbnailUrl { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+        public string ApplicationUserId { get; set; }
 
         public string ShortDescription
         {

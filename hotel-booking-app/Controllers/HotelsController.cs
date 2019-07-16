@@ -2,10 +2,12 @@ using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
+using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
@@ -27,6 +29,30 @@ namespace HotelBookingApp.Controllers
             this.propertyTypeService = propertyTypeService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Index(QueryParams queryParams)
+        {
+            return View(new IndexPageView
+            {
+                Hotels = await hotelService.FindWithQuery(queryParams),
+                QueryParams = queryParams,
+                ActionName = nameof(Index)
+            });
+        }
+
+        [Authorize(Roles = "Admin, HotelManager")]
+        [HttpGet("my-hotels")]
+        public async Task<IActionResult> MyHotels(QueryParams queryParams)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return View(nameof(Index), new IndexPageView
+            {
+                Hotels = await hotelService.FindWithQuery(queryParams, userId),
+                QueryParams = queryParams,
+                ActionName = nameof(MyHotels)
+            });
+        }
+
         [Authorize(Roles = "Admin, HotelManager")]
         [HttpGet("add")]
         public async Task<IActionResult> Add()
@@ -46,9 +72,10 @@ namespace HotelBookingApp.Controllers
                 model.PropertyTypes = await propertyTypeService.FindAll();
                 return View(model);
             }
-                var hotel = await hotelService.Add(model.Hotel);
-                await imageService.UploadImagesAsync(imageList, hotel.HotelId);
-                return RedirectToAction(nameof(Hotel), new { id = hotel.HotelId });
+            model.Hotel.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var hotel = await hotelService.Add(model.Hotel);
+            await imageService.UploadImagesAsync(imageList, hotel.HotelId);
+            return RedirectToAction(nameof(Hotel), new { id = hotel.HotelId });
         }
 
         [HttpGet("{id}")]
@@ -56,14 +83,11 @@ namespace HotelBookingApp.Controllers
         {
             try
             {
-                var hotel = await hotelService.FindByIdAsync(id);
-                var images = await imageService.GetImageListAsync(id);
-                var model = new HotelViewModel
+                return View(new HotelViewModel
                 {
-                    Hotel = hotel,
-                    ImageList = images
-                };
-                return View(model);
+                    Hotel = await hotelService.FindByIdAsync(id),
+                    ImageList = await imageService.GetImageListAsync(id)
+                });
             }
             catch (ItemNotFoundException ex)
             {

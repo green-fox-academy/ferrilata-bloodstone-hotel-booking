@@ -4,37 +4,46 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject IViewLocalizer Localizer
 
-<ul class="navbar-nav ml-auto">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
-        </li>
-        @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+    <ul class="navbar-nav ml-auto">
+        @if (SignInManager.IsSignedIn(User))
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Hotels" asp-action="Add">@Localizer["Add Hotel"]</a>
+                <a class="nav-link" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+            </li>
+            @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Hotels" asp-action="MyHotels">@Localizer["My hotels"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Hotels" asp-action="Add">@Localizer["Add Hotel"]</a>
+                </li>
+            }
+            @if (User.IsInRole("Admin") || User.IsInRole("User"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Reservations" asp-action="MyReservations">@Localizer["My Reservations"]</a>       
+                </li>
+            }
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-alt"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                    <h6 class="dropdown-header">@User.Identity.Name</h6>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-controller="Settings" asp-action="Settings">@Localizer["Settings"]</a>
+                    <a class="dropdown-item" asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a>
+                </div>
             </li>
         }
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user-alt"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                <h6 class="dropdown-header">@User.Identity.Name</h6>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" asp-controller="Settings" asp-action="Settings">@Localizer["Settings"]</a>
-                <a class="dropdown-item" asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a>
-            </div>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Signup">@Localizer["Signup"]</a>
-        </li>
-    }
-</ul>
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Account" asp-action="Signup">@Localizer["Signup"]</a>
+            </li>
+        }
+    </ul>

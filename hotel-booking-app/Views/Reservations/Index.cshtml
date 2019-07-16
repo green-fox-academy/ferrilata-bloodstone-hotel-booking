@@ -4,7 +4,7 @@
     ViewData["Title"] = @Localizer["Reservations"];
 }
 
-    <h2>@Localizer["Reservations"]</h2>
+<h2>@Localizer["Reservations"]</h2>
 
 <table class="table">
     <thead>
@@ -14,7 +14,9 @@
             <th>@Localizer["Room"]</th>
             <th>@Localizer["Confirmed"]</th>
             <th>@Localizer["Email"]</th>
-            <th>@Localizer["Date"]</th>
+            <th>@Localizer["Start"]</th>
+            <th>@Localizer["End"]</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,10 +28,17 @@
                 <td>@r.Room.Name</td>
                 <td>@r.IsConfirmed</td>
                 <td>@r.ApplicationUser.Email</td>
+                <td>@String.Format("{0:yyyy/MM/dd}", r.FromDate)</td>
+                <td>@String.Format("{0:yyyy/MM/dd}", r.ToDate)</td>
                 <td>
-                    @String.Format("{0:yyyy/MM/dd}", r.FromDate)
-                    -
-                    @String.Format("{0:yyyy/MM/dd}", r.ToDate)
+                    @if (r.IsCancelable)
+                    {
+                        <form action="/reservations/delete/@r.ReservationId" method="post">
+                            <input type="hidden" name="reservationId" value="@r.ReservationId" />
+                            <input type="hidden" name="hotelId" value="@Model.HotelId" />
+                            <button type="submit" class="btn btn-danger">@Localizer["Cancel"]</button>
+                        </form>
+                    }
                 </td>
             </tr>
         }

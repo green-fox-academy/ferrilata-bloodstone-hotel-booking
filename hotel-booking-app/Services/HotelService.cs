@@ -1,8 +1,10 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
+using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Utils;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
@@ -18,18 +20,15 @@ namespace HotelBookingApp.Services
         private readonly IThumbnailService thumbnailService;
         private readonly IStringLocalizer<HotelService> localizer;
 
-        private readonly IBedService bedService;
-        private readonly IRoomService roomService;
-
-        public HotelService(ApplicationContext applicationContext, IImageService imageService, IThumbnailService thumbnailService, IStringLocalizer<HotelService> localizer,
-            IBedService bedService, IRoomService roomService)
+        public HotelService(ApplicationContext applicationContext, 
+            IImageService imageService, 
+            IThumbnailService thumbnailService, 
+            IStringLocalizer<HotelService> localizer)
         {
             this.applicationContext = applicationContext;
             this.imageService = imageService;
             this.thumbnailService = thumbnailService;
             this.localizer = localizer;
-            this.bedService = bedService;
-            this.roomService = roomService;
         }
 
         public async Task<Hotel> Add(Hotel hotel)
@@ -50,18 +49,6 @@ namespace HotelBookingApp.Services
             await imageService.DeleteAllFileAsync(id);
         }
 
-        public async Task<IEnumerable<Hotel>> FindAll()
-        {
-            return await applicationContext.Hotels.ToListAsync();
-        }
-
-        public async Task<IEnumerable<Hotel>> FindAllOrderByName()
-        {
-            return await applicationContext.Hotels
-                .OrderBy(h => h.Name)
-                .ToListAsync();
-        }
-
         public async Task<Hotel> FindByIdAsync(int id)
         {
             var hotel = await applicationContext.Hotels
@@ -75,20 +62,44 @@ namespace HotelBookingApp.Services
             return hotel;
         }
 
-
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
         {
-            var filteredHotels = applicationContext.Hotels
-                .Include(h => h.Location)
-                .Include(h => h.Rooms)
-                    .ThenInclude(r => r.RoomBeds)
-                    .ThenInclude(b => b.Bed)
-                .Where(h =>
-                    (string.IsNullOrEmpty(queryParams.Search)
-                    || h.Location.City.Contains(queryParams.Search)) && h.Capacity >= queryParams.GuestNumber);
+//            var filteredHotels = applicationContext.Hotels
+//                .Include(h => h.Location)
+//                .Include(h => h.Rooms)
+//                    .ThenInclude(r => r.RoomBeds)
+//                    .ThenInclude(b => b.Bed)
+//                .Where(h =>
+//                    (string.IsNullOrEmpty(queryParams.Search)
+//                    || h.Location.City.Contains(queryParams.Search)) && h.Capacity >= queryParams.GuestNumber);
+            var filteredHotels = GetHotels();
+            return await GetPaginatedHotels(filteredHotels, queryParams);
+        }
 
+        public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams, string userId)
+        {
+            var filteredHotels = GetHotels()
+                .Where(h => h.ApplicationUserId == userId);
+            return await GetPaginatedHotels(filteredHotels, queryParams);
+        }
+
+        private IQueryable<Hotel> GetHotels()
+        {
+            return applicationContext.Hotels.Include(h => h.Location);
+        }
+
+        private async Task<PaginatedList<Hotel>> GetPaginatedHotels(IQueryable<Hotel> hotels, QueryParams queryParams)
+        {
+            var filteredHotels = FilterByCity(hotels, queryParams);
             var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
             return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);
+        }
+
+        private IQueryable<Hotel> FilterByCity(IQueryable<Hotel> hotels, QueryParams queryParams)
+        {
+            return hotels.Where(h =>
+                string.IsNullOrEmpty(queryParams.Search)
+                || h.Location.City.Contains(queryParams.Search));
         }
 
         public async Task<Hotel> Update(Hotel hotel)

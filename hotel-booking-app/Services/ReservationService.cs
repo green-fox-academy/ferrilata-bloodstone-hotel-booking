@@ -1,10 +1,8 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -69,6 +67,18 @@ namespace HotelBookingApp.Services
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Reservation>> FindAllByUserId(string userId)
+        {
+            return await context.Reservations
+                .Include(r => r.Room)
+                .Include(r => r.ApplicationUser)
+                .Where(r => r.ApplicationUserId == userId)
+                .Where(r => r.IsConfirmed)
+                .OrderBy(r => !r.IsCancelable)
+                    .ThenBy(r => r.FromDate)
+                .ToListAsync();
+        }
+
         public async Task<bool> IsIntervalOccupied(Reservation reservation)
         {
             var confirmedReservations = await FindAllConfirmedByRoomIdAsync(reservation.RoomId);
@@ -85,9 +95,12 @@ namespace HotelBookingApp.Services
 
         public async Task DeleteAsync(int id)
         {
-            var reservation = FindByIdAsync(id);
-            context.Remove(reservation);
-            await context.SaveChangesAsync();
+            var reservation = await FindByIdAsync(id);
+            if (reservation.IsCancelable)
+            {
+                context.Remove(reservation);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
