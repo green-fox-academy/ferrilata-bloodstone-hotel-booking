@@ -11,6 +11,20 @@ namespace HotelBookingApp.Models.HotelModels
         public Hotel Hotel { get; set; }
         public int HotelId { get; set; }
 
-        public int Capacity { get => 2; }
+        public int Capacity
+        {
+            get
+            {
+                int capacity = 0;
+                if (RoomBeds != null)
+                {
+                    foreach (var roomBed in RoomBeds)
+                    {
+                        capacity += (roomBed.Bed.Size * roomBed.BedNumber);
+                    }
+                }
+                return capacity;
+            }
+        }
     }
 }
