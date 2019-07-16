@@ -43,13 +43,7 @@ namespace HotelBookingApp.Models.HotelModels
                 {
                     foreach (var room in Rooms)
                     {
-                        if (room.RoomBeds != null)
-                        {
-                            foreach (var roomBed in room.RoomBeds)
-                            {
-                                capacity += (roomBed.Bed.Size * roomBed.BedNumber);
-                            }
-                        }
+                        capacity += room.Capacity;
                     }
                 }
                 return capacity;
