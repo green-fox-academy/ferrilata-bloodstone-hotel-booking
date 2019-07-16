@@ -1,13 +1,18 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Models.HotelModels;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 
 namespace HotelBookingAppTests.TestUtils
 {
-    public class DatabaseFixture
+    public class DatabaseFixture : IDisposable
     {
+        private readonly DbContextOptions<ApplicationContext> options;
+
         public DatabaseFixture()
         {
-            var options = TestDbOptions.Get();
+            options = TestDbOptions.Get();
             using (var context = new ApplicationContext(options))
             {
                 SeedHotels(context);
@@ -15,23 +20,35 @@ namespace HotelBookingAppTests.TestUtils
             }
         }
 
+        public void Dispose()
+        {
+            using (var context = new ApplicationContext(options))
+            {
+                context.Hotels.RemoveRange(context.Hotels);
+                context.SaveChanges();
+            }
+        }
+
         private void SeedHotels(ApplicationContext context)
         {
-            context.Hotels.Add(new Hotel { HotelId = 1, Name = "Hotel1" });
-            context.Hotels.Add(new Hotel { HotelId = 2, Name = "Hotel2" });
-            context.Hotels.Add(new Hotel { HotelId = 3, Name = "Hotel3" });
-            context.Hotels.Add(new Hotel { HotelId = 4, Name = "Hotel4" });
-            context.Hotels.Add(new Hotel { HotelId = 5, Name = "Hotel5" });
-            context.Hotels.Add(new Hotel { HotelId = 6, Name = "Hotel6" });
-            context.Hotels.Add(new Hotel { HotelId = 7, Name = "Hotel7" });
-            context.Hotels.Add(new Hotel { HotelId = 8, Name = "Hotel8" });
-            context.Hotels.Add(new Hotel { HotelId = 9, Name = "Hotel9" });
-            context.Hotels.Add(new Hotel { HotelId = 10, Name = "Hotel10" });
-            context.Hotels.Add(new Hotel { HotelId = 11, Name = "Hotel11" });
-            context.Hotels.Add(new Hotel { HotelId = 12, Name = "Hotel12" });
-            context.Hotels.Add(new Hotel { HotelId = 13, Name = "Hotel13" });
-            context.Hotels.Add(new Hotel { HotelId = 14, Name = "Hotel14" });
-            context.Hotels.Add(new Hotel { HotelId = 15, Name = "Hotel15" });
+            context.Hotels.AddRange(new List<Hotel>
+            {
+                new Hotel { Name = "Hotel1" },
+                new Hotel { Name = "Hotel2" },
+                new Hotel { Name = "Hotel3" },
+                new Hotel { Name = "Hotel4" },
+                new Hotel { Name = "Hotel5" },
+                new Hotel { Name = "Hotel6" },
+                new Hotel { Name = "Hotel7" },
+                new Hotel { Name = "Hotel8" },
+                new Hotel { Name = "Hotel9" },
+                new Hotel { Name = "Hotel10" },
+                new Hotel { Name = "Hotel11" },
+                new Hotel { Name = "Hotel12" },
+                new Hotel { Name = "Hotel13" },
+                new Hotel { Name = "Hotel14" },
+                new Hotel { Name = "Hotel15" }
+            });
         }
     }
 }

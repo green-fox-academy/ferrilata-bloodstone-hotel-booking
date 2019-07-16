@@ -12,12 +12,7 @@ namespace HotelBookingAppTests.Utils
     [Collection("Database collection")]
     public class PaginatedListTests
     {
-        private readonly DbContextOptions<ApplicationContext> options;
-
-        public PaginatedListTests()
-        {
-            options = TestDbOptions.Get();
-        }
+        private readonly DbContextOptions<ApplicationContext> options = TestDbOptions.Get();
 
         [Fact]
         public async Task PaginatedList_WhenCreating_SizeShuldBeOk()
