@@ -14,13 +14,11 @@ namespace HotelBookingApp.Controllers
     {
         private readonly IReservationService reservationService;
         private readonly IRoomService roomService;
-        private readonly IEmailService emailService;
 
-        public ReservationsController(IReservationService reservationService, IRoomService roomService, IEmailService emailService)
+        public ReservationsController(IReservationService reservationService, IRoomService roomService)
         {
             this.reservationService = reservationService;
             this.roomService = roomService;
-            this.emailService = emailService;
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
@@ -59,7 +57,6 @@ namespace HotelBookingApp.Controllers
             }
             model.Reservation.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reservation = await reservationService.AddAsync(model.Reservation);
-            await emailService.SendMailAsync(reservation, User.Identity.Name);
             return RedirectToAction(nameof(Confirm), new { reservationId = reservation.ReservationId });
         }
 

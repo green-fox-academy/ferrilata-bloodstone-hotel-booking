@@ -10,6 +10,6 @@ namespace HotelBookingApp.Services
     {
         Task<Room> FindByIdAsync(int id);
         Task<Room> AddRoom(int hotelId, Room room);
-        Task<Room> GetRoomWithAllProperties(int roomId);
+        Task<Room> FindRoomWithAllProperties(int roomId);
     }
 }

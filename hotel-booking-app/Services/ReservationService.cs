@@ -13,11 +13,13 @@ namespace HotelBookingApp.Services
     {
         private readonly ApplicationContext context;
         private readonly IStringLocalizer<ReservationService> localizer;
+        private readonly IEmailService emailService;
 
-        public ReservationService(ApplicationContext context, IStringLocalizer<ReservationService> localizer)
+        public ReservationService(ApplicationContext context, IStringLocalizer<ReservationService> localizer, IEmailService emailService)
         {
             this.context = context;
             this.localizer = localizer;
+            this.emailService = emailService;
         }
 
         public async Task<Reservation> AddAsync(Reservation reservation)
@@ -39,6 +41,7 @@ namespace HotelBookingApp.Services
             reservation.IsConfirmed = true;
             context.Update(reservation);
             await context.SaveChangesAsync();
+            await emailService.SendMailAsync(reservation, User.Identity.Name);
             return reservation;
         }
 

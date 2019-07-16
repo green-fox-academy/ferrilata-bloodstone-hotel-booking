@@ -3,8 +3,6 @@ using HotelBookingApp.Models.HotelModels;
 using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,11 +12,13 @@ namespace HotelBookingApp.Services
     {
         private readonly IRoomService roomService;
         private ISendGridClient client;
-        private ApplicationContext context;
-        private string apiKey;
+        private readonly ApplicationContext context;
+        private readonly string apiKey;
+        private readonly IBedService bedService;
 
-        public EmailService(ApplicationContext context, IConfiguration configuration, IRoomService roomService)
+        public EmailService(ApplicationContext context, IConfiguration configuration, IRoomService roomService, IBedService bedService)
         {
+            this.bedService = bedService;
             this.roomService = roomService;
             this.context = context;
             apiKey = configuration.GetConnectionString("SendGridApiKey");
@@ -26,8 +26,7 @@ namespace HotelBookingApp.Services
 
         public async Task<Response> SendMailAsync(Reservation reservation, string userEmail)
         {
-            var options = new SendGridClientOptions();
-            options.ApiKey = apiKey;
+            var options = new SendGridClientOptions { ApiKey = apiKey};
             client = new SendGridClient(options);
             var msg = new SendGridMessage()
             {
@@ -48,7 +47,7 @@ namespace HotelBookingApp.Services
         public async Task<string> ConvertReservationToHtmlAsync(Reservation reservation)
         {
             var body = new StringBuilder();
-            reservation.Room = await roomService.GetRoomWithAllProperties(reservation.RoomId);
+            reservation.Room = await roomService.FindRoomWithAllProperties(reservation.RoomId);
             body.Append($"Thank you for your booking!");
             body.Append("<br><br>");
             body.Append("Your reservation was successful!");
@@ -80,7 +79,7 @@ namespace HotelBookingApp.Services
             body.Append("<br>");
             body.Append($"<b>Price</b>: ${reservation.Room.Price}");
             body.Append("<br>");
-            body.Append($"<b>Bed type:</b> {GetBedTypes(reservation.Room.RoomBeds)}");
+            body.Append($"<b>Bed type:</b> {bedService.GetBedTypesAsString(reservation.Room.RoomBeds)}");
             body.Append("<br>");
             return body.ToString();
         }
@@ -88,7 +87,7 @@ namespace HotelBookingApp.Services
         public async Task<string> ConvertReservationToPlainTextAsync(Reservation reservation)
         {
             var body = new StringBuilder();
-            reservation.Room = await roomService.GetRoomWithAllProperties(reservation.RoomId);
+            reservation.Room = await roomService.FindRoomWithAllProperties(reservation.RoomId);
             body.Append($"Thank you for your booking!");
             body.Append("\n\n\n");
             body.Append("Your reservation was successful!");
@@ -118,17 +117,9 @@ namespace HotelBookingApp.Services
             body.Append("\n\n\n");
             body.Append($"Price: ${reservation.Room.Price}");
             body.Append("\n\n\n");
-            body.Append($"Bed type: {GetBedTypes(reservation.Room.RoomBeds)}");
+            body.Append($"Bed type: {bedService.GetBedTypesAsString(reservation.Room.RoomBeds)}");
             body.Append("\n\n");
             return body.ToString();
-        }
-
-        private string GetBedTypes(IEnumerable<RoomBed> roomBeds)
-        {
-            var result = new List<string>();
-            roomBeds.ToList().ForEach(bed => result.Add($"{bed.BedNumber} {bed.Bed.Type}"));
-            var list = string.Join(",", result.ToArray());
-            return list;
         }
     }
 }

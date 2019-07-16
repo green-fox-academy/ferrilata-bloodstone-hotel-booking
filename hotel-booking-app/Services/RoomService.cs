@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Data;
+using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -28,15 +29,15 @@ namespace HotelBookingApp.Services
             return room;
         }
 
-        public async Task<Room> GetRoomWithAllProperties(int roomId)
+        public async Task<Room> FindRoomWithAllProperties(int roomId)
         {
             return await context.Rooms
                 .Include(room => room.Hotel)
-                .ThenInclude(hotel => hotel.Location)
+                    .ThenInclude(hotel => hotel.Location)
                 .Include(room => room.RoomBeds)
-                .ThenInclude(roomBed => roomBed.Bed)
+                    .ThenInclude(roomBed => roomBed.Bed)
                 .Where(room => room.RoomId == roomId)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync() ?? throw new ItemNotFoundException("Room with the provided id not found.");
         }
     }
 }
