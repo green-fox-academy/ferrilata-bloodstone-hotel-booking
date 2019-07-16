@@ -31,6 +31,17 @@ namespace HotelBookingApp.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet("/reservations/my-reservations")]
+        public async Task<IActionResult> MyReservations()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return View(nameof(Index), new ReservationViewModel
+            {
+                Reservations = await reservationService.FindAllByUserId(userId)
+            });
+        }
+
         [Authorize(Roles = "User, Admin")]
         [HttpGet("rooms/{roomId}/reservations/new")]
         public IActionResult Add(int hotelId, int roomId)
@@ -84,12 +95,18 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 
-        [Authorize(Roles = "Admin, HotelManager")]
-        [HttpPost("reservations/delete/{reservationId}")]
+        [Authorize(Roles = "Admin, User")]
+        [HttpPost("/reservations/delete/{reservationId}")]
         public async Task<IActionResult> Delete(int hotelId, int reservationId)
         {
             await reservationService.DeleteAsync(reservationId);
-            return RedirectToAction(nameof(Index), new { id = hotelId });
+            if (hotelId == 0)
+            {
+                return RedirectToAction(nameof(MyReservations));
+            } else
+            {
+                return RedirectToAction(nameof(Index), new { hotelId });
+            }
         }
 
         [HttpGet("verifyGuestNumber")]

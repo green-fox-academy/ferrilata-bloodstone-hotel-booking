@@ -1,3 +1,4 @@
+using HotelBookingApp.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,9 +11,8 @@ namespace HotelBookingApp.Models.HotelModels
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; }
         public int StarRating { get; set; }
-        public String TimeZoneId { get; set; }
+        public string TimeZoneId { get; set; }
         public Location Location { get; set; }
         public int LocationId { get; set; }
         public PropertyType PropertyType { get; set; }
@@ -20,5 +20,18 @@ namespace HotelBookingApp.Models.HotelModels
         public IEnumerable<Room> Rooms { get; set; }
         public bool Thumbnail { get; set; } = false;
         public string ThumbnailUrl { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+        public string ApplicationUserId { get; set; }
+
+        public string ShortDescription
+        {
+            get
+            {
+                int maxLength = 300;
+                return Description != null && Description.Length > maxLength
+                    ? Description.Substring(0, maxLength) + "..."
+                    : Description;
+            }
+        }
     }
 }

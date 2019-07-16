@@ -11,13 +11,13 @@
         <h2>@Localizer["List of Hotels"]</h2>
     </div>
     <div class="col-md-9 d-flex justify-content-end">
-        <form asp-action="Index" class="form-inline flex-nowrap" method="get">
+        <form asp-action="@Model.ActionName" class="form-inline flex-nowrap" method="get">
             <input asp-for="@Model.QueryParams.Search" class="form-control" />
             <input type="hidden" asp-for="@Model.QueryParams.OrderBy" />
             <input type="hidden" asp-for="@Model.QueryParams.Desc" />
             <button type="submit" class="btn btn-default mx-2">@Localizer["Search by city"]</button>
         </form>
-        <form asp-action="Index" class="form-inline" method="get">
+        <form asp-action="@Model.ActionName" class="form-inline" method="get">
             <button type="submit" class="btn btn-danger">@Localizer["Clear filters"]</button>
         </form>
     </div>
@@ -27,7 +27,7 @@
     <tr>
         <th></th>
         <th>
-            <a asp-action="Index"
+            <a asp-action="@Model.ActionName"
                asp-route-orderBy="Name"
                asp-route-desc="@Model.QueryParams.NextDesc"
                asp-route-pageSize="@Model.QueryParams.PageSize"
@@ -37,23 +37,13 @@
             </a>
         </th>
         <th>
-            <a asp-action="Index"
+            <a asp-action="@Model.ActionName"
                asp-route-orderBy="Description"
                asp-route-desc="@Model.QueryParams.NextDesc"
                asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage"
                asp-route-search="@Model.QueryParams.Search">
                 @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Description)]
-            </a>
-        </th>
-        <th>
-            <a asp-action="Index"
-               asp-route-orderBy="Price"
-               asp-route-desc="@Model.QueryParams.NextDesc"
-               asp-route-pageSize="@Model.QueryParams.PageSize"
-               asp-route-currentPage="@Model.QueryParams.CurrentPage"
-               asp-route-search="@Model.QueryParams.Search">
-                @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Price)]
             </a>
         </th>
         <th>
@@ -75,14 +65,15 @@
                 }
             </td>
             <td>
-                <a class="nav-link" asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">@hotel.Name</a>
-                @for (int star = 0; star < hotel.StarRating; star++)
-                {
-                    <i class="fas fa-star text-warning"></i>
-                }
+                <a asp-controller="Hotels" asp-action="Hotel" asp-route-id="@hotel.HotelId">@hotel.Name</a>
+                <div class="text-center">
+                    @for (int star = 0; star < hotel.StarRating; star++)
+                    {
+                        <i class="fas fa-star text-warning"></i>
+                    }
+                </div>
             </td>
-            <td>@hotel.Description</td>
-            <td>@hotel.Price</td>
+            <td>@hotel.ShortDescription</td>
             <td>@hotel.Location.City</td>
         </tr>
     }
@@ -100,7 +91,7 @@
     @for (int i = 1; i <= Model.Hotels.TotalPages; i++)
     {
         <a role="button" class="btn btn-primary"
-           asp-action="Index"
+           asp-action="@Model.ActionName"
            asp-route-orderBy="@Model.QueryParams.OrderBy"
            asp-route-desc="@Model.QueryParams.Desc"
            asp-route-pageSize="@Model.QueryParams.PageSize"

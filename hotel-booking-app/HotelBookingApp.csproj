@@ -39,4 +39,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Views\Home\" />
+    <Folder Include="Views\Home\" />
+  </ItemGroup>
+
 </Project>

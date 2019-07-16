@@ -4,14 +4,16 @@ using HotelBookingApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelBookingApp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190715112042_hotelNoPrice")]
+    partial class hotelNoPrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,8 +93,6 @@ namespace HotelBookingApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApplicationUserId");
-
                     b.Property<string>("Description");
 
                     b.Property<int>("LocationId");
@@ -111,8 +111,6 @@ namespace HotelBookingApp.Migrations
                     b.Property<string>("TimeZoneId");
 
                     b.HasKey("HotelId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("LocationId")
                         .IsUnique();
@@ -330,10 +328,6 @@ namespace HotelBookingApp.Migrations
 
             modelBuilder.Entity("HotelBookingApp.Models.HotelModels.Hotel", b =>
                 {
-                    b.HasOne("HotelBookingApp.Models.Account.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("HotelBookingApp.Models.HotelModels.Location", "Location")
                         .WithOne("Hotel")
                         .HasForeignKey("HotelBookingApp.Models.HotelModels.Hotel", "LocationId")
