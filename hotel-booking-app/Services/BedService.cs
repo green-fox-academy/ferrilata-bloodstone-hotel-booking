@@ -37,14 +37,22 @@ namespace HotelBookingApp.Services
 
         public async Task<RoomBed> AddBed(BedViewModel model)
         {
+            var roomBedFromContext = await applicationContext.RoomBeds
+                .Where(r => r.BedId == model.BedId && r.RoomId == model.RoomId)
+                .SingleOrDefaultAsync();
+
             var roomBed = new RoomBed
             {
                 RoomId = model.RoomId,
                 BedId = model.BedId,
                 BedNumber = model.BedNumber
             };
-            await applicationContext.AddAsync(roomBed);
-            await applicationContext.SaveChangesAsync();
+
+            if (roomBedFromContext == null)
+            {
+                await applicationContext.AddAsync(roomBed);
+                await applicationContext.SaveChangesAsync();
+            }
             return roomBed;
         }
     }
