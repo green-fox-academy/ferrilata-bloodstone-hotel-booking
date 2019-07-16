@@ -1,10 +1,8 @@
-﻿using HotelBookingApp.Models.EmailModels;
-using HotelBookingApp.Models.HotelModels;
+﻿using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SendGrid.Helpers.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
