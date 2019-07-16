@@ -7,5 +7,6 @@ namespace HotelBookingApp.Pages
     {
         public PaginatedList<Hotel> Hotels { get; set; }
         public QueryParams QueryParams { get; set; }
+        public string ActionName { get; set; }
     }
 }

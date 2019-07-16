@@ -129,6 +129,9 @@
   <data name="Logout" xml:space="preserve">
     <value>Kijelentkezés</value>
   </data>
+  <data name="My hotels" xml:space="preserve">
+    <value>Hoteleim</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Beállítások</value>
   </data>
