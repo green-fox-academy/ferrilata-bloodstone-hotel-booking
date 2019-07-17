@@ -16,11 +16,13 @@ namespace HotelBookingAppTests.Services
     {
         private readonly DbContextOptions<ApplicationContext> options;
         private readonly Mock<IStringLocalizer<ReservationService>> localizerMock;
+        private readonly Mock<IEmailService> emailServiceMock;
 
         public ReservationServiceTest()
         {
             options = TestDbOptions.Get();
             localizerMock = new Mock<IStringLocalizer<ReservationService>>();
+            emailServiceMock = new Mock<IEmailService>();
         }
 
         [Fact]
@@ -28,7 +30,7 @@ namespace HotelBookingAppTests.Services
         {
             using (var context = new ApplicationContext(options))
             {
-                var reservationService = new ReservationService(context, localizerMock.Object);
+                var reservationService = new ReservationService(context, localizerMock.Object, emailServiceMock.Object);
                 var guestNames = "Guest Name";
 
                 var reservation = await reservationService.AddAsync(
@@ -56,7 +58,7 @@ namespace HotelBookingAppTests.Services
 
             using (var context = new ApplicationContext(options))
             {
-                var reservationService = new ReservationService(context, localizerMock.Object);
+                var reservationService = new ReservationService(context, localizerMock.Object, emailServiceMock.Object);
 
                 var reservation = await reservationService.AddAsync(
                     new Reservation { ReservationId = existingId, GuestNumber = 2, GuestNames = "Guest1, Guest2" }
