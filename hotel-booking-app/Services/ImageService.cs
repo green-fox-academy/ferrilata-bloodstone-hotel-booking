@@ -32,7 +32,8 @@ namespace HotelBookingApp.Services
             if (env.IsProduction())
             {
                 accessKey = configuration.GetConnectionString("AzureStorageKey");
-            } else
+            }
+            else
             {
                 accessKey = configuration.GetConnectionString("AzureEmulatedStorageKey");
             }
