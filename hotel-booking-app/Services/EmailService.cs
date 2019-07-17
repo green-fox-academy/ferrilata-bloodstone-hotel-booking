@@ -24,7 +24,7 @@ namespace HotelBookingApp.Services
             apiKey = configuration.GetConnectionString("SendGridApiKey");
         }
 
-        public async Task<Response> SendMailAsync(Reservation reservation, string userEmail)
+        public async Task<Response> SendEmailAsync(Reservation reservation, string userEmail)
         {
             var options = new SendGridClientOptions { ApiKey = apiKey};
             client = new SendGridClient(options);

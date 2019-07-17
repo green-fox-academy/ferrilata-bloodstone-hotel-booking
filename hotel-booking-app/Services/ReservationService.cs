@@ -41,7 +41,7 @@ namespace HotelBookingApp.Services
             reservation.IsConfirmed = true;
             context.Update(reservation);
             await context.SaveChangesAsync();
-            await emailService.SendMailAsync(reservation, userName);
+            await emailService.SendEmailAsync(reservation, userName);
             return reservation;
         }
 

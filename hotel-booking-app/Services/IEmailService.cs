@@ -7,6 +7,6 @@ namespace HotelBookingApp.Services
 {
     public interface IEmailService
     {
-        Task<Response> SendMailAsync(Reservation reservation, string userEmail);
+        Task<Response> SendEmailAsync(Reservation reservation, string userEmail);
     }
 }
