@@ -1,5 +1,6 @@
 ﻿using HotelBookingApp.Data;
 using HotelBookingApp.Models.Image;
+using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage;
@@ -29,14 +30,7 @@ namespace HotelBookingApp.Services
 
         public ImageService(IConfiguration configuration, ApplicationContext applicationContext, IThumbnailService thumbnailService, IHostingEnvironment env)
         {
-            if (env.IsProduction())
-            {
-                accessKey = configuration.GetConnectionString("AzureStorageKey");
-            }
-            else
-            {
-                accessKey = configuration.GetConnectionString("AzureEmulatedStorageKey");
-            }
+            accessKey = configuration.GetConnectionString(AzureConnectionStringProvider.GetAzureConnectionString(env));
             account = CloudStorageAccount.Parse(accessKey);
             blobClient = account.CreateCloudBlobClient();
             blobContainer = blobClient.GetContainerReference(blobContainerName);

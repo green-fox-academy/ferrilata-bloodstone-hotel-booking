@@ -25,14 +25,7 @@ namespace HotelBookingApp.Services
 
         public ThumbnailService(IConfiguration configuration, ApplicationContext applicationContext, IHostingEnvironment env)
         {
-            if (env.IsProduction())
-            {
-                accessKey = configuration.GetConnectionString("AzureStorageKey");
-            }
-            else
-            {
-                accessKey = configuration.GetConnectionString("AzureEmulatedStorageKey");
-            }
+            accessKey = configuration.GetConnectionString(AzureConnectionStringProvider.GetAzureConnectionString(env));
             account = CloudStorageAccount.Parse(this.accessKey);
             blobClient = account.CreateCloudBlobClient();
             blobContainer = blobClient.GetContainerReference(blobContainerName);
