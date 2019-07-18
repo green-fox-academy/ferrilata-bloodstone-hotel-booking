@@ -33,7 +33,7 @@
                asp-route-pageSize="@Model.QueryParams.PageSize"
                asp-route-currentPage="@Model.QueryParams.CurrentPage"
                asp-route-search="@Model.QueryParams.Search">
-                @Localizer[@Html.DisplayNameFor(model =>  model.Hotels.First().Name)]
+                @Localizer[@Html.DisplayNameFor(model => model.Hotels.First().Name)]
             </a>
         </th>
         <th>
@@ -75,6 +75,12 @@
             </td>
             <td>@hotel.ShortDescription</td>
             <td>@hotel.Location.City</td>
+            <td>
+                @if ((User.IsInRole("Admin") || User.IsInRole("HotelManager")) && Model.ActionName=="MyHotels")
+                {
+                    <a asp-controller="Reservations" asp-action="Index" asp-route-hotelId="@hotel.HotelId" role="button">@Localizer["Reservations"]</a>
+                }
+            </td>
         </tr>
     }
 
