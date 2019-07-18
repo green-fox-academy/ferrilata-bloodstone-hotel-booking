@@ -4,6 +4,7 @@ using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -95,7 +96,7 @@ namespace HotelBookingApp.Services
                     .Sum(rb => rb.Bed.Size * rb.BedNumber)) >= queryParams.GuestNumber)
                 .Where(h =>
                     string.IsNullOrEmpty(queryParams.Search)
-                    || h.Location.City.Contains(queryParams.Search));
+                    || h.Location.City.Contains(queryParams.Search, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task<Hotel> Update(Hotel hotel)
