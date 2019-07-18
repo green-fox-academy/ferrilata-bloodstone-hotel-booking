@@ -1,0 +1,42 @@
+﻿@{ Layout = null; }
+@using HotelBookingApp.Models.EmailModels
+@model ReservationConfirmationEmail
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h2>Thank you for your booking!</h2>
+    <h2>Your reservation was successful.</h2>
+    <div>
+        <div style="float: left; margin-right: 5px;">
+            <img src="@Model.Reservation.Room.Hotel.ThumbnailUrl" width="96" />
+        </div>
+        <div>
+            <h3>@Model.Reservation.Room.Hotel.Name</h3>
+        </div>
+    </div>
+    <b>Address: @Model.Reservation.Room.Hotel.Location.Address, @Model.Reservation.Room.Hotel.Location.City, @Model.Reservation.Room.Hotel.Location.Country</b>
+    <br />
+    <br />
+    <p><b>Room: </b> @Model.Reservation.Room.Name</p>
+    <p><b>Number of guests: </b> @Model.Reservation.GuestNumber</p>
+    <p><b>Guests: </b> @Model.Reservation.GuestNames</p>
+    <p><b>Number of nights: </b> @Model.Reservation.NumberOfNights</p>
+    <p><b>Check-in on: </b> @Model.Reservation.FromDate (@Model.Reservation.FromDate.DayOfWeek)</p>
+    <p><b>Check-out on: </b> @Model.Reservation.ToDate (@Model.Reservation.ToDate.DayOfWeek)</p>
+    <br />
+    <br />
+    <p><b>Details of the room:</b></p>
+    <p><b>Name: </b>@Model.Reservation.Room.Name</p>
+    <p><b>Price: </b>$@Model.Reservation.Room.Price</p>
+    <p><b>Bed type: </b>@Model.BedTypes</p>
+    <footer>
+        <hr><div>© 2019 - Hotel Booking</div>
+    </footer>
+</body>
+</html>
