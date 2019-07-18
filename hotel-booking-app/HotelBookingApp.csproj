@@ -6,6 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Views\Home\**" />
+    <Compile Remove="Views\Home\**" />
+    <Content Remove="Resources\Views\Home\**" />
+    <Content Remove="Views\Home\**" />
+    <EmbeddedResource Remove="Resources\Views\Home\**" />
+    <EmbeddedResource Remove="Views\Home\**" />
+    <None Remove="Resources\Views\Home\**" />
+    <None Remove="Views\Home\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.1" PrivateAssets="All" />
@@ -37,11 +48,6 @@
     <Content Update="Views\Shared\_LoginPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\Views\Home\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
 
 </Project>
