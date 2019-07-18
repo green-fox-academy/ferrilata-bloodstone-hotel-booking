@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Resources\Views\Home\**" />
     <Compile Remove="Views\Home\**" />
+    <Content Remove="Views\Home\**" />
     <Content Remove="Resources\Views\Home\**" />
     <Content Remove="Views\Home\**" />
     <EmbeddedResource Remove="Resources\Views\Home\**" />
@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="10.0.3" />
+    <PackageReference Include="RazorLight" Version="2.0.0-alpha3" />
     <PackageReference Include="Sendgrid" Version="9.11.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
     <PackageReference Include="Microsoft.Azure.Storage.Queue" Version="10.0.3" />
@@ -50,4 +51,20 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Views\Home\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Templates\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Templates\ReservationConfirmation.cshtml" />
+  </ItemGroup>
+  
 </Project>
