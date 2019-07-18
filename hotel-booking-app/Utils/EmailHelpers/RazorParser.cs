@@ -32,7 +32,6 @@ namespace HotelBookingApp.Utils.EmailHelpers
             {
                 lock (__lockObj)
                 {
-                    // Your code...
                     template = memoryCache.GetOrCreate(templateName, f =>
                     {
                         string resource = EmbeddedResourceHelper.GetResourceAsString(_assembly, GenerateFileAssemblyPath(path, _assembly));
