@@ -69,7 +69,7 @@ namespace HotelBookingApp.Services
         {
             var fileName = hotelId.ToString() + ".jpg";
             var blob = blobContainer.GetBlockBlobReference(fileName);
-            await blob.DeleteAsync();
+            await blob.DeleteIfExistsAsync();
         }
 
         public async Task UpdateThumbnail(int hotelId, IFormFile file)
