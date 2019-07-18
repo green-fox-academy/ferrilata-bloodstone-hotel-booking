@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace HotelBookingApp.Models.HotelModels
 {
@@ -13,18 +14,7 @@ namespace HotelBookingApp.Models.HotelModels
 
         public int Capacity
         {
-            get
-            {
-                int capacity = 0;
-                if (RoomBeds != null)
-                {
-                    foreach (var roomBed in RoomBeds)
-                    {
-                        capacity += (roomBed.Bed.Size * roomBed.BedNumber);
-                    }
-                }
-                return capacity;
-            }
+            get => RoomBeds.Sum(r => r.Bed.Size * r.BedNumber);
         }
     }
 }
