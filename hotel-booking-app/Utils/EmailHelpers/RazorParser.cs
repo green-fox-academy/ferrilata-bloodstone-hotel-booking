@@ -8,13 +8,13 @@ namespace HotelBookingApp.Utils.EmailHelpers
 {
     public class RazorParser
     {
-        private Assembly _assembly;
+        private Assembly assembly;
         private readonly IMemoryCache memoryCache;
-        private static object __lockObj = new object();
+        private static object lockObject = new object();
 
         public RazorParser(Assembly assembly, IMemoryCache memoryCache)
         {
-            this._assembly = assembly;
+            this.assembly = assembly;
             this.memoryCache = memoryCache;
         }
 
@@ -30,11 +30,11 @@ namespace HotelBookingApp.Utils.EmailHelpers
 
             if (string.IsNullOrEmpty(template))
             {
-                lock (__lockObj)
+                lock (lockObject)
                 {
                     template = memoryCache.GetOrCreate(templateName, f =>
                     {
-                        string resource = EmbeddedResourceHelper.GetResourceAsString(_assembly, GenerateFileAssemblyPath(path, _assembly));
+                        string resource = EmbeddedResourceHelper.GetResourceAsString(assembly, GenerateFileAssemblyPath(path, assembly));
                         return resource;
                     });
                 }
