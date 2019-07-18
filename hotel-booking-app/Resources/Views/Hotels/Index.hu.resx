@@ -138,6 +138,9 @@
   <data name="No results found!" xml:space="preserve">
     <value>Nincs találat!</value>
   </data>
+  <data name="Reservations" xml:space="preserve">
+    <value>Foglalások</value>
+  </data>
   <data name="Search by city" xml:space="preserve">
     <value>Keresés város alapján</value>
   </data>

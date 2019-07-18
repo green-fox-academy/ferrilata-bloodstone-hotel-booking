@@ -8,7 +8,11 @@
   <ItemGroup>
     <Compile Remove="Views\Home\**" />
     <Content Remove="Views\Home\**" />
+    <Content Remove="Resources\Views\Home\**" />
+    <Content Remove="Views\Home\**" />
+    <EmbeddedResource Remove="Resources\Views\Home\**" />
     <EmbeddedResource Remove="Views\Home\**" />
+    <None Remove="Resources\Views\Home\**" />
     <None Remove="Views\Home\**" />
   </ItemGroup>
 
@@ -62,5 +66,5 @@
   <ItemGroup>
     <Content Remove="Templates\ReservationConfirmation.cshtml" />
   </ItemGroup>
-
+  
 </Project>
