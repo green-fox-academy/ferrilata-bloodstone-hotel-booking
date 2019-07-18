@@ -138,7 +138,7 @@ namespace HotelBookingApp.Services
         {
             var pathInBlob = path.Split(blobContainerName + "/")[1];
             var blob = blobContainer.GetBlockBlobReference(pathInBlob);
-            await blob.DeleteAsync();
+            await blob.DeleteIfExistsAsync();
         }
 
         public async Task DeleteAllFileAsync(int hotelId)
