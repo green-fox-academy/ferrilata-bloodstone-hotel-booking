@@ -55,7 +55,6 @@ namespace HotelBookingApp.Controllers
             {
                 return View(model);
             }
-
             model.Reservation.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reservation = await reservationService.AddAsync(model.Reservation);
             return RedirectToAction(nameof(Confirm), new { reservationId = reservation.ReservationId });
@@ -89,7 +88,7 @@ namespace HotelBookingApp.Controllers
             {
                 return RedirectToAction(nameof(Edit), new { hotelId, roomId = reservation.RoomId, reservationId });
             }
-            await reservationService.ConfirmAsync(reservationId);
+            await reservationService.ConfirmAsync(reservationId, User.Identity.Name);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
 

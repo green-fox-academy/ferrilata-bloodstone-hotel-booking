@@ -13,5 +13,6 @@ namespace HotelBookingApp.Services
         Task<IEnumerable<SelectListItem>> FindAll();
         Task<Bed> FindBedById(int bedId);
         Task<RoomBed> AddBed(BedViewModel model);
+        string GetBedTypesAsString(IEnumerable<RoomBed> roomBeds);
     }
 }
