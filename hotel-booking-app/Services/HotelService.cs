@@ -7,6 +7,7 @@ using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,9 +21,9 @@ namespace HotelBookingApp.Services
         private readonly IThumbnailService thumbnailService;
         private readonly IStringLocalizer<HotelService> localizer;
 
-        public HotelService(ApplicationContext applicationContext, 
-            IImageService imageService, 
-            IThumbnailService thumbnailService, 
+        public HotelService(ApplicationContext applicationContext,
+            IImageService imageService,
+            IThumbnailService thumbnailService,
             IStringLocalizer<HotelService> localizer)
         {
             this.applicationContext = applicationContext;
@@ -64,14 +65,6 @@ namespace HotelBookingApp.Services
 
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
         {
-//            var filteredHotels = applicationContext.Hotels
-//                .Include(h => h.Location)
-//                .Include(h => h.Rooms)
-//                    .ThenInclude(r => r.RoomBeds)
-//                    .ThenInclude(b => b.Bed)
-//                .Where(h =>
-//                    (string.IsNullOrEmpty(queryParams.Search)
-//                    || h.Location.City.Contains(queryParams.Search)) && h.Capacity >= queryParams.GuestNumber);
             var filteredHotels = GetHotels();
             return await GetPaginatedHotels(filteredHotels, queryParams);
         }
@@ -85,7 +78,11 @@ namespace HotelBookingApp.Services
 
         private IQueryable<Hotel> GetHotels()
         {
-            return applicationContext.Hotels.Include(h => h.Location);
+            return applicationContext.Hotels
+                .Include(h => h.Location)
+                .Include(h => h.Rooms)
+                    .ThenInclude(r => r.RoomBeds)
+                        .ThenInclude(rb => rb.Bed);
         }
 
         private async Task<PaginatedList<Hotel>> GetPaginatedHotels(IQueryable<Hotel> hotels, QueryParams queryParams)
@@ -97,9 +94,13 @@ namespace HotelBookingApp.Services
 
         private IQueryable<Hotel> FilterByCity(IQueryable<Hotel> hotels, QueryParams queryParams)
         {
-            return hotels.Where(h =>
-                string.IsNullOrEmpty(queryParams.Search)
-                || h.Location.City.Contains(queryParams.Search));
+            return hotels
+                .Where(h => h.Rooms
+                    .Sum(r => r.RoomBeds
+                    .Sum(rb => rb.Bed.Size * rb.BedNumber)) >= queryParams.GuestNumber)
+                .Where(h =>
+                    string.IsNullOrEmpty(queryParams.Search)
+                    || h.Location.City.Contains(queryParams.Search));
         }
 
         public async Task<Hotel> Update(Hotel hotel)
