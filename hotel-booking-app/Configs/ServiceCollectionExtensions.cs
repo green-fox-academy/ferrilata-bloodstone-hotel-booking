@@ -27,7 +27,7 @@ namespace HotelBookingApp.Configs
             return services;
         }
 
-        public static IServiceCollection AddCustomIdentity(this IServiceCollection services, IConfiguration Configuration)
+        public static IServiceCollection AddCustomIdentity(this IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddRoles<IdentityRole>()
@@ -37,13 +37,6 @@ namespace HotelBookingApp.Configs
             {
                 opt.Password.RequireNonAlphanumeric = false;
             });
-
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    options.ClientId = Configuration["Authentication:Google:ClientId"];
-                    options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-                });
 
             services.ConfigureApplicationCookie(opt =>
             {
