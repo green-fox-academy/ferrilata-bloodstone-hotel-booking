@@ -11,10 +11,16 @@ namespace HotelBookingApp.Models.HotelModels
         public IEnumerable<RoomBed> RoomBeds { get; set; }
         public Hotel Hotel { get; set; }
         public int HotelId { get; set; }
-
         public int Capacity
         {
-            get => RoomBeds.Sum(r => r.Bed.Size * r.BedNumber);
+            get
+            {
+                int capacity = 0;
+                if (RoomBeds != null) { 
+                capacity = RoomBeds.Sum(r => r.Bed.Size * r.BedNumber);
+                }
+                return capacity;
+            }
         }
     }
 }

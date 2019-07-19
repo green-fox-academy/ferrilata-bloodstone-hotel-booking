@@ -94,8 +94,6 @@ namespace HotelBookingApp.Migrations
 
                     b.Property<string>("ApplicationUserId");
 
-                    b.Property<int>("Capacity");
-
                     b.Property<string>("Description");
 
                     b.Property<int>("LocationId");

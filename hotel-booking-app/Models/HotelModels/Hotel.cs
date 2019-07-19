@@ -33,21 +33,5 @@ namespace HotelBookingApp.Models.HotelModels
                     : Description;
             }
         }
-
-        public int Capacity
-        {
-            get
-            {
-                int capacity = 0;
-                if (Rooms != null)
-                {
-                    foreach (var room in Rooms)
-                    {
-                        capacity += room.Capacity;
-                    }
-                }
-                return capacity;
-            }
-        }
     }
 }
