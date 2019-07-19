@@ -19,17 +19,11 @@ namespace HotelBookingAppTests.Controllers
     {
         private readonly Mock<IReservationService> reservationServiceMock;
         private readonly Mock<IRoomService> roomServiceMock;
-        private readonly ClaimsPrincipal user;
 
         public ReservationsControllerTests()
         {
             reservationServiceMock = new Mock<IReservationService>();
             roomServiceMock = new Mock<IRoomService>();
-            user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, "User Name"),
-                new Claim(ClaimTypes.NameIdentifier, "1")
-            }, "mock"));
         }
 
         [Fact]
@@ -67,10 +61,7 @@ namespace HotelBookingAppTests.Controllers
                 .ReturnsAsync(reservation);
             var controller = new ReservationsController(reservationServiceMock.Object, roomServiceMock.Object)
             {
-                ControllerContext = new ControllerContext
-                {
-                    HttpContext = new DefaultHttpContext() { User = user }
-                }
+                ControllerContext = GetDefaultControllerContext()
             };
 
             var result = await controller.Add(input);
@@ -88,6 +79,20 @@ namespace HotelBookingAppTests.Controllers
             return new List<Reservation> {
                 new Reservation { ReservationId = 1 },
                 new Reservation { ReservationId = 2 }
+            };
+        }
+
+        private ControllerContext GetDefaultControllerContext()
+        {
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, "User Name"),
+                new Claim(ClaimTypes.NameIdentifier, "1")
+            }, "mock"));
+
+            return new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext() { User = user }
             };
         }
     }
