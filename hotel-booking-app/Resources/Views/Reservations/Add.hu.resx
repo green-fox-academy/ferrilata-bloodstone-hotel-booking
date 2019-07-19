@@ -129,6 +129,9 @@
   <data name="Full name of guests" xml:space="preserve">
     <value>Vendégek teljes neve</value>
   </data>
+  <data name="Full names should be seperated with commas" xml:space="preserve">
+    <value>A vendégek teljes nevét vesszővel elválasztva adja meg</value>
+  </data>
   <data name="New Reservation" xml:space="preserve">
     <value>Új foglalás</value>
   </data>
