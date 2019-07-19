@@ -126,6 +126,9 @@
   <data name="Description" xml:space="preserve">
     <value>Leírás</value>
   </data>
+  <data name="Guest Number" xml:space="preserve">
+    <value>Vendégek száma</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Főoldal</value>
   </data>

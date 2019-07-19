@@ -8,21 +8,16 @@
 
 <div class="row">
     <div class="col-md-3">
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-3">
         <div class="card sticky-top">
             <h5 class="card-header">@Localizer["Search"]</h5>
             <div class="card-body">
                 <form asp-action="@Model.ActionName" class="form-group flex-nowrap" method="get">
                     <div class="form-group">
-                        <label asp-for="@Model.QueryParams.GuestNumber">Guest Number</label>
+                        <label asp-for="@Model.QueryParams.GuestNumber">@Localizer["Guest Number"]</label>
                         <input asp-for="@Model.QueryParams.GuestNumber" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.QueryParams.Search">City</label>
+                        <label asp-for="@Model.QueryParams.Search">@Localizer["City"]</label>
                         <input asp-for="@Model.QueryParams.Search" class="form-control" />
                         <input type="hidden" asp-for="@Model.QueryParams.OrderBy" />
                         <input type="hidden" asp-for="@Model.QueryParams.Desc" />
