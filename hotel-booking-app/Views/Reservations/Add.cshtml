@@ -15,6 +15,7 @@
     <div class="form-group">
         <label asp-for="@Model.Reservation.GuestNames">@Localizer["Full name of guests"]</label>
         <input asp-for="@Model.Reservation.GuestNames" class="form-control" />
+        <small class="form-text text-muted">@Localizer["Full names should be seperated with commas"]</small>
         <span asp-validation-for="@Model.Reservation.GuestNames" class="text-danger"></span>
     </div>
     <div class="form-group">
