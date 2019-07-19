@@ -5,11 +5,9 @@ using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -67,7 +65,7 @@ namespace HotelBookingAppTests.Controllers
             var result = await controller.Add(input);
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             int resultReservationId = (int)redirectResult.RouteValues[nameof(reservation.ReservationId)];
-                
+
             Assert.Null(redirectResult.ControllerName);
             Assert.Equal(nameof(controller.Confirm), redirectResult.ActionName);
             Assert.Equal(reservation.ReservationId, resultReservationId);
