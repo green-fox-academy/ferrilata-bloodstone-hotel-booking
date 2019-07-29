@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
@@ -19,8 +15,9 @@ namespace HotelBookingApp.Controllers
         private readonly IHotelService hotelService;
         private readonly IRoomService roomService;
         private readonly IBedService bedService;
+        private readonly IMapper mapper;
 
-        public RoomsController(IHotelService hotelService, IBedService bedService, IRoomService roomService)
+        public RoomsController(IHotelService hotelService, IBedService bedService, IRoomService roomService, IMapper mapper)
         {
             this.hotelService = hotelService;
             this.roomService = roomService;
@@ -55,12 +52,6 @@ namespace HotelBookingApp.Controllers
         {
             await bedService.AddBed(model);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
-        }
-
-        [HttpGet("hotels/{hotelId}/rooms")]
-        public async Task<object> Rooms(int hotelId)
-        {
-            return null;
         }
     }
 }

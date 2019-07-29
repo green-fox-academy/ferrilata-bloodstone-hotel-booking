@@ -34,5 +34,17 @@ namespace HotelBookingApp.Controllers
             });
             return hotelService.GetHotelDTOs(paginatedHotels);
         }
+
+        [HttpGet("hotels/{hotelId}/rooms")]
+        public async Task<object> Rooms(int hotelId)
+        {
+            var hotel = await hotelService.FindByIdAsync(hotelId);
+            var roomList = new List<ApiRoomDTO>();
+            foreach (var room in hotel.Rooms)
+            {
+                roomList.Add(mapper.Map<Room, ApiRoomDTO>(room));
+            }
+            return roomList;
+        }
     }
 }
