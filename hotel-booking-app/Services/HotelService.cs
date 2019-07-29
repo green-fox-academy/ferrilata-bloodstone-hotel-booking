@@ -1,10 +1,12 @@
-﻿using HotelBookingApp.Data;
+﻿using AutoMapper;
+using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,16 +18,19 @@ namespace HotelBookingApp.Services
         private readonly IImageService imageService;
         private readonly IThumbnailService thumbnailService;
         private readonly IStringLocalizer<HotelService> localizer;
+        private readonly IMapper mapper;
 
         public HotelService(ApplicationContext applicationContext,
             IImageService imageService,
             IThumbnailService thumbnailService,
-            IStringLocalizer<HotelService> localizer)
+            IStringLocalizer<HotelService> localizer,
+            IMapper mapper)
         {
             this.applicationContext = applicationContext;
             this.imageService = imageService;
             this.thumbnailService = thumbnailService;
             this.localizer = localizer;
+            this.mapper = mapper;
         }
 
         public async Task<Hotel> Add(Hotel hotel)
@@ -108,6 +113,30 @@ namespace HotelBookingApp.Services
             applicationContext.Update(hotel);
             await applicationContext.SaveChangesAsync();
             return hotel;
+        }
+
+        public object GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)
+        {
+            if (paginatedHotels.TotalPages < paginatedHotels.CurrentPage)
+            {
+                return "Error: the current page is greater than the number of pages.";
+            }
+            return new ApiHotelsDTO
+            {
+                PageCount = paginatedHotels.TotalPages,
+                CurrentPage = paginatedHotels.CurrentPage,
+                Hotels = MapHotelDTO(paginatedHotels)
+            };
+        }
+
+        private List<ApiHotelDTO> MapHotelDTO(PaginatedList<Hotel> paginatedHotels)
+        {
+            var hotelList = new List<ApiHotelDTO>();
+            foreach (var hotel in paginatedHotels)
+            {
+                hotelList.Add(mapper.Map<Hotel, ApiHotelDTO>(hotel));
+            }
+            return hotelList;
         }
     }
 }
