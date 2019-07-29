@@ -25,7 +25,7 @@ namespace HotelBookingApp
             services.SetLocalizationSource();
             services.AddMvcWithLocalization();
             services.AddCustomDatabase(Configuration);
-            services.AddCustomIdentity();
+            services.AddCustomIdentity(Configuration);
             services.AddAutoMapper();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IHotelService, HotelService>();
