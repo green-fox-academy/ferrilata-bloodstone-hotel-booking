@@ -116,10 +116,6 @@ namespace HotelBookingApp.Services
 
         public object GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)
         {
-            if (paginatedHotels.TotalPages < paginatedHotels.CurrentPage)
-            {
-                return "Error: the current page is greater than the number of pages.";
-            }
             return new ApiHotelsDTO
             {
                 PageCount = paginatedHotels.TotalPages,

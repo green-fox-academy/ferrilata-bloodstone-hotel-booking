@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using HotelBookingApp.Exceptions;
 using HotelBookingApp.Services;
 using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
@@ -29,13 +31,24 @@ namespace HotelBookingApp.Controllers
                 CurrentPage = currentPage,
                 Search = city
             });
+            if (paginatedHotels.TotalPages < paginatedHotels.CurrentPage)
+            {
+                return BadRequest(string.Format("Error: the current page is greater than the number of pages. Max. page: {0}", paginatedHotels.TotalPages));
+            }
             return hotelService.GetHotelDTOs(paginatedHotels);
         }
 
         [HttpGet("hotels/{hotelId}/rooms")]
         public async Task<object> Rooms(int hotelId)
         {
-            return await roomService.GetRoomDTOs(hotelId);
+            try
+            {
+                return await roomService.GetRoomDTOs(hotelId);
+            }
+            catch (ItemNotFoundException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

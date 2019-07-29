@@ -51,15 +51,8 @@ namespace HotelBookingApp.Services
 
         public async Task<object> GetRoomDTOs(int hotelId)
         {
-            try
-            {
-                var hotel = await hotelService.FindByIdAsync(hotelId);
-                return MapRoomDTO(hotel.Rooms.ToList());
-            }
-            catch (ItemNotFoundException e)
-            {
-                return string.Format(e.Message);
-            }
+            var hotel = await hotelService.FindByIdAsync(hotelId);
+            return MapRoomDTO(hotel.Rooms.ToList());
         }
 
         private List<ApiRoomDTO> MapRoomDTO(List<Room> rooms)
