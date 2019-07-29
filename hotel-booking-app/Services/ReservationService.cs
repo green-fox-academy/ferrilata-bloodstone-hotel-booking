@@ -117,9 +117,9 @@ namespace HotelBookingApp.Services
                 if (DateTime.Compare(reservation.ToDate, lastMonth) <= 0)
                 {
                     context.Reservations.Remove(reservation);
-                    await context.SaveChangesAsync();
                 }
             }
+            await context.SaveChangesAsync();
         }
     }
 }
