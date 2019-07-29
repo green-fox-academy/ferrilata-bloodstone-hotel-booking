@@ -24,7 +24,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("hotels")]
-        public async Task<object> Hotels(string city, int currentPage = 1)
+        public async Task<IActionResult> Hotels(string city, int currentPage = 1)
         {
             var paginatedHotels = await hotelService.FindWithQuery(new QueryParams
             {
@@ -35,15 +35,15 @@ namespace HotelBookingApp.Controllers
             {
                 return BadRequest(string.Format("Error: the current page is greater than the number of pages. Max. page: {0}", paginatedHotels.TotalPages));
             }
-            return hotelService.GetHotelDTOs(paginatedHotels);
+            return Ok(hotelService.GetHotelDTOs(paginatedHotels));
         }
 
         [HttpGet("hotels/{hotelId}/rooms")]
-        public async Task<object> Rooms(int hotelId)
+        public async Task<IActionResult> Rooms(int hotelId)
         {
             try
             {
-                return await roomService.GetRoomDTOs(hotelId);
+                return Ok(await roomService.GetRoomDTOs(hotelId));
             }
             catch (ItemNotFoundException e)
             {
