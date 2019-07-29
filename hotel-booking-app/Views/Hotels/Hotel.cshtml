@@ -96,7 +96,13 @@
 }
 
 <section>
-    <h2>Reviews (@Model.Hotel.AvgReviewRating.ToString("#.##") / @Review.MAX_RATING)</h2>
+    <h2>
+        Reviews
+        @if (@Model.Hotel.AvgReviewRating > 0)
+        {
+            <span>(@Model.Hotel.AvgReviewRating.ToString("#.##") / @Review.MAX_RATING)</span>
+        }
+    </h2>
     @if (!Model.Hotel.Reviews.Any())
     {
         <p>@Localizer["No reviews."]</p>
