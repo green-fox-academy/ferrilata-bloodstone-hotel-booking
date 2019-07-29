@@ -32,9 +32,9 @@ namespace HotelBookingAppTests.Services
         {
             using (var context = new ApplicationContext(options))
             {
-                var hotelService = new HotelService(context, 
-                    imageServiceMock.Object, 
-                    thumbnailServiceMock.Object, 
+                var hotelService = new HotelService(context,
+                    imageServiceMock.Object,
+                    thumbnailServiceMock.Object,
                     localizerMock.Object);
                 var contextLength = context.Hotels.Count();
                 var hotelName = "New Hotel";
