@@ -1,5 +1,4 @@
-﻿using HotelBookingApp.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace HotelBookingApp.Models.HotelModels
 {

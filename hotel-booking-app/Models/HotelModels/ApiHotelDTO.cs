@@ -2,6 +2,7 @@
 {
     public class ApiHotelDTO
     {
+        public int HotelId { get; set; }
         public string Name { get; set; }
         public string ShortDescription { get; set; }
         public int StarRating { get; set; }
