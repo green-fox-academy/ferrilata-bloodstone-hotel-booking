@@ -114,7 +114,7 @@ namespace HotelBookingApp.Services
             return hotel;
         }
 
-        public object GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)
+        public ApiHotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)
         {
             return new ApiHotelsDTO
             {

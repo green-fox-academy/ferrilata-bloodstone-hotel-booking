@@ -12,6 +12,6 @@ namespace HotelBookingApp.Services
         Task Delete(int hotelId);
         Task<Hotel> FindByIdAsync(int id);
         Task<Hotel> Update(Hotel hotel);
-        object GetHotelDTOs(PaginatedList<Hotel> paginatedHotels);
+        ApiHotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels);
     }
 }
