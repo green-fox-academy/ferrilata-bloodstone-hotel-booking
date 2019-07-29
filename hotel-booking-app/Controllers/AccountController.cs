@@ -11,14 +11,10 @@ namespace HotelBookingApp.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService accountService;
-        private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public AccountController(IAccountService accountService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AccountController(IAccountService accountService)
         {
             this.accountService = accountService;
-            this.signInManager = signInManager;
-            this.userManager = userManager;
         }
 
         [HttpGet("login")]
