@@ -83,20 +83,19 @@ namespace HotelBookingApp.Services
 
         private async Task<PaginatedList<Hotel>> GetPaginatedHotels(IQueryable<Hotel> hotels, QueryParams queryParams)
         {
-            var filteredHotels = FilterByCity(hotels, queryParams);
+            var filteredHotels = FilterByParams(hotels, queryParams);
             var orderedHotels = QueryableUtils<Hotel>.OrderCustom(filteredHotels, queryParams);
             return await PaginatedList<Hotel>.CreateAsync(orderedHotels, queryParams.CurrentPage, queryParams.PageSize);
         }
 
-        private IQueryable<Hotel> FilterByCity(IQueryable<Hotel> hotels, QueryParams queryParams)
+        private IQueryable<Hotel> FilterByParams(IQueryable<Hotel> hotels, QueryParams queryParams)
         {
             return hotels
                 .Where(h => h.Rooms
                     .Sum(r => r.RoomBeds
-                    .Sum(rb => rb.Bed.Size * rb.BedNumber)) >= queryParams.GuestNumber)
-                .Where(h =>
-                    string.IsNullOrEmpty(queryParams.Search)
-                    || h.Location.City.Contains(queryParams.Search, StringComparison.OrdinalIgnoreCase));
+                    .Sum(rb => rb.Bed.Size * rb.BedNumber)) >= queryParams.GuestNumber
+                    && (string.IsNullOrEmpty(queryParams.Search)
+                    || h.Location.City.Contains(queryParams.Search)));
         }
 
         public async Task<Hotel> Update(Hotel hotel)
