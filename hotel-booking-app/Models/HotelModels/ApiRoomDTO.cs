@@ -6,6 +6,6 @@
         public string Name { get; set; }
         public int NumberOfBeds { get; set; }
         public int Capacity { get; set; }
-        public double Price { get; set; }
+        public double PricePerNight { get; set; }
     }
 }
