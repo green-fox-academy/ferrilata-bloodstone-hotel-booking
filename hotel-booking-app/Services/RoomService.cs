@@ -22,7 +22,6 @@ namespace HotelBookingApp.Services
                 .Include(r => r.RoomBeds)
                     .ThenInclude(rb => rb.Bed)
                 .SingleOrDefaultAsync(r => r.RoomId == id);
-                //.FindAsync(id);
         }
 
         public async Task<Room> AddRoom(int hotelId, Room room)

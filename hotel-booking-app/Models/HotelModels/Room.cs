@@ -16,8 +16,9 @@ namespace HotelBookingApp.Models.HotelModels
             get
             {
                 int capacity = 0;
-                if (RoomBeds != null) { 
-                capacity = RoomBeds.Sum(r => r.Bed.Size * r.BedNumber);
+                if (RoomBeds != null)
+                { 
+                    capacity = RoomBeds.Sum(r => r.Bed.Size * r.BedNumber);
                 }
                 return capacity;
             }
