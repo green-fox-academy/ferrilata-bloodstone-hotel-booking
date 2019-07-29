@@ -49,41 +49,32 @@ namespace HotelBookingApp.Controllers
         public IActionResult GoogleLogin()
         {
             string redirectUrl = "Google-response";
-            var properties = signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            var properties = accountService.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
             return new ChallengeResult("Google", properties);
         }
 
         [HttpGet("Google-response")]
         public async Task<IActionResult> GoogleResponse()
         {
-            ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
+            var info = await accountService.GetExternalLoginInfoAsync();
             if (info == null)
+            {
                 return RedirectToAction(nameof(Login));
-
-            var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
-            string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
-            if (result.Succeeded)
-                return RedirectToAction(nameof(HotelsController.Index), "Hotels");
+            }
             else
             {
-                ApplicationUser user = new ApplicationUser
-                {		
+                var result = await accountService.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+                string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
 
-                    Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
-                    UserName = info.Principal.FindFirst(ClaimTypes.Email).Value,
-                };
-
-                IdentityResult identResult = await userManager.CreateAsync(user);
-                if (identResult.Succeeded)
+                if (result.Succeeded)
                 {
-                    identResult = await userManager.AddLoginAsync(user, info);
-                    if (identResult.Succeeded)
-                    {
-                        await signInManager.SignInAsync(user, false);
-                        return RedirectToAction(nameof(HotelsController.Index), "Hotels");
-                    }
+                    return RedirectToAction(nameof(HotelsController.Index), "Hotels");
                 }
-                return AccessDenied();
+                else
+                {
+                    await accountService.CreateAndLoginGoogleUser(info);
+                    return RedirectToAction(nameof(HotelsController.Index), "Hotels");
+                }
             }
         }
 
