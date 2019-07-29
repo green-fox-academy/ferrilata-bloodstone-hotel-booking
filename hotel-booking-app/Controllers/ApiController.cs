@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using HotelBookingApp.Models.HotelModels;
+﻿using AutoMapper;
 using HotelBookingApp.Services;
 using HotelBookingApp.Utils;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
@@ -17,11 +12,13 @@ namespace HotelBookingApp.Controllers
     {
         private readonly IHotelService hotelService;
         private readonly IMapper mapper;
+        private readonly IRoomService roomService;
 
-        public ApiController(IHotelService hotelService, IMapper mapper)
+        public ApiController(IHotelService hotelService, IMapper mapper, IRoomService roomService)
         {
             this.hotelService = hotelService;
             this.mapper = mapper;
+            this.roomService = roomService;
         }
 
         [HttpGet("hotels")]
@@ -38,13 +35,7 @@ namespace HotelBookingApp.Controllers
         [HttpGet("hotels/{hotelId}/rooms")]
         public async Task<object> Rooms(int hotelId)
         {
-            var hotel = await hotelService.FindByIdAsync(hotelId);
-            var roomList = new List<ApiRoomDTO>();
-            foreach (var room in hotel.Rooms)
-            {
-                roomList.Add(mapper.Map<Room, ApiRoomDTO>(room));
-            }
-            return roomList;
+            return await roomService.GetRoomDTOs(hotelId);
         }
     }
 }
