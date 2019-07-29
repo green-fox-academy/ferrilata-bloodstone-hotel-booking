@@ -162,4 +162,7 @@
   <data name="Choose your time zone" xml:space="preserve">
     <value>Időzóna</value>
   </data>
+  <data name="Accepted formats: PNG, JPG - Filesize: max. 4 MB" xml:space="preserve">
+    <value>Elfogadott formátumok: PNG, JPG - Fájlméret max. 4 MB</value>
+  </data>
 </root>

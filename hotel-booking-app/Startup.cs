@@ -25,7 +25,7 @@ namespace HotelBookingApp
             services.SetLocalizationSource();
             services.AddMvcWithLocalization();
             services.AddCustomDatabase(Configuration);
-            services.AddCustomIdentity();
+            services.AddCustomIdentity();            
             services.AddAutoMapper();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IHotelService, HotelService>();
@@ -35,6 +35,7 @@ namespace HotelBookingApp
             services.AddScoped<IThumbnailService, ThumbnailService>();
             services.AddScoped<IPropertyTypeService, PropertyTypeService>();
             services.AddScoped<IBedService, BedService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.SetLocalization();
         }
 

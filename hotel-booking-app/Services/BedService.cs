@@ -55,5 +55,14 @@ namespace HotelBookingApp.Services
             }
             return roomBed;
         }
+
+        public string GetBedTypesAsString(IEnumerable<RoomBed> roomBeds)
+        {
+            var result = new List<string>();
+            roomBeds.ToList()
+                .ForEach(bed => result.Add($"{bed.BedNumber} {bed.Bed.Type}"));
+            var stringList = string.Join(",", result.ToArray());
+            return stringList;
+        }
     }
 }
