@@ -48,7 +48,6 @@ namespace HotelBookingApp.Controllers
         [HttpGet("/Google-login")]
         public IActionResult GoogleLogin()
         {
-            //string redirectUrl = Url.Action("GoogleResponse", "Account");
             string redirectUrl = "Google-response";
             var properties = signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
             return new ChallengeResult("Google", properties);
