@@ -12,14 +12,11 @@ namespace HotelBookingApp.Controllers
     [Route("hotels/{hotelId}/[controller]")]
     public class RoomsController : Controller
     {
-        private readonly IHotelService hotelService;
         private readonly IRoomService roomService;
         private readonly IBedService bedService;
-        private readonly IMapper mapper;
 
-        public RoomsController(IHotelService hotelService, IBedService bedService, IRoomService roomService, IMapper mapper)
+        public RoomsController(IBedService bedService, IRoomService roomService)
         {
-            this.hotelService = hotelService;
             this.roomService = roomService;
             this.bedService = bedService;
         }
