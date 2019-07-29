@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Services;
+using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,17 +16,23 @@ namespace HotelBookingApp.Controllers
     public class ApiController : ControllerBase
     {
         private readonly IHotelService hotelService;
+        private readonly IMapper mapper;
 
-        public ApiController(IHotelService hotelService)
+        public ApiController(IHotelService hotelService, IMapper mapper)
         {
             this.hotelService = hotelService;
+            this.mapper = mapper;
         }
 
         [HttpGet("hotels")]
-        public async Task<object> hotels(string city)
+        public async Task<object> Hotels(string city, int currentPage = 1)
         {
-            var paginatedHotels = await hotelService.FindWithQuery(new Utils.QueryParams { Search=city});
-            return paginatedHotels.CurrentPage;
+            var paginatedHotels = await hotelService.FindWithQuery(new QueryParams
+            {
+                CurrentPage = currentPage,
+                Search = city
+            });
+            return hotelService.GetHotelDTOs(paginatedHotels);
         }
     }
 }
