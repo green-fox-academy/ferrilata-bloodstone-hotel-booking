@@ -56,5 +56,11 @@ namespace HotelBookingApp.Controllers
             await bedService.AddBed(model);
             return RedirectToAction(nameof(HotelsController.Hotel), "Hotels", new { id = hotelId });
         }
+
+        [HttpGet("hotels/{hotelId}/rooms")]
+        public async Task<object> Rooms(int hotelId)
+        {
+            return null;
+        }
     }
 }
