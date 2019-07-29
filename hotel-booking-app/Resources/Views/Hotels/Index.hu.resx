@@ -126,6 +126,9 @@
   <data name="Description" xml:space="preserve">
     <value>Leírás</value>
   </data>
+  <data name="Guest Number" xml:space="preserve">
+    <value>Vendégek száma</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Főoldal</value>
   </data>
@@ -141,7 +144,7 @@
   <data name="Reservations" xml:space="preserve">
     <value>Foglalások</value>
   </data>
-  <data name="Search by city" xml:space="preserve">
-    <value>Keresés város alapján</value>
+  <data name="Search" xml:space="preserve">
+    <value>Keresés</value>
   </data>
 </root>

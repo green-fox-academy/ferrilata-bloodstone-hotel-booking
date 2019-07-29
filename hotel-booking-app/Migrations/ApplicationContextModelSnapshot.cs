@@ -91,6 +91,7 @@ namespace HotelBookingApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+
                     b.Property<string>("ApplicationUserId");
 
                     b.Property<string>("Description");
