@@ -64,7 +64,6 @@ namespace HotelBookingApp.Controllers
             var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
             string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
             if (result.Succeeded)
-                //return View("Hotels/index");
                 return RedirectToAction(nameof(HotelsController.Index), "Hotels");
             else
             {
@@ -82,7 +81,6 @@ namespace HotelBookingApp.Controllers
                     if (identResult.Succeeded)
                     {
                         await signInManager.SignInAsync(user, false);
-                        //return View("Hotels/index");
                         return RedirectToAction(nameof(HotelsController.Index), "Hotels");
                     }
                 }
