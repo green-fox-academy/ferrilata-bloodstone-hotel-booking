@@ -86,7 +86,8 @@ namespace HotelBookingApp.Controllers
                 return View(new HotelViewModel
                 {
                     Hotel = await hotelService.FindByIdAsync(id),
-                    ImageList = await imageService.GetImageListAsync(id)
+                    ImageList = await imageService.GetImageListAsync(id),
+                    Review = new Review()
                 });
             }
             catch (ItemNotFoundException ex)

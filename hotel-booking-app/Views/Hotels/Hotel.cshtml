@@ -96,7 +96,7 @@
 }
 
 <section>
-    <h2>Reviews</h2>
+    <h2>Reviews (@Model.Hotel.AvgReviewRating.ToString("#.##") / @Review.MAX_RATING)</h2>
     @if (!Model.Hotel.Reviews.Any())
     {
         <p>@Localizer["No reviews."]</p>
@@ -109,18 +109,21 @@
         }
     </ul>
 
-    <form asp-controller="Hotels" asp-action="AddReview" method="post">
-        <div class="form-group">
-            <label asp-for="@Model.Review.Comment">@Localizer["Comment"]</label>
-            <textarea asp-for="@Model.Review.Comment" class="form-control"></textarea>
-            <span asp-validation-for="@Model.Review.Comment" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.Review.Rating">@Localizer["Rating"]</label>
-            <input asp-for="@Model.Review.Rating" class="form-control" min="1" max="10"></input>
-            <span asp-validation-for="@Model.Review.Rating" class="text-danger"></span>
-        </div>
-        <input type="hidden" asp-for="@Model.Review.HotelId" value="@Model.Hotel.HotelId" />
-        <button type="submit" class="btn btn-primary">@Localizer["Send"]</button>
-    </form>
+    @if (User.IsInRole("Admin") || User.IsInRole("User"))
+    {
+        <form asp-controller="Hotels" asp-action="AddReview" method="post">
+            <div class="form-group">
+                <label asp-for="@Model.Review.Comment">@Localizer["Comment"]</label>
+                <textarea asp-for="@Model.Review.Comment" class="form-control" maxlength="@Review.MAX_COMMENT_LEN"></textarea>
+                <span asp-validation-for="@Model.Review.Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Review.Rating">@Localizer["Rating"]</label>
+                <input asp-for="@Model.Review.Rating" class="form-control" min="@Review.MIN_RATING" max="@Review.MAX_RATING"></input>
+                <span asp-validation-for="@Model.Review.Rating" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="@Model.Review.HotelId" value="@Model.Hotel.HotelId" />
+            <button type="submit" class="btn btn-primary">@Localizer["Send"]</button>
+        </form>
+    }
 </section>

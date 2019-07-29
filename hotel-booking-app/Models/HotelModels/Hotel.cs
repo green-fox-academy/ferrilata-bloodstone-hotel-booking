@@ -2,6 +2,7 @@ using HotelBookingApp.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace HotelBookingApp.Models.HotelModels
 {
@@ -32,6 +33,18 @@ namespace HotelBookingApp.Models.HotelModels
                 return Description != null && Description.Length > maxLength
                     ? Description.Substring(0, maxLength) + "..."
                     : Description;
+            }
+        }
+
+        public double AvgReviewRating
+        {
+            get
+            {
+                if (Reviews == null)
+                {
+                    return 0;
+                }
+                return Reviews.Average(r => r.Rating);
             }
         }
     }
