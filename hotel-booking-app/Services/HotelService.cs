@@ -54,6 +54,8 @@ namespace HotelBookingApp.Services
                 .Include(h => h.Rooms)
                     .ThenInclude(r => r.RoomBeds)
                         .ThenInclude(b => b.Bed)
+                .Include(h => h.Reviews)
+                    .ThenInclude(r => r.ApplicationUser)
                 .SingleOrDefaultAsync(h => h.HotelId == id)
                 ?? throw new ItemNotFoundException(localizer["Hotel with id: {0} is not found.", id]);
             return hotel;

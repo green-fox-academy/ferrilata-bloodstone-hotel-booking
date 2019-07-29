@@ -140,6 +140,13 @@ namespace HotelBookingApp.Controllers
             await hotelService.Delete(id);
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpPost("add-review/{id}")]
+        public async Task<IActionResult> AddReview(int id, Review review)
+        {
+            return RedirectToAction(nameof(Hotel));
+        }
     }
 }
 
