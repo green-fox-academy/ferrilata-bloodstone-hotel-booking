@@ -49,7 +49,7 @@ namespace HotelBookingApp.Services
                 .FirstOrDefaultAsync() ?? throw new ItemNotFoundException("Room with the provided id not found.");
         }
 
-        public async Task<object> GetRoomDTOs(int hotelId)
+        public async Task<List<ApiRoomDTO>> GetRoomDTOs(int hotelId)
         {
             var hotel = await hotelService.FindByIdAsync(hotelId);
             return MapRoomDTO(hotel.Rooms.ToList());
