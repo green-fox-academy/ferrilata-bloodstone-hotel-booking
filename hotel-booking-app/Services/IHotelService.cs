@@ -13,5 +13,6 @@ namespace HotelBookingApp.Services
         Task<Hotel> FindByIdAsync(int id);
         Task<Hotel> Update(Hotel hotel);
         Task<Review> AddReviewAsync(Review review);
+        Task DeleteReview(int reviewId);
     }
 }

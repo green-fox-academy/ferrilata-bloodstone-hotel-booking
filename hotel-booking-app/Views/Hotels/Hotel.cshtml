@@ -102,12 +102,26 @@
         <p>@Localizer["No reviews."]</p>
     }
 
-    <ul>
-        @foreach (var review in Model.Hotel.Reviews)
-        {
-            <li>@review.ApplicationUser.UserName (@review.Rating): @review.Comment</li>
-        }
-    </ul>
+<table class="table">
+    @foreach (var review in Model.Hotel.Reviews)
+    {
+        <tr>
+            <td>@review.ApplicationUser.UserName</td>
+            <td>@review.Rating</td>
+            <td>@review.Comment</td>
+            <td>
+                @if (review.ApplicationUserId == Model.CurrentUserId)
+                {
+                <a asp-controller="Hotels" asp-action="DeleteReview"
+                   asp-route-reviewId="@review.ReviewId" asp-route-hotelId="@Model.Hotel.HotelId"
+                   title=@Localizer["Delete review"] class="text-danger">
+                    <i class="fas fa-times"></i>
+                </a>
+                }
+            </td>
+        </tr>
+    }
+</table>
 
     @if (User.IsInRole("Admin") || User.IsInRole("User"))
     {

@@ -87,7 +87,8 @@ namespace HotelBookingApp.Controllers
                 {
                     Hotel = await hotelService.FindByIdAsync(id),
                     ImageList = await imageService.GetImageListAsync(id),
-                    Review = new Review()
+                    Review = new Review(),
+                    CurrentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
                 });
             }
             catch (ItemNotFoundException ex)
@@ -154,6 +155,14 @@ namespace HotelBookingApp.Controllers
 
             await hotelService.AddReviewAsync(review);
             return RedirectToAction(nameof(Hotel), new { id });
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet("delete-review/{reviewId}")]
+        public async Task<IActionResult> DeleteReview(int hotelId, int reviewId)
+        {
+            await hotelService.DeleteReview(reviewId);
+            return RedirectToAction(nameof(Hotel), new { id = hotelId });
         }
     }
 }

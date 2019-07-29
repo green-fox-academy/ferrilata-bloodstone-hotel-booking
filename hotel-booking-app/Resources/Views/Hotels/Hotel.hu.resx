@@ -213,4 +213,7 @@
   <data name="Send" xml:space="preserve">
     <value>Mentés</value>
   </data>
+  <data name="Delete review" xml:space="preserve">
+    <value>Értékelés törlése</value>
+  </data>
 </root>

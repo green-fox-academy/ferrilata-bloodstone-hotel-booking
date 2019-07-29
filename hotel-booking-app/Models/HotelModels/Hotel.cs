@@ -40,7 +40,7 @@ namespace HotelBookingApp.Models.HotelModels
         {
             get
             {
-                if (Reviews == null)
+                if (Reviews == null || !Reviews.Any())
                 {
                     return 0;
                 }

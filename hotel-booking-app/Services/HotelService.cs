@@ -118,5 +118,14 @@ namespace HotelBookingApp.Services
             await applicationContext.SaveChangesAsync();
             return review;
         }
+
+        public async Task DeleteReview(int reviewId)
+        {
+            var review = applicationContext.Reviews
+                .SingleOrDefault(r => r.ReviewId == reviewId)
+                ?? throw new ItemNotFoundException(localizer["Review with id: {0} is not found.", reviewId]);
+            applicationContext.Reviews.Remove(review);
+            await applicationContext.SaveChangesAsync();
+        }
     }
 }
