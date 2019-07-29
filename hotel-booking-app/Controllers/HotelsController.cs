@@ -79,13 +79,13 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Hotel(int id)
+        public async Task<IActionResult> Hotel(int id, QueryParams queryParams)
         {
             try
             {
                 return View(new HotelViewModel
                 {
-                    Hotel = await hotelService.FindByIdAsync(id),
+                    Hotel = await hotelService.FindByIdAsync(id, queryParams),
                     ImageList = await imageService.GetImageListAsync(id),
                     Review = new Review(),
                     CurrentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)

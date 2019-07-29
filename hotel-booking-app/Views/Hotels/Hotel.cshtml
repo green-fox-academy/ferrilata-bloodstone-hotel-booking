@@ -108,26 +108,34 @@
         <p>@Localizer["No reviews."]</p>
     }
 
-<table class="table">
-    @foreach (var review in Model.Hotel.Reviews)
-    {
-        <tr>
-            <td>@review.ApplicationUser.UserName</td>
-            <td>@review.Rating</td>
-            <td>@review.Comment</td>
-            <td>
-                @if (review.ApplicationUserId == Model.CurrentUserId)
-                {
-                <a asp-controller="Hotels" asp-action="DeleteReview"
-                   asp-route-reviewId="@review.ReviewId" asp-route-hotelId="@Model.Hotel.HotelId"
-                   title=@Localizer["Delete review"] class="text-danger">
-                    <i class="fas fa-times"></i>
-                </a>
-                }
-            </td>
-        </tr>
-    }
-</table>
+    <table class="table">
+        @foreach (var review in Model.Hotel.Reviews)
+        {
+            <tr>
+                <td>@review.ApplicationUser.UserName</td>
+                <td>@review.Rating</td>
+                <td>@review.Comment</td>
+                <td>
+                    @if (review.ApplicationUserId == Model.CurrentUserId)
+                    {
+                        <a asp-controller="Hotels" asp-action="DeleteReview"
+                           asp-route-reviewId="@review.ReviewId" asp-route-hotelId="@Model.Hotel.HotelId"
+                           title=@Localizer["Delete review"] class="text-danger">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="pagintaion-row mb-3">
+        @for (int i = 1; i <= Model.Hotel.Reviews.TotalPages; i++)
+        {
+            <a role="button" class="btn btn-primary"
+               asp-action="Hotel" asp-route-currentPage="@i">@i</a>
+        }
+    </div>
 
     @if (User.IsInRole("Admin") || User.IsInRole("User"))
     {
@@ -139,7 +147,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Review.Rating">@Localizer["Rating"]</label>
-                <input asp-for="@Model.Review.Rating" class="form-control" min="@Review.MIN_RATING" max="@Review.MAX_RATING"></input>
+                <input asp-for="@Model.Review.Rating" class="form-control" min="@Review.MIN_RATING" max="@Review.MAX_RATING" />
                 <span asp-validation-for="@Model.Review.Rating" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="@Model.Review.HotelId" value="@Model.Hotel.HotelId" />

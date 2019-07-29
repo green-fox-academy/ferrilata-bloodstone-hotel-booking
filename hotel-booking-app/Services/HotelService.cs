@@ -48,17 +48,29 @@ namespace HotelBookingApp.Services
 
         public async Task<Hotel> FindByIdAsync(int id)
         {
+            return await FindByIdAsync(id, new QueryParams());
+        }
+
+        public async Task<Hotel> FindByIdAsync(int id, QueryParams queryParams)
+        {
             var hotel = await applicationContext.Hotels
                 .Include(h => h.Location)
                 .Include(h => h.PropertyType)
                 .Include(h => h.Rooms)
                     .ThenInclude(r => r.RoomBeds)
                         .ThenInclude(b => b.Bed)
-                .Include(h => h.Reviews)
-                    .ThenInclude(r => r.ApplicationUser)
                 .SingleOrDefaultAsync(h => h.HotelId == id)
                 ?? throw new ItemNotFoundException(localizer["Hotel with id: {0} is not found.", id]);
+            hotel.Reviews = await FindAllReviews(id, queryParams);
             return hotel;
+        }
+
+        private async Task<PaginatedList<Review>> FindAllReviews(int hotelId, QueryParams queryParams)
+        {
+            var reviews = applicationContext.Reviews
+                .Include(r => r.ApplicationUser)
+                .Where(r => r.HotelId == hotelId);
+            return await PaginatedList<Review>.CreateAsync(reviews, queryParams.CurrentPage, queryParams.PageSize);
         }
 
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)

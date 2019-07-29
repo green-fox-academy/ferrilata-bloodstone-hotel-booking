@@ -1,4 +1,5 @@
 using HotelBookingApp.Models.Account;
+using HotelBookingApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +20,7 @@ namespace HotelBookingApp.Models.HotelModels
         public PropertyType PropertyType { get; set; }
         public int PropertyTypeId { get; set; }
         public IEnumerable<Room> Rooms { get; set; }
-        public IEnumerable<Review> Reviews { get; set; }
+        public PaginatedList<Review> Reviews { get; set; }
         public bool Thumbnail { get; set; } = false;
         public string ThumbnailUrl { get; set; }
         public ApplicationUser ApplicationUser { get; set; }

@@ -12,6 +12,8 @@ namespace HotelBookingApp.Utils
         public int TotalPages { get; private set; }
         public int PageSize { get; set; }
 
+        public PaginatedList() { }
+
         private PaginatedList(List<T> items, int count, int currentPage, int pageSize)
         {
             AddRange(items);
