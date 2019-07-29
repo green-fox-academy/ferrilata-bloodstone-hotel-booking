@@ -57,21 +57,13 @@ namespace HotelBookingApp.Controllers
             {
                 return RedirectToAction(nameof(Login));
             }
-            else
-            {
-                var result = await accountService.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
-                string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
+            var result = await accountService.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction(nameof(HotelsController.Index), "Hotels");
-                }
-                else
-                {
-                    await accountService.CreateAndLoginGoogleUser(info);
-                    return RedirectToAction(nameof(HotelsController.Index), "Hotels");
-                }
+            if (!result.Succeeded)
+            {
+                await accountService.CreateAndLoginGoogleUser(info);
             }
+            return RedirectToAction(nameof(HotelsController.Index), "Hotels");
         }
 
         [HttpGet("logout")]

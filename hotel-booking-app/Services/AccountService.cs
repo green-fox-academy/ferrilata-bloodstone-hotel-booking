@@ -84,7 +84,7 @@ namespace HotelBookingApp.Services
 
         public async Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info)
         {
-            ApplicationUser user = new ApplicationUser
+            var user = new ApplicationUser
             {
                 Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
                 UserName = info.Principal.FindFirst(ClaimTypes.Email).Value,
@@ -93,6 +93,7 @@ namespace HotelBookingApp.Services
             IdentityResult identResult = await userManager.CreateAsync(user);
             if (identResult.Succeeded)
             {
+                await userManager.AddToRoleAsync(user, "User");
                 identResult = await userManager.AddLoginAsync(user, info);
                 if (identResult.Succeeded)
                 {
