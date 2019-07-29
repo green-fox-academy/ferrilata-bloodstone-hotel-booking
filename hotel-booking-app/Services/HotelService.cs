@@ -111,5 +111,12 @@ namespace HotelBookingApp.Services
             await applicationContext.SaveChangesAsync();
             return hotel;
         }
+
+        public async Task<Review> AddReviewAsync(Review review)
+        {
+            await applicationContext.AddAsync(review);
+            await applicationContext.SaveChangesAsync();
+            return review;
+        }
     }
 }

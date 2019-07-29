@@ -145,7 +145,14 @@ namespace HotelBookingApp.Controllers
         [HttpPost("add-review/{id}")]
         public async Task<IActionResult> AddReview(int id, Review review)
         {
-            return RedirectToAction(nameof(Hotel));
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(Hotel), new { id });
+            }
+            review.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await hotelService.AddReviewAsync(review);
+            return RedirectToAction(nameof(Hotel), new { id });
         }
     }
 }
