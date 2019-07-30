@@ -47,5 +47,36 @@ namespace HotelBookingAppTests.Controllers
             Assert.Equal(controllerContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), review.ApplicationUserId);
             hotelServiceMock.Verify(s => s.AddReviewAsync(review), Times.Once);
         }
+
+        [Fact]
+        public async Task AddReview_WhenInalid_ShouldReturnView()
+        {
+            var controller = new HotelsController(hotelServiceMock.Object,
+                imageServiceMock.Object, thumbnailServiceMock.Object, propertyServiceMock.Object);
+            controller.ModelState.AddModelError("Rating", "Required");
+            var hotelId = 1;
+            var review = new Review();
+
+            var result = await controller.AddReview(hotelId, review);
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteReview_ShouldCallServiceAndRedirect()
+        {
+            var controller = new HotelsController(hotelServiceMock.Object,
+                imageServiceMock.Object, thumbnailServiceMock.Object, propertyServiceMock.Object);
+            var hotelId = 1;
+            var reviewId = 1;
+
+            var result = await controller.DeleteReview(hotelId, reviewId);
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            int resultHotelId = (int)redirectResult.RouteValues["id"];
+
+            Assert.Equal(hotelId, resultHotelId);
+            Assert.Null(redirectResult.ControllerName);
+            Assert.Equal(nameof(controller.Hotel), redirectResult.ActionName);
+            hotelServiceMock.Verify(s => s.DeleteReview(reviewId), Times.Once);
+        }
     }
 }
