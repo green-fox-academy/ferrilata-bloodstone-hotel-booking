@@ -40,6 +40,15 @@ namespace HotelBookingApp.Controllers
             });
         }
 
+        [Authorize(Roles = "Admin, User")]
+        [HttpPost("/reservations/my-reservations/cleanup")]
+        public async Task<IActionResult> CleanUp()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await reservationService.CleanUp(userId);
+            return RedirectToAction(nameof(MyReservations));
+        }
+
         [Authorize(Roles = "User, Admin")]
         [HttpGet("rooms/{roomId}/reservations/new")]
         public IActionResult Add(int hotelId, int roomId)

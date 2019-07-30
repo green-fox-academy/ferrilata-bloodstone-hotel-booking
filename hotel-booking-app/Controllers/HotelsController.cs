@@ -29,6 +29,7 @@ namespace HotelBookingApp.Controllers
             this.propertyTypeService = propertyTypeService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Index(QueryParams queryParams)
         {

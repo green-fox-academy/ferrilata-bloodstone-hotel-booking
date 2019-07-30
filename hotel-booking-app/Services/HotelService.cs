@@ -1,10 +1,11 @@
-﻿using HotelBookingApp.Data;
+﻿using AutoMapper;
+using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,16 +17,19 @@ namespace HotelBookingApp.Services
         private readonly IImageService imageService;
         private readonly IThumbnailService thumbnailService;
         private readonly IStringLocalizer<HotelService> localizer;
+        private readonly IMapper mapper;
 
         public HotelService(ApplicationContext applicationContext,
             IImageService imageService,
             IThumbnailService thumbnailService,
-            IStringLocalizer<HotelService> localizer)
+            IStringLocalizer<HotelService> localizer,
+            IMapper mapper)
         {
             this.applicationContext = applicationContext;
             this.imageService = imageService;
             this.thumbnailService = thumbnailService;
             this.localizer = localizer;
+            this.mapper = mapper;
         }
 
         public async Task<Hotel> Add(Hotel hotel)
@@ -138,6 +142,16 @@ namespace HotelBookingApp.Services
                 ?? throw new ItemNotFoundException(localizer["Review with id: {0} is not found.", reviewId]);
             applicationContext.Reviews.Remove(review);
             await applicationContext.SaveChangesAsync();
+        }
+
+        public ApiHotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)
+        {
+            return new ApiHotelsDTO
+            {
+                PageCount = paginatedHotels.TotalPages,
+                CurrentPage = paginatedHotels.CurrentPage,
+                Hotels = mapper.Map<PaginatedList<Hotel>, List<ApiHotelDTO>>(paginatedHotels)
+            };
         }
     }
 }

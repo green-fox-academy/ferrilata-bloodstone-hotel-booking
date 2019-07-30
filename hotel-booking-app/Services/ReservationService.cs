@@ -3,6 +3,7 @@ using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.HotelModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +28,8 @@ namespace HotelBookingApp.Services
             if (reservation.ReservationId != 0)
             {
                 context.Update(reservation);
-            } else
+            }
+            else
             {
                 await context.AddAsync(reservation);
             }
@@ -104,6 +106,20 @@ namespace HotelBookingApp.Services
                 context.Remove(reservation);
                 await context.SaveChangesAsync();
             }
+        }
+
+        public async Task CleanUp(string userId)
+        {
+            var reservations = await FindAllByUserId(userId);
+            foreach (var reservation in reservations)
+            {
+                var lastMonth = DateTime.Today.AddMonths(-1);
+                if (DateTime.Compare(reservation.ToDate, lastMonth) <= 0)
+                {
+                    context.Reservations.Remove(reservation);
+                }
+            }
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using HotelBookingApp.Models.Account;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Services
@@ -61,6 +63,44 @@ namespace HotelBookingApp.Services
             }
 
             return result.Errors
+                .Select(e => e.Description)
+                .ToList();
+        }
+
+        public AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
+        {
+            return signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl); 
+        }
+
+        public async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
+        {
+            return await signInManager.GetExternalLoginInfoAsync(); 
+        }
+
+        public async Task<SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent)
+        {
+            return await signInManager.ExternalLoginSignInAsync(loginProvider, providerKey, isPersistent);
+        }
+
+        public async Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info)
+        {
+            var user = new ApplicationUser
+            {
+                Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
+                UserName = info.Principal.FindFirst(ClaimTypes.Email).Value,
+            };
+
+            IdentityResult identResult = await userManager.CreateAsync(user);
+            if (identResult.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "User");
+                identResult = await userManager.AddLoginAsync(user, info);
+                if (identResult.Succeeded)
+                {
+                    await signInManager.SignInAsync(user, false);
+                }
+            }
+            return identResult.Errors
                 .Select(e => e.Description)
                 .ToList();
         }

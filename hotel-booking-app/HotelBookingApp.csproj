@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Views\Home\**" />
     <Compile Remove="Views\Home\**" />
     <Content Remove="Views\Home\**" />
     <Content Remove="Resources\Views\Home\**" />
@@ -52,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="MappingProfiles\" />
     <Folder Include="Resources\Views\Home\" />
   </ItemGroup>
 
