@@ -3,12 +3,16 @@
 @{
     ViewData["Title"] = @Localizer["Reservations"];
 }
+
 <div class="d-inline-flex">
     <h2>@Localizer["Reservations"]</h2>
 
-    <form asp-action="CleanUp" asp-controller="Reservations" method="post">
-        <button class="btn btn-danger mx-3" title=@Localizer["Remove reservations which are older than 1 month"]>@Localizer["Clean up"]</button>
-    </form>
+    @if (User.IsInRole("Admin") || User.IsInRole("User"))
+    {
+        <form asp-action="CleanUp" asp-controller="Reservations" method="post">
+            <button class="btn btn-danger mx-3" title=@Localizer["Remove reservations which are older than 1 month"]>@Localizer["Clean up"]</button>
+        </form>
+    }
 </div>
 
 <table class="table">
@@ -36,7 +40,7 @@
                 <td>@String.Format("{0:yyyy/MM/dd}", r.FromDate)</td>
                 <td>@String.Format("{0:yyyy/MM/dd}", r.ToDate)</td>
                 <td>
-                    @if (r.IsCancelable)
+                    @if (r.IsCancelable && (User.IsInRole("Admin") || User.IsInRole("User")))
                     {
                         <form action="/reservations/delete/@r.ReservationId" method="post">
                             <input type="hidden" name="reservationId" value="@r.ReservationId" />

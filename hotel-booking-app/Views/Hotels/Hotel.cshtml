@@ -56,12 +56,15 @@
                     }
                 </td>
                 <td>
-                    <a asp-controller="Reservations" asp-action="Add"
-                       asp-route-hotelId="@Model.Hotel.HotelId"
-                       asp-route-roomId="@room.RoomId">
-                        @Localizer["Reserve"]
-                    </a>
-                </td>
+                    @if (User.IsInRole("Admin") || User.IsInRole("User"))
+                    {
+                        <a asp-controller="Reservations" asp-action="Add"
+                           asp-route-hotelId="@Model.Hotel.HotelId"
+                           asp-route-roomId="@room.RoomId">
+                            @Localizer["Reserve"]
+                        </a>
+                    }
+                    </td>
                 <td>
                     @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
                     {
