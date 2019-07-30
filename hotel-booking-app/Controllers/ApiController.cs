@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using HotelBookingApp.Exceptions;
+﻿using HotelBookingApp.Exceptions;
 using HotelBookingApp.Services;
 using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
@@ -13,13 +11,11 @@ namespace HotelBookingApp.Controllers
     public class ApiController : ControllerBase
     {
         private readonly IHotelService hotelService;
-        private readonly IMapper mapper;
         private readonly IRoomService roomService;
 
-        public ApiController(IHotelService hotelService, IMapper mapper, IRoomService roomService)
+        public ApiController(IHotelService hotelService, IRoomService roomService)
         {
             this.hotelService = hotelService;
-            this.mapper = mapper;
             this.roomService = roomService;
         }
 

@@ -1,4 +1,3 @@
-using AutoMapper;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
