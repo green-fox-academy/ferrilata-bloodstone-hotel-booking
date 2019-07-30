@@ -27,7 +27,7 @@ namespace HotelBookingApp.Configs
             return services;
         }
 
-        public static IServiceCollection AddCustomIdentity(this IServiceCollection services)
+        public static IServiceCollection AddCustomIdentity(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddRoles<IdentityRole>()
@@ -43,6 +43,17 @@ namespace HotelBookingApp.Configs
                 opt.LoginPath = "/login";
                 opt.AccessDeniedPath = "/access-denied";
             });
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                    configuration.GetSection("Authentication:Google");
+
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
+
             return services;
         }
 
