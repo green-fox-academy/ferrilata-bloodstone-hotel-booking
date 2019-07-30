@@ -120,18 +120,8 @@ namespace HotelBookingApp.Services
             {
                 PageCount = paginatedHotels.TotalPages,
                 CurrentPage = paginatedHotels.CurrentPage,
-                Hotels = MapHotelDTO(paginatedHotels)
+                Hotels = mapper.Map<PaginatedList<Hotel>, List<ApiHotelDTO>>(paginatedHotels)
             };
-        }
-
-        private List<ApiHotelDTO> MapHotelDTO(PaginatedList<Hotel> paginatedHotels)
-        {
-            var hotelList = new List<ApiHotelDTO>();
-            foreach (var hotel in paginatedHotels)
-            {
-                hotelList.Add(mapper.Map<Hotel, ApiHotelDTO>(hotel));
-            }
-            return hotelList;
         }
     }
 }
