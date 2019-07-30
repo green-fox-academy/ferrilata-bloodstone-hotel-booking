@@ -52,6 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="MappingProfiles\" />
     <Folder Include="Resources\Views\Home\" />
   </ItemGroup>
 

@@ -2,7 +2,7 @@
 using HotelBookingApp.Models.HotelModels;
 using System.Linq;
 
-namespace HotelBookingApp.MappingProfiles
+namespace HotelBookingApp.Configs
 {
     public class MappingProfiles
     {
