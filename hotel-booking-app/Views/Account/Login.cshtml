@@ -26,14 +26,14 @@
                     <label class="custom-control-label" asp-for="RememberMe">@Localizer["Remember Me"]</label>
                 </div>
                 <div class="form-group mt-2">
-                    <button type="submit" class="btn btn-primary">@Localizer["Login"]</button>
+                    <button type="submit" class="btn btn-block btn-primary">@Localizer["Login"]</button>
                 </div>
                 @foreach (var error in Model.ErrorMessages)
                 {
                     <span class="text-danger">@error</span>
                 }
-                <a class="btn btn-info" href="/Google-login">
-                    Log In With Google
+                <a class="btn btn-block btn-social btn-google" href="/Google-login">
+                    <i class="fab fa-google"></i>Log In With Google
                 </a>
             </form>
 
