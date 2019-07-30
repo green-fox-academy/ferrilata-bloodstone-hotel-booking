@@ -1,12 +1,9 @@
 ﻿using HotelBookingApp.Controllers;
 using HotelBookingApp.Models.HotelModels;
-using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
-using Microsoft.AspNetCore.Http;
+using HotelBookingAppTests.TestUtils;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
@@ -31,7 +28,7 @@ namespace HotelBookingAppTests.Controllers
         [Fact]
         public async Task AddReview_WhenValid_ShouldCallServiceAndRedirect()
         {
-            var controllerContext = GetDefaultControllerContext();
+            var controllerContext = ControllerContextProvider.GetDefault();
             var controller = new HotelsController(hotelServiceMock.Object,
                 imageServiceMock.Object, thumbnailServiceMock.Object, propertyServiceMock.Object)
             {
@@ -49,20 +46,6 @@ namespace HotelBookingAppTests.Controllers
             Assert.Equal(hotelId, resultHotelId);
             Assert.Equal(controllerContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), review.ApplicationUserId);
             hotelServiceMock.Verify(s => s.AddReviewAsync(review), Times.Once);
-        }
-
-        private ControllerContext GetDefaultControllerContext()
-        {
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, "User Name"),
-                new Claim(ClaimTypes.NameIdentifier, "1")
-            }, "mock"));
-
-            return new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext() { User = user }
-            };
         }
     }
 }

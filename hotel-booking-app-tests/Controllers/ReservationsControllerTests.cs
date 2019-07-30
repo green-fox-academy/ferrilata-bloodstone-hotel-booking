@@ -2,12 +2,11 @@
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
-using Microsoft.AspNetCore.Http;
+using HotelBookingAppTests.TestUtils;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -57,7 +56,7 @@ namespace HotelBookingAppTests.Controllers
             var reservation = new Reservation { ReservationId = 1 };
             reservationServiceMock.Setup(s => s.AddAsync(input.Reservation))
                 .ReturnsAsync(reservation);
-            var controllerContext = GetDefaultControllerContext();
+            var controllerContext = ControllerContextProvider.GetDefault();
             var controller = new ReservationsController(reservationServiceMock.Object, roomServiceMock.Object)
             {
                 ControllerContext = controllerContext
@@ -78,20 +77,6 @@ namespace HotelBookingAppTests.Controllers
             return new List<Reservation> {
                 new Reservation { ReservationId = 1 },
                 new Reservation { ReservationId = 2 }
-            };
-        }
-
-        private ControllerContext GetDefaultControllerContext()
-        {
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, "User Name"),
-                new Claim(ClaimTypes.NameIdentifier, "1")
-            }, "mock"));
-
-            return new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext() { User = user }
             };
         }
     }
