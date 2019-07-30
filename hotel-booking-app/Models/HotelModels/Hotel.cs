@@ -1,7 +1,9 @@
 using HotelBookingApp.Models.Account;
+using HotelBookingApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace HotelBookingApp.Models.HotelModels
 {
@@ -18,6 +20,7 @@ namespace HotelBookingApp.Models.HotelModels
         public PropertyType PropertyType { get; set; }
         public int PropertyTypeId { get; set; }
         public IEnumerable<Room> Rooms { get; set; }
+        public PaginatedList<Review> Reviews { get; set; }
         public bool Thumbnail { get; set; } = false;
         public string ThumbnailUrl { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
@@ -31,6 +34,18 @@ namespace HotelBookingApp.Models.HotelModels
                 return Description != null && Description.Length > maxLength
                     ? Description.Substring(0, maxLength) + "..."
                     : Description;
+            }
+        }
+
+        public double AvgReviewRating
+        {
+            get
+            {
+                if (Reviews == null || !Reviews.Any())
+                {
+                    return 0;
+                }
+                return Reviews.Average(r => r.Rating);
             }
         }
     }

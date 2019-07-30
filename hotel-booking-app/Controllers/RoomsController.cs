@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
@@ -16,13 +11,11 @@ namespace HotelBookingApp.Controllers
     [Route("hotels/{hotelId}/[controller]")]
     public class RoomsController : Controller
     {
-        private readonly IHotelService hotelService;
         private readonly IRoomService roomService;
         private readonly IBedService bedService;
 
-        public RoomsController(IHotelService hotelService, IBedService bedService, IRoomService roomService)
+        public RoomsController(IBedService bedService, IRoomService roomService)
         {
-            this.hotelService = hotelService;
             this.roomService = roomService;
             this.bedService = bedService;
         }

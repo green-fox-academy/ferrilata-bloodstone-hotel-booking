@@ -14,5 +14,6 @@ namespace HotelBookingApp.Services
         Task<IEnumerable<Reservation>> FindAllByUserId(string userId);
         Task<bool> IsIntervalOccupied(Reservation reservation);
         Task DeleteAsync(int id);
+        Task CleanUp(string userId);
     }
 }

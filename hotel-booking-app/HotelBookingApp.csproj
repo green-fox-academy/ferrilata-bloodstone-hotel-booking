@@ -6,12 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MappingProfiles\**" />
+    <Compile Remove="Resources\Views\Home\**" />
     <Compile Remove="Views\Home\**" />
+    <Content Remove="MappingProfiles\**" />
     <Content Remove="Views\Home\**" />
     <Content Remove="Resources\Views\Home\**" />
     <Content Remove="Views\Home\**" />
+    <EmbeddedResource Remove="MappingProfiles\**" />
     <EmbeddedResource Remove="Resources\Views\Home\**" />
     <EmbeddedResource Remove="Views\Home\**" />
+    <None Remove="MappingProfiles\**" />
     <None Remove="Resources\Views\Home\**" />
     <None Remove="Views\Home\**" />
   </ItemGroup>
