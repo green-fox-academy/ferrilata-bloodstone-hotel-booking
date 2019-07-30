@@ -68,7 +68,8 @@
                     <td>
                         @if (hotel != null && hotel.Thumbnail)
                         {
-                            <img src="@hotel.ThumbnailUrl?" + DateTime.Now.ToString("ddyyhhmmss") />
+                            var timestamp = DateTime.Now.ToString("ddyyhhmmss");
+                            <img src="@hotel.ThumbnailUrl?@timestamp" />
                         }
                         else
                         {

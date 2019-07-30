@@ -10,7 +10,8 @@
         <div>
             @if (Model.Hotel.ThumbnailUrl != null && Model.Hotel.Thumbnail)
             {
-                <img class="img-fluid" src="@Model.Hotel.ThumbnailUrl?" + DateTime.Now.ToString("ddyyhhmmss") alt="thumbnail" />
+                var timestamp = DateTime.Now.ToString("ddyyhhmmss");
+                <img class="img-fluid" src="@Model.Hotel.ThumbnailUrl?@timestamp"  alt="thumbnail" />
             }
             else
             {
