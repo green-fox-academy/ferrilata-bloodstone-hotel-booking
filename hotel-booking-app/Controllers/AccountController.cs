@@ -3,6 +3,7 @@ using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
@@ -10,7 +11,7 @@ namespace HotelBookingApp.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService accountService;
-        
+
         public AccountController(IAccountService accountService)
         {
             this.accountService = accountService;
@@ -38,6 +39,31 @@ namespace HotelBookingApp.Controllers
             }
             request.ErrorMessages = errors;
             return View(request);
+        }
+
+        [HttpGet("/Google-login")]
+        public IActionResult GoogleLogin()
+        {
+            string redirectUrl = "Google-response";
+            var properties = accountService.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            return new ChallengeResult("Google", properties);
+        }
+
+        [HttpGet("Google-response")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var info = await accountService.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+            var result = await accountService.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+
+            if (!result.Succeeded)
+            {
+                await accountService.CreateAndLoginGoogleUser(info);
+            }
+            return RedirectToAction(nameof(HotelsController.Index), "Hotels");
         }
 
         [HttpGet("logout")]

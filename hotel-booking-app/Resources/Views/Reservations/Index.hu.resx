@@ -120,6 +120,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>Lemondás</value>
   </data>
+  <data name="Clean up" xml:space="preserve">
+    <value>Tisztítás</value>
+  </data>
   <data name="Confirmed" xml:space="preserve">
     <value>Megerősítve</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="No results found!" xml:space="preserve">
     <value>Nincs találat!</value>
+  </data>
+  <data name="Remove reservations which are older than 1 month" xml:space="preserve">
+    <value>'Egy hónapnál régebbi foglalások törlése'</value>
   </data>
   <data name="Reservations" xml:space="preserve">
     <value>Foglalások</value>
