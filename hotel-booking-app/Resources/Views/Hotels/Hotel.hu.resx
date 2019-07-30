@@ -198,4 +198,22 @@
   <data name="twin bed" xml:space="preserve">
     <value>duplaágy</value>
   </data>
+  <data name="No reviews." xml:space="preserve">
+    <value>Nincs értékelés.</value>
+  </data>
+  <data name="Add a review!" xml:space="preserve">
+    <value>Értékelj!</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Komment</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Értékelés</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Mentés</value>
+  </data>
+  <data name="Delete review" xml:space="preserve">
+    <value>Értékelés törlése</value>
+  </data>
 </root>

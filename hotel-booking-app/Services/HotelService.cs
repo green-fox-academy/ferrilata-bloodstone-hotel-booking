@@ -52,6 +52,11 @@ namespace HotelBookingApp.Services
 
         public async Task<Hotel> FindByIdAsync(int id)
         {
+            return await FindByIdAsync(id, new QueryParams());
+        }
+
+        public async Task<Hotel> FindByIdAsync(int id, QueryParams queryParams)
+        {
             var hotel = await applicationContext.Hotels
                 .Include(h => h.Location)
                 .Include(h => h.PropertyType)
@@ -60,7 +65,16 @@ namespace HotelBookingApp.Services
                         .ThenInclude(b => b.Bed)
                 .SingleOrDefaultAsync(h => h.HotelId == id)
                 ?? throw new ItemNotFoundException(localizer["Hotel with id: {0} is not found.", id]);
+            hotel.Reviews = await FindAllReviews(id, queryParams);
             return hotel;
+        }
+
+        private async Task<PaginatedList<Review>> FindAllReviews(int hotelId, QueryParams queryParams)
+        {
+            var reviews = applicationContext.Reviews
+                .Include(r => r.ApplicationUser)
+                .Where(r => r.HotelId == hotelId);
+            return await PaginatedList<Review>.CreateAsync(reviews, queryParams.CurrentPage, queryParams.PageSize);
         }
 
         public async Task<PaginatedList<Hotel>> FindWithQuery(QueryParams queryParams)
@@ -112,6 +126,22 @@ namespace HotelBookingApp.Services
             applicationContext.Update(hotel);
             await applicationContext.SaveChangesAsync();
             return hotel;
+        }
+
+        public async Task<Review> AddReviewAsync(Review review)
+        {
+            await applicationContext.AddAsync(review);
+            await applicationContext.SaveChangesAsync();
+            return review;
+        }
+
+        public async Task DeleteReview(int reviewId)
+        {
+            var review = applicationContext.Reviews
+                .SingleOrDefault(r => r.ReviewId == reviewId)
+                ?? throw new ItemNotFoundException(localizer["Review with id: {0} is not found.", reviewId]);
+            applicationContext.Reviews.Remove(review);
+            await applicationContext.SaveChangesAsync();
         }
 
         public ApiHotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)

@@ -80,14 +80,16 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Hotel(int id)
+        public async Task<IActionResult> Hotel(int id, QueryParams queryParams)
         {
             try
             {
                 return View(new HotelViewModel
                 {
-                    Hotel = await hotelService.FindByIdAsync(id),
-                    ImageList = await imageService.GetImageListAsync(id)
+                    Hotel = await hotelService.FindByIdAsync(id, queryParams),
+                    ImageList = await imageService.GetImageListAsync(id),
+                    Review = new Review(),
+                    CurrentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
                 });
             }
             catch (ItemNotFoundException ex)
@@ -140,6 +142,28 @@ namespace HotelBookingApp.Controllers
         {
             await hotelService.Delete(id);
             return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpPost("add-review/{id}")]
+        public async Task<IActionResult> AddReview(int id, Review review)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(Hotel), new { id });
+            }
+            review.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await hotelService.AddReviewAsync(review);
+            return RedirectToAction(nameof(Hotel), new { id });
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet("delete-review/{reviewId}")]
+        public async Task<IActionResult> DeleteReview(int hotelId, int reviewId)
+        {
+            await hotelService.DeleteReview(reviewId);
+            return RedirectToAction(nameof(Hotel), new { id = hotelId });
         }
     }
 }
