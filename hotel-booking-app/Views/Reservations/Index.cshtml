@@ -3,16 +3,17 @@
 @{
     ViewData["Title"] = @Localizer["Reservations"];
 }
-    <div class="d-inline-flex">
-        <h2>@Localizer["Reservations"]</h2>
 
-        @if (User.IsInRole("Admin") || User.IsInRole("User"))
-        {
-            <form asp-action="CleanUp" asp-controller="Reservations" method="post">
-                <button class="btn btn-danger mx-3" title=@Localizer["Remove reservations which are older than 1 month"]>@Localizer["Clean up"]</button>
-            </form>
-        }
-    </div>
+<div class="d-inline-flex">
+    <h2>@Localizer["Reservations"]</h2>
+
+    @if (User.IsInRole("Admin") || User.IsInRole("User"))
+    {
+        <form asp-action="CleanUp" asp-controller="Reservations" method="post">
+            <button class="btn btn-danger mx-3" title=@Localizer["Remove reservations which are older than 1 month"]>@Localizer["Clean up"]</button>
+        </form>
+    }
+</div>
 
 <table class="table">
     <thead>
