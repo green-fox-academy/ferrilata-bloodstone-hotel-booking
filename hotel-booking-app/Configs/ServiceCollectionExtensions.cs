@@ -59,10 +59,7 @@ namespace HotelBookingApp.Configs
 
         public static IServiceCollection AddAutoMapper(this IServiceCollection services)
         {
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-            });
-            IMapper mapper = mappingConfig.CreateMapper();
+            IMapper mapper = MappingProfiles.GetAutoMapperProfiles().CreateMapper();
             services.AddSingleton(mapper);
             return services;
         }
