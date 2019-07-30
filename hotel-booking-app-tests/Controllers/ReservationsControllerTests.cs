@@ -57,9 +57,10 @@ namespace HotelBookingAppTests.Controllers
             var reservation = new Reservation { ReservationId = 1 };
             reservationServiceMock.Setup(s => s.AddAsync(input.Reservation))
                 .ReturnsAsync(reservation);
+            var controllerContext = GetDefaultControllerContext();
             var controller = new ReservationsController(reservationServiceMock.Object, roomServiceMock.Object)
             {
-                ControllerContext = GetDefaultControllerContext()
+                ControllerContext = controllerContext
             };
 
             var result = await controller.Add(input);
