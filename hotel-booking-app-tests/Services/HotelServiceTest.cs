@@ -27,6 +27,7 @@ namespace HotelBookingAppTests.Services
             imageServiceMock = new Mock<IImageService>();
             thumbnailServiceMock = new Mock<IThumbnailService>();
             localizerMock = new Mock<IStringLocalizer<HotelService>>();
+            mapper = new Mock<IMapper>();
         }
 
         [Fact]
