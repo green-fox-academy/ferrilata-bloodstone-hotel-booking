@@ -49,7 +49,7 @@ namespace HotelBookingAppTests.Controllers
         }
 
         [Fact]
-        public async Task AddReview_WhenInalid_ShouldReturnView()
+        public async Task AddReview_WhenInvalid_ShouldReturnView()
         {
             var controller = new HotelsController(hotelServiceMock.Object,
                 imageServiceMock.Object, thumbnailServiceMock.Object, propertyServiceMock.Object);
