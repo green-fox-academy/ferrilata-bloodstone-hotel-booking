@@ -54,31 +54,130 @@
         left: 50px;
         border-radius: 0px;
     }
+
+    .modal {
+        background-color: black;
+    }
+
+    .close {
+        color: white;
+        position: absolute;
+        top: 2px;
+        right: 25px;
+        font-size: 35px;
+        font-weight: bold;
+        z-index: 999;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #999;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-content {
+        background-color: #2b2b2b;
+    }
+
+    .mySlides {
+        display: none;
+        max-width: 100%;
+        max-height: 100%;
+        margin: 0 auto;
+    }
+
+    .prev,
+    .next {
+        background: black;
+        color: white;
+        opacity: 0.5;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -50px;
+        font-weight: bold;
+        font-size: 25px;
+        transition: 0.1s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    a.prev, a.next {
+        color: white!important;
+    }
+
+    .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(128, 128, 128, 0.5);
+        }
+
+    .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 16px 12px;
+        position: absolute;
+        top: 0;
+    }
+
+    .image {
+        width:auto; 
+        max-width: 100%; 
+        max-height: 70vh;
+    }
+
+    img.demo {
+        opacity: 0.6;
+    }
+
+    .active,
+    .demo:hover {
+        opacity: 1;
+    }
+
+    img.hover-shadow {
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .hover-shadow:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    #myModal  {
+        align-items: center;
+    }
 </style>
 
 <h2>@Localizer["Gallery"]</h2>
 
-<div class="container">
-    <div class="row">
+<div class="row">
         @if (Model.ImageList.Count() == 0)
         {
             <p>@Localizer["No images."]</p>
         }
 
-        @foreach (var image in Model.ImageList)
+        @for (var i = 0; i < Model.ImageList.Count; i++)
         {
             <div class="col-md-4 col-lg-3 col-sm-6 hcontainer">
-                <img class="img-fluid my-3" alt="@image.Name" src="@image.Path" />
+                <img class="img-fluid my-3 hover-shadow" alt="@Model.ImageList[i].Name" src="@Model.ImageList[i].Path" onclick="openModal(); currentSlide(@i)" />
                 @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
                 {
                     <div class="overlay">
                         <form asp-action="UpdateThumbnail" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                            <button id="btn-thumbnail" class="btn btn-link" type="submit" name="path" value="@image.Path" title="@Localizer["Set as thumbnail"]">
+                            <button id="btn-thumbnail" class="btn btn-link" type="submit" name="path" value="@Model.ImageList[i].Path" title="@Localizer["Set as thumbnail"]">
                                 <i id="trash" class="fas fa-thumbtack"></i>
                             </button>
                         </form>
                         <form asp-action="DeleteImage" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                            <button id="btn-delete" class="btn btn-link" type="submit" name="path" value="@image.Path">
+                            <button id="btn-delete" class="btn btn-link" type="submit" name="path" value="@Model.ImageList[i].Path">
                                 <i id="thumb" class="far fa-trash-alt" title=@Localizer["Delete"]></i>
                             </button>
                         </form>
@@ -86,5 +185,52 @@
                 }
             </div>
         }
+</div>
+<div id="myModal" class="modal">
+    <span class="close cursor" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+        @for (var i = 0; i < Model.ImageList.Count; i++)
+        {
+            <div class="mySlides">
+                <div class="numbertext">@(i + 1) / @Model.ImageList.Count</div>
+                <img class="image" src="@Model.ImageList[i].Path" alt="@Model.ImageList[i].Name" />
+            </div>
+        }
     </div>
 </div>
+
+<script>
+    function openModal() {
+        document.getElementById("myModal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        if (n > slides.length - 1) { slideIndex = 0 }
+        if (n < 0) { slideIndex = slides.length - 1 }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex].style.display = "block";
+    }
+</script>
