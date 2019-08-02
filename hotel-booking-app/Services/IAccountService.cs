@@ -16,7 +16,6 @@ namespace HotelBookingApp.Services
         Task<ExternalLoginInfo> GetExternalLoginInfoAsync();
         Task<SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent);
         Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info);
-        //Task<IdentityResult> ChangePasswordAsync(SettingViewModel model);
         Task<List<string>> ChangePasswordAsync(SettingViewModel model);
         Task<ApplicationUser> FindByIdAsync(string userId);
     }

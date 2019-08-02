@@ -105,8 +105,7 @@ namespace HotelBookingApp.Services
                 .Select(e => e.Description)
                 .ToList();
         }
-
-        //public async Task<IdentityResult> ChangePasswordAsync(SettingViewModel model)
+      
         public async Task<List<string>> ChangePasswordAsync(SettingViewModel model)
         {
             var errors = new List<string>();
@@ -120,8 +119,7 @@ namespace HotelBookingApp.Services
 
         public async Task<ApplicationUser> FindByIdAsync(string userId)
         {
-            var result = await userManager.FindByIdAsync(userId);
-            return result;
+            return await userManager.FindByIdAsync(userId);
         }
     }
 }

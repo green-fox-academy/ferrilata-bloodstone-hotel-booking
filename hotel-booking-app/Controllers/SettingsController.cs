@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace HotelBookingApp.Controllers
 {
     [Authorize]
+    [Route("[controller]")]
     public class SettingsController : Controller
     {
         private readonly IAccountService accountService;
@@ -22,13 +23,13 @@ namespace HotelBookingApp.Controllers
             this.accountService = accountService;
         }
 
-        [HttpGet("Settings")]
+        [HttpGet]
         public IActionResult Settings()
         {
             return View();
         }
 
-        [HttpPost("Settings")]
+        [HttpPost]
         public IActionResult SetLanguage(string culture)
         {
             Response.Cookies.Append(
@@ -40,24 +41,22 @@ namespace HotelBookingApp.Controllers
             return RedirectToAction(nameof(Settings));
         }
 
-        [HttpGet("Settings/Password")]
+        [HttpGet("Password")]
         public IActionResult Password()
         {
             return View(new SettingViewModel { });
         }
 
-        [HttpPost("Settings/Password")]
+        [HttpPost("Password")]
         public async Task<IActionResult> Password(SettingViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
             model.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             model.ApplicationUser = await accountService.FindByIdAsync(model.ApplicationUserId);
 
-            //var result = await accountService.ChangePasswordAsync(model);
             var errors = await accountService.ChangePasswordAsync(model);
             if (errors.Count == 0)
             {
@@ -65,11 +64,6 @@ namespace HotelBookingApp.Controllers
             }
             model.ErrorMessages = errors;
             return View(model);
-            /*if (!result.Succeeded)
-            {
-                return View(model);
-            }
-            return RedirectToAction(nameof(Settings));*/
         }
     }
 }
