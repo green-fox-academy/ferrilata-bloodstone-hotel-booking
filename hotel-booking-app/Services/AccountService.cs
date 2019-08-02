@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Models.Account;
+using HotelBookingApp.Pages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
@@ -103,6 +104,18 @@ namespace HotelBookingApp.Services
             return identResult.Errors
                 .Select(e => e.Description)
                 .ToList();
+        }
+
+        public async Task<IdentityResult> PasswordChangeAsync(SettingViewModel model)
+        {
+            var result = await userManager.ChangePasswordAsync(model.ApplicationUser, model.Password, model.NewPassword);
+            return result;    
+        }
+
+        public async Task<ApplicationUser> FindByIdAsync(string userId)
+        {
+            var result = await userManager.FindByIdAsync(userId);
+            return result;
         }
     }
 }

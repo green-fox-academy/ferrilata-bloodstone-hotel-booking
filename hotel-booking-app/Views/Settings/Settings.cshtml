@@ -33,38 +33,4 @@
     </form>
 </div>
 
-<div class="mx-auto col-md-6 p-3">
-    <div class="card">
-        <div class="card-header">
-            <h2>Change Password</h2>
-        </div>
-        <div class="card-body">
-            <form asp-controller="" asp-action="" method="post">
-                <div class="form-group">
-                    <label asp-for="Password">@Localizer["Password"]</label>
-                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NewPassword">@Localizer["New Password"]</label>
-                    <input asp-for="NewPassword" type="password" class="form-control" placeholder="Password" />
-                    <span asp-validation-for="NewPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="VerifyPassword">@Localizer["Verify new Password"]</label>
-                    <input asp-for="VerifyPassword" type="password" class="form-control" placeholder="VerifyPassword" />
-                    <span asp-validation-for="VerifyPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group mt-2">
-                    <button type="submit" class="btn btn-primary btn-block">@Localizer["Save"]</button>
-                </div>
-                @*@foreach (var error in Model.ErrorMessages)
-                {
-                    @if(error != null) { 
-                    <span class="text-danger">@error</span>
-                    }
-                }*@
-            </form>
-        </div>
-    </div>
-</div>
+<a class="btn btn-danger" asp-controller="Settings" asp-action="Password" role="button">Change password</a>

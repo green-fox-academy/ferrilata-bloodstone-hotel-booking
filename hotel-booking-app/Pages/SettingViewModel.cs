@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelBookingApp.Models.Account;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace HotelBookingApp.Pages
 
         public List<string> ErrorMessages { get; set; } = new List<string>();
 
-        public int CurrentUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+        public string ApplicationUserId { get; set; }
     }
 }

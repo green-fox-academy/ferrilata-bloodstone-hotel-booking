@@ -1,10 +1,13 @@
 using HotelBookingApp.Models.Account;
+using HotelBookingApp.Pages;
+using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
@@ -12,6 +15,12 @@ namespace HotelBookingApp.Controllers
     [Authorize]
     public class SettingsController : Controller
     {
+        private readonly IAccountService accountService;
+
+        public SettingsController(IAccountService accountService)
+        {
+            this.accountService = accountService;
+        }
 
         [HttpGet("Settings")]
         public IActionResult Settings()
@@ -28,6 +37,26 @@ namespace HotelBookingApp.Controllers
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
 
+            return RedirectToAction(nameof(Settings));
+        }
+
+        [HttpGet("Settings/Password")]
+        public IActionResult Password()
+        {
+            return View(new SettingViewModel { });
+        }
+
+        [HttpPost("Settings/Password")]
+        public async Task<IActionResult> PasswordChange(SettingViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            model.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            model.ApplicationUser = await accountService.FindByIdAsync(model.ApplicationUserId);
+            await accountService.PasswordChangeAsync(model);
             return RedirectToAction(nameof(Settings));
         }
     }
