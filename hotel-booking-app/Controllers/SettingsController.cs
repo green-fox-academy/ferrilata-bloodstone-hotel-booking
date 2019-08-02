@@ -47,7 +47,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpPost("Settings/Password")]
-        public async Task<IActionResult> PasswordChange(SettingViewModel model)
+        public async Task<IActionResult> Password(SettingViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -56,8 +56,20 @@ namespace HotelBookingApp.Controllers
 
             model.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             model.ApplicationUser = await accountService.FindByIdAsync(model.ApplicationUserId);
-            await accountService.PasswordChangeAsync(model);
-            return RedirectToAction(nameof(Settings));
+
+            //var result = await accountService.ChangePasswordAsync(model);
+            var errors = await accountService.ChangePasswordAsync(model);
+            if (errors.Count == 0)
+            {
+                return RedirectToAction(nameof(Settings));
+            }
+            model.ErrorMessages = errors;
+            return View(model);
+            /*if (!result.Succeeded)
+            {
+                return View(model);
+            }
+            return RedirectToAction(nameof(Settings));*/
         }
     }
 }
