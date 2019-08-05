@@ -103,15 +103,15 @@ namespace HotelBookingApp.Controllers
         [HttpGet("Reset-Password")]
         public IActionResult ResetPassword()
         {
-            return View();
+            return View(new PasswordResetRequest());
         }
 
         [HttpPost("Reset-Password")]
-        public async Task<IActionResult> ResetPasswordRequest(string email)
+        public async Task<IActionResult> ResetPasswordRequest(PasswordResetRequest passwordResetRequest)
         {
             var password = accountService.CreateRandomPassword();
-            var errors = await accountService.ResetPasswordAsync(email, password);
-            return View();
+            var errors = await accountService.ResetPasswordAsync(passwordResetRequest.Email, password);
+            return View(errors);
         }
     }
 }
