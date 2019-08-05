@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Models.Account;
+using HotelBookingApp.Pages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -73,12 +74,12 @@ namespace HotelBookingApp.Services
 
         public AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
         {
-            return signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl); 
+            return signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         }
 
         public async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
         {
-            return await signInManager.GetExternalLoginInfoAsync(); 
+            return await signInManager.GetExternalLoginInfoAsync();
         }
 
         public async Task<SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent)
@@ -119,16 +120,33 @@ namespace HotelBookingApp.Services
         }
 
         public string CreateRandomPassword(int length = 8)
-        {  
+        {
             string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             Random random = new Random();
-            
+
             char[] chars = new char[length];
             for (int i = 0; i < length; i++)
             {
                 chars[i] = validChars[random.Next(0, validChars.Length)];
             }
             return new string(chars);
+        }
+
+      
+        public async Task<List<string>> ChangePasswordAsync(SettingViewModel model)
+        {
+            var errors = new List<string>();
+            var result = await userManager.ChangePasswordAsync(model.ApplicationUser, model.Password, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                errors.Add(localizer["Invalid current password"]);
+            }
+            return errors;
+        }
+
+        public async Task<ApplicationUser> FindByIdAsync(string userId)
+        {
+            return await userManager.FindByIdAsync(userId);
         }
     }
 }

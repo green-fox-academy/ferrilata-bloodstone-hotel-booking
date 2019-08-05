@@ -1,4 +1,5 @@
-﻿using HotelBookingApp.Data;
+﻿using AutoMapper;
+using HotelBookingApp.Data;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Services;
 using HotelBookingAppTests.TestUtils;
@@ -18,6 +19,7 @@ namespace HotelBookingAppTests.Services
         private readonly Mock<IImageService> imageServiceMock;
         private readonly Mock<IThumbnailService> thumbnailServiceMock;
         private readonly Mock<IStringLocalizer<HotelService>> localizerMock;
+        private readonly Mock<IMapper> mapper;
 
         public HotelServiceTest()
         {
@@ -25,6 +27,7 @@ namespace HotelBookingAppTests.Services
             imageServiceMock = new Mock<IImageService>();
             thumbnailServiceMock = new Mock<IThumbnailService>();
             localizerMock = new Mock<IStringLocalizer<HotelService>>();
+            mapper = new Mock<IMapper>();
         }
 
         [Fact]
@@ -35,7 +38,8 @@ namespace HotelBookingAppTests.Services
                 var hotelService = new HotelService(context,
                     imageServiceMock.Object,
                     thumbnailServiceMock.Object,
-                    localizerMock.Object);
+                    localizerMock.Object,
+                    mapper.Object);
                 var contextLength = context.Hotels.Count();
                 var hotelName = "New Hotel";
 

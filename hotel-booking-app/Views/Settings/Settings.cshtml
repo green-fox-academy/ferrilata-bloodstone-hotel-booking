@@ -7,8 +7,10 @@
 @inject IViewLocalizer Localizer
 @inject IOptions<RequestLocalizationOptions> LocOptions
 
+@model SettingViewModel
+
 @{
-    ViewData["Title"] = "Settings";
+    ViewData["Title"] = Localizer["Settings"];
     var user = await UserManager.GetUserAsync(User);
 }
 
@@ -24,8 +26,11 @@
 <div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
     <form id="selectLanguage" class="form-horizontal" asp-controller="Home" asp-action="SetLanguage" asp-route-user="@User.Identity" method="post" role="form">
         <div class="form-group">
-            <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language:"]</label>
-            <select name="culture" onchange="this.form.submit();" asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>
+            <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language"]</label>
+            <select name="culture" onchange="this.form.submit();" asp-for="@requestCulture.RequestCulture.UICulture.Name"
+                    asp-items="cultureItems" class="form-control" title="@Localizer["Select a language"]"></select>
         </div>
     </form>
 </div>
+
+<a class="btn btn-danger" asp-controller="Settings" asp-action="Password" role="button">@Localizer["Change password"]</a>

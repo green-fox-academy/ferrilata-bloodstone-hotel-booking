@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Models.Account;
+using HotelBookingApp.Pages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
@@ -17,5 +18,7 @@ namespace HotelBookingApp.Services
         Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info);
         Task ResetPasswordAsync(string email, string newPassword);
         string CreateRandomPassword(int length = 8);
+        Task<List<string>> ChangePasswordAsync(SettingViewModel model);
+        Task<ApplicationUser> FindByIdAsync(string userId);
     }
 }
