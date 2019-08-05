@@ -110,9 +110,10 @@ namespace HotelBookingApp.Services
                 .ToList();
         }
 
-        public async Task<List<string>> ResetPasswordAsync(string email, string newPassword)
+        public async Task<List<string>> ResetPasswordAsync(string email)
         {
             var errors = new List<string>();
+            string newPassword = CreateRandomPassword(10);
             var user = await userManager.FindByEmailAsync(email);
             if (user != null)
             {
@@ -126,12 +127,12 @@ namespace HotelBookingApp.Services
             }
             else
             {
-                Console.WriteLine("Email doesnt exist");
+                errors.Add(localizer["Email doesn't exist"]);
             }
             return errors;
         }
 
-        public string CreateRandomPassword(int length = 8)
+        private string CreateRandomPassword(int length)
         {
             string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             string upper = "ABCDEFGHJKLMNOPQRSTUVWXYZ";

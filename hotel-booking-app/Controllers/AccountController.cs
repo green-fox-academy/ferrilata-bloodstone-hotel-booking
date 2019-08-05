@@ -109,8 +109,7 @@ namespace HotelBookingApp.Controllers
         [HttpPost("Reset-Password")]
         public async Task<IActionResult> ResetPasswordRequest(PasswordResetRequest passwordResetRequest)
         {
-            var password = accountService.CreateRandomPassword();
-            await accountService.ResetPasswordAsync(passwordResetRequest.Email, password);
+            await accountService.ResetPasswordAsync(passwordResetRequest.Email);
             return View(passwordResetRequest);
         }
     }
