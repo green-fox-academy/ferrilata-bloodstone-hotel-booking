@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Models.Account;
+using HotelBookingApp.Pages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
@@ -69,12 +70,12 @@ namespace HotelBookingApp.Services
 
         public AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
         {
-            return signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl); 
+            return signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         }
 
         public async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
         {
-            return await signInManager.GetExternalLoginInfoAsync(); 
+            return await signInManager.GetExternalLoginInfoAsync();
         }
 
         public async Task<SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent)
@@ -103,6 +104,22 @@ namespace HotelBookingApp.Services
             return identResult.Errors
                 .Select(e => e.Description)
                 .ToList();
+        }
+      
+        public async Task<List<string>> ChangePasswordAsync(SettingViewModel model)
+        {
+            var errors = new List<string>();
+            var result = await userManager.ChangePasswordAsync(model.ApplicationUser, model.Password, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                errors.Add(localizer["Invalid current password"]);
+            }
+            return errors;
+        }
+
+        public async Task<ApplicationUser> FindByIdAsync(string userId)
+        {
+            return await userManager.FindByIdAsync(userId);
         }
     }
 }
