@@ -3,7 +3,6 @@ using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
@@ -98,6 +97,20 @@ namespace HotelBookingApp.Controllers
         [HttpGet("access-denied")]
         public IActionResult AccessDenied()
         {
+            return View();
+        }
+
+        [HttpGet("Reset-Password")]
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost("Reset-Password")]
+        public async Task<IActionResult> ResetPasswordRequest(string email)
+        {
+            var password = accountService.CreateRandomPassword();
+            await accountService.ResetPasswordAsync(email, password);
             return View();
         }
     }

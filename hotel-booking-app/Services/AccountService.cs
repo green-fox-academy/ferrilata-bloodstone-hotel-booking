@@ -1,7 +1,9 @@
 ﻿using HotelBookingApp.Models.Account;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -14,12 +16,14 @@ namespace HotelBookingApp.Services
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IStringLocalizer<AccountService> localizer;
+        private readonly IEmailService emailService;
 
-        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStringLocalizer<AccountService> localizer)
+        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStringLocalizer<AccountService> localizer, IEmailService emailService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.localizer = localizer;
+            this.emailService = emailService;
         }
 
         public async Task<List<string>> SignInAsync(LoginRequest request)
@@ -103,6 +107,28 @@ namespace HotelBookingApp.Services
             return identResult.Errors
                 .Select(e => e.Description)
                 .ToList();
+        }
+
+        public async Task ResetPasswordAsync(string email, string newPassword)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+            await userManager.ResetPasswordAsync(user, token, newPassword);
+            await emailService.SendPasswordResetEmailAsync(newPassword, email);
+        }
+
+        public string CreateRandomPassword(int length = 8)
+        {  
+            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            Random random = new Random();
+            
+            char[] chars = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = validChars[random.Next(0, validChars.Length)];
+            }
+            return new string(chars);
         }
     }
 }
