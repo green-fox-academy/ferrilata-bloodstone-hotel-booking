@@ -10,7 +10,7 @@
 @model SettingViewModel
 
 @{
-    ViewData["Title"] = "Settings";
+    ViewData["Title"] = Localizer["Settings"];
     var user = await UserManager.GetUserAsync(User);
 }
 
