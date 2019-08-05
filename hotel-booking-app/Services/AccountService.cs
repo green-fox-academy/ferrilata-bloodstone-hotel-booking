@@ -119,11 +119,15 @@ namespace HotelBookingApp.Services
             {
                 var token = await userManager.GeneratePasswordResetTokenAsync(user);
                 var result = await userManager.ResetPasswordAsync(user, token, newPassword);
-                if (!result.Succeeded)
+                if (result.Succeeded)
+                {
+                    await emailService.SendPasswordResetEmailAsync(newPassword, email);
+                }
+                else
                 {
                     errors.Add(localizer["Couldn't reset password"]);
                 }
-                await emailService.SendPasswordResetEmailAsync(newPassword, email);
+                
             }
             else
             {

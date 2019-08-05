@@ -120,6 +120,9 @@
   <data name="Email" xml:space="preserve">
     <value>E-mail</value>
   </data>
+  <data name="Forgot your password?" xml:space="preserve">
+    <value>Elfelejtettem a jelszavam!</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Bejelentkezés</value>
   </data>
