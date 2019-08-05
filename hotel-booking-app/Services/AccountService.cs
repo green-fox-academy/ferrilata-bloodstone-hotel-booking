@@ -110,29 +110,44 @@ namespace HotelBookingApp.Services
                 .ToList();
         }
 
-        public async Task ResetPasswordAsync(string email, string newPassword)
+        public async Task<List<string>> ResetPasswordAsync(string email, string newPassword)
         {
+            var errors = new List<string>();
             var user = await userManager.FindByEmailAsync(email);
-
-            var token = await userManager.GeneratePasswordResetTokenAsync(user);
-            await userManager.ResetPasswordAsync(user, token, newPassword);
-            await emailService.SendPasswordResetEmailAsync(newPassword, email);
+            if (user != null)
+            {
+                var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await userManager.ResetPasswordAsync(user, token, newPassword);
+                if (!result.Succeeded)
+                {
+                    errors.Add(localizer["Couldn't reset password"]);
+                }
+                await emailService.SendPasswordResetEmailAsync(newPassword, email);
+            }
+            else
+            {
+                Console.WriteLine("Email doesnt exist");
+            }
+            return errors;
         }
 
         public string CreateRandomPassword(int length = 8)
         {
             string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            Random random = new Random();
-
+            string upper = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
+            string number = "0123456789";
             char[] chars = new char[length];
-            for (int i = 0; i < length; i++)
+            Random random = new Random();
+            chars[0] = upper[random.Next(0, upper.Length)];
+            chars[1] = number[random.Next(0, number.Length)];
+            for (int i = 2; i < length; i++)
             {
                 chars[i] = validChars[random.Next(0, validChars.Length)];
             }
             return new string(chars);
         }
 
-      
+
         public async Task<List<string>> ChangePasswordAsync(SettingViewModel model)
         {
             var errors = new List<string>();

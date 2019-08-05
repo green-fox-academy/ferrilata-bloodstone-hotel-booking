@@ -25,6 +25,7 @@
                     <input class="custom-control-input" type="checkbox" asp-for="RememberMe">
                     <label class="custom-control-label" asp-for="RememberMe">@Localizer["Remember Me"]</label>
                 </div>
+                <a href="/Reset-password">@Localizer["Forgot your password?"]</a>
                 <div class="form-group mt-2">
                     <button type="submit" class="btn btn-block btn-primary">@Localizer["Login"]</button>
                 </div>
@@ -32,7 +33,7 @@
                 {
                     <span class="text-danger">@error</span>
                 }
-
+                <hr />
                 <a class="btn btn-block btn-social btn-google" href="/Google-login">
                     <i class="fab fa-google"></i>Log In With Google
                 </a>

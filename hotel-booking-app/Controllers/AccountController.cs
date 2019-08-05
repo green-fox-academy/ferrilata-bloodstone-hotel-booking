@@ -110,7 +110,7 @@ namespace HotelBookingApp.Controllers
         public async Task<IActionResult> ResetPasswordRequest(string email)
         {
             var password = accountService.CreateRandomPassword();
-            await accountService.ResetPasswordAsync(email, password);
+            var errors = await accountService.ResetPasswordAsync(email, password);
             return View();
         }
     }
