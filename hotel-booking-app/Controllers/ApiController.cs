@@ -118,6 +118,14 @@ namespace HotelBookingApp.Controllers
             await reservationService.ConfirmAsync(reservation.ReservationId, User.Identity.Name);
             return Ok(reservation);
         }
+        
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpDelete("reservation/delete")]
+        public async Task<IActionResult> Delete([FromBody] int reservationId)
+        {
+            await reservationService.DeleteAsync(reservationId);
+            return NoContent();
+        }
 
         private string GetUserId()
         {
