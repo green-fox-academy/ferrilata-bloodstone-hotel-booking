@@ -111,9 +111,9 @@ namespace HotelBookingApp.Controllers
         public async Task<IActionResult> ResetPasswordRequest(PasswordResetRequest passwordResetRequest)
         {
             passwordResetRequest.ErrorMessages = await accountService.ResetPasswordAsync(passwordResetRequest.Email);
-            if (passwordResetRequest.ErrorMessages.Count==0)
+            if (passwordResetRequest.ErrorMessages.Count == 0)
             {
-                return View(passwordResetRequest);
+                passwordResetRequest.SuccessMessage.Add("Email sent");
             }
             return View(passwordResetRequest);
         }

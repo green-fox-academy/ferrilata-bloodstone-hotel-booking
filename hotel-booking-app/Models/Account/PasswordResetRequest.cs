@@ -9,5 +9,7 @@ namespace HotelBookingApp.Models.Account
         [EmailAddress]
         public string Email { get; set; }
         public List<string> ErrorMessages { get; set; } = new List<string>();
+        public List<string> SuccessMessage { get; set; } = new List<string>();
+        
     }
 }

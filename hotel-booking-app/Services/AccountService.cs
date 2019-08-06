@@ -122,13 +122,11 @@ namespace HotelBookingApp.Services
                 if (result.Succeeded)
                 {
                     await emailService.SendPasswordResetEmailAsync(newPassword, email);
-                    errors.Add(localizer["Email sent"]);
                 }
                 else
                 {
                     errors.Add(localizer["Couldn't reset password"]);
                 }
-                
             }
             else
             {
