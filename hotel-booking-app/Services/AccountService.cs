@@ -24,14 +24,16 @@ namespace HotelBookingApp.Services
         private readonly IConfiguration configuration;
         private readonly string apiSecretKey;
         private readonly RoleManager<ApplicationUser> roleManager;
+        private readonly IEmailService emailService;
 
-        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStringLocalizer<AccountService> localizer, IConfiguration configuration)
+        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStringLocalizer<AccountService> localizer, IEmailService emailService, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.localizer = localizer;
             apiSecretKey = configuration.GetSection("APISecretKey").Value;
             this.configuration = configuration;
+            this.emailService = emailService;
         }
 
         public async Task<List<string>> SignInAsync(LoginRequest request)
@@ -134,6 +136,46 @@ namespace HotelBookingApp.Services
             return identResult.Errors
                 .Select(e => e.Description)
                 .ToList();
+        }
+        public async Task<List<string>> ResetPasswordAsync(string email)
+        {
+            var errors = new List<string>();
+            string newPassword = CreateRandomPassword(10);
+            var user = await userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await userManager.ResetPasswordAsync(user, token, newPassword);
+                if (result.Succeeded)
+                {
+                    await emailService.SendPasswordResetEmailAsync(newPassword, email);
+                }
+                else
+                {
+                    errors.Add(localizer["Couldn't reset password"]);
+                }
+            }
+            else
+            {
+                errors.Add(localizer["Email doesn't exist"]);
+            }
+            return errors;
+        }
+
+        private string CreateRandomPassword(int length)
+        {
+            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            string upper = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
+            string number = "0123456789";
+            char[] chars = new char[length];
+            Random random = new Random();
+            chars[0] = upper[random.Next(0, upper.Length)];
+            chars[1] = number[random.Next(0, number.Length)];
+            for (int i = 2; i < length; i++)
+            {
+                chars[i] = validChars[random.Next(0, validChars.Length)];
+            }
+            return new string(chars);
         }
 
         public async Task<List<string>> ChangePasswordAsync(SettingViewModel model)

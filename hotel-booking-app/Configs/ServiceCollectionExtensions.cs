@@ -35,7 +35,8 @@ namespace HotelBookingApp.Configs
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationContext>();
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(opt =>
             {

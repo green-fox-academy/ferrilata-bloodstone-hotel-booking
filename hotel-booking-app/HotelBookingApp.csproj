@@ -71,6 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Templates\PasswordReset.cshtml" />
     <Content Remove="Templates\ReservationConfirmation.cshtml" />
   </ItemGroup>
   

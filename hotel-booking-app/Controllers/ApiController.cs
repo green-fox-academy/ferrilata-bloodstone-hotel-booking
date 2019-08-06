@@ -113,7 +113,7 @@ namespace HotelBookingApp.Controllers
                 {
                     return BadRequest("Interval is already occupied.");
                 }
-                return BadRequest("Confirmation not successful");
+                return BadRequest("Confirmation is not successful.");
             }
             await reservationService.ConfirmAsync(reservation.ReservationId, User.Identity.Name);
             return Ok(reservation);
@@ -125,6 +125,22 @@ namespace HotelBookingApp.Controllers
         {
             await reservationService.DeleteAsync(reservationId);
             return NoContent();
+        }
+        
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpPost("user/resetPassword")]
+        public async Task<IActionResult> ResetPassword()
+        {
+            var userId = GetUserId();
+            return NoContent();
+        }
+
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await accountService.SignOutAsync();
+            return Ok("Signed out successfully.");
         }
 
         private string GetUserId()
