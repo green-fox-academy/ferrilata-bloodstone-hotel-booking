@@ -33,8 +33,8 @@ namespace HotelBookingApp.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var response = await accountService.SignInApiAsync(request);
             if (response.token == null)
