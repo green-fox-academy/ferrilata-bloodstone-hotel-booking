@@ -127,16 +127,20 @@ namespace HotelBookingApp.Controllers
             return NoContent();
         }
         
-        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [AllowAnonymous]
         [HttpPost("user/resetPassword")]
-        public async Task<IActionResult> ResetPassword()
+        public async Task<IActionResult> ResetPassword([FromBody] PasswordResetRequest passwordResetRequest)
         {
-            var userId = GetUserId();
-            return NoContent();
+            passwordResetRequest.ErrorMessages = await accountService.ResetPasswordAsync(passwordResetRequest.Email);
+            if (passwordResetRequest.ErrorMessages.Count != 0)
+            {
+                return BadRequest(string.Join(", ", passwordResetRequest.ErrorMessages.ToArray()));
+            }
+            return Ok("Email sent.");
         }
 
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
-        [HttpGet("logout")]
+        [HttpGet("user/logout")]
         public async Task<IActionResult> Logout()
         {
             await accountService.SignOutAsync();
@@ -147,5 +151,6 @@ namespace HotelBookingApp.Controllers
         {
             return User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
+
     }
 }
