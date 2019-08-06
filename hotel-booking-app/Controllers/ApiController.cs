@@ -106,8 +106,13 @@ namespace HotelBookingApp.Controllers
         [HttpPost("reservation/confirm")]
         public async Task<IActionResult> Confirm([FromBody] Reservation reservation)
         {
-            if (await reservationService.IsIntervalOccupied(reservation) && reservation.ApplicationUserId == GetUserId())
+            var reservationIntervalOccupied = await reservationService.IsIntervalOccupied(reservation);
+            if (reservationIntervalOccupied && reservation.ApplicationUserId == GetUserId())
             {
+                if (reservationIntervalOccupied)
+                {
+                    return BadRequest("Interval is already occupied.");
+                }
                 return BadRequest("Confirmation not successful");
             }
             await reservationService.ConfirmAsync(reservation.ReservationId, User.Identity.Name);
