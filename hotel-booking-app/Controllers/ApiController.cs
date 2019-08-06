@@ -2,14 +2,13 @@
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Services;
 using HotelBookingApp.Utils;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
-    [Authorize]
     [Route("[controller]/")]
     [ApiController]
     public class ApiController : ControllerBase
@@ -17,6 +16,8 @@ namespace HotelBookingApp.Controllers
         private readonly IHotelService hotelService;
         private readonly IRoomService roomService;
         private readonly IAccountService accountService;
+        private const string authScheme = JwtBearerDefaults.AuthenticationScheme;
+
 
         public ApiController(IHotelService hotelService, IRoomService roomService, IAccountService accountService)
         {
@@ -36,8 +37,21 @@ namespace HotelBookingApp.Controllers
             }
             return Ok(response);
         }
+        
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] SignupRequest request)
+        {
+            var errors = await accountService.SignUpAsync(request);
+            if (errors.Count != 0)
+            {
+                return BadRequest(string.Join(", ", errors.ToArray()));
+            }
+            return Ok("Registration Successful!");
+        }
 
-        [Authorize(Roles = "Admin, HotelManager")]
+        //[Authorize(AuthenticationSchemes = authScheme, Roles = "Admin, HotelManager")]
+        [AllowAnonymous]
         [HttpGet("hotels")]
         public async Task<IActionResult> Hotels(string city, int currentPage = 1)
         {
