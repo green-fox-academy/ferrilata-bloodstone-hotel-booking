@@ -91,7 +91,7 @@ namespace HotelBookingApp.Controllers
         [HttpPost("hotels/{hotelId}/rooms/{roomId}/reserve")]
         public async Task<IActionResult> Reserve(int roomId, [FromBody] ReservationViewModel model)
         {
-            model.Reservation.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            model.Reservation.ApplicationUserId = GetUserId();
             model.Reservation.RoomId = roomId;
             if (!ModelState.IsValid)
             {
@@ -106,12 +106,17 @@ namespace HotelBookingApp.Controllers
         [HttpPost("reservation/confirm")]
         public async Task<IActionResult> Confirm([FromBody] Reservation reservation)
         {
-            if (await reservationService.IsIntervalOccupied(reservation))
+            if (await reservationService.IsIntervalOccupied(reservation) && reservation.ApplicationUserId == GetUserId())
             {
                 return BadRequest("Confirmation not successful");
             }
             await reservationService.ConfirmAsync(reservation.ReservationId, User.Identity.Name);
             return Ok(reservation);
+        }
+
+        private string GetUserId()
+        {
+            return User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
     }
 }
