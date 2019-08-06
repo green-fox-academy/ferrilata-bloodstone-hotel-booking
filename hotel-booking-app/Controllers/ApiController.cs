@@ -151,6 +151,22 @@ namespace HotelBookingApp.Controllers
         {
             return User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
-
+        [HttpPost("user/changePassword")]
+        public async Task<IActionResult> ChangePassword(SettingViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(model);
+            }
+            model.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            model.ApplicationUser = await accountService.FindByIdAsync(model.ApplicationUserId);
+            var errors = await accountService.ChangePasswordAsync(model);
+            if (errors.Count == 0)
+            {
+                return Ok("Password changed successfully.");
+            }
+            model.ErrorMessages = errors;
+            return BadRequest(model);
+        }
     }
 }
