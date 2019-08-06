@@ -1,10 +1,14 @@
 ﻿using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
+using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
@@ -16,14 +20,16 @@ namespace HotelBookingApp.Controllers
         private readonly IHotelService hotelService;
         private readonly IRoomService roomService;
         private readonly IAccountService accountService;
+        private readonly IReservationService reservationService;
         private const string authScheme = JwtBearerDefaults.AuthenticationScheme;
 
 
-        public ApiController(IHotelService hotelService, IRoomService roomService, IAccountService accountService)
+        public ApiController(IHotelService hotelService, IRoomService roomService, IAccountService accountService, IReservationService reservationService)
         {
             this.hotelService = hotelService;
             this.roomService = roomService;
             this.accountService = accountService;
+            this.reservationService = reservationService;
         }
 
         [AllowAnonymous]
@@ -67,7 +73,7 @@ namespace HotelBookingApp.Controllers
         }
 
 
-        [Authorize(AuthenticationSchemes = authScheme, Roles = "Admin, HotelManager, User")]
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpGet("hotels/{hotelId}/rooms")]
         public async Task<IActionResult> Rooms(int hotelId)
         {
@@ -79,6 +85,33 @@ namespace HotelBookingApp.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpPost("hotels/{hotelId}/rooms/{roomId}/reserve")]
+        public async Task<IActionResult> Reserve(int roomId, [FromBody] ReservationViewModel model)
+        {
+            model.Reservation.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            model.Reservation.RoomId = roomId;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(model);
+            }
+            var reservation = await reservationService.AddAsync(model.Reservation);
+            return Ok(reservation);
+        }
+
+        
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpPost("reservation/confirm")]
+        public async Task<IActionResult> Confirm([FromBody] Reservation reservation)
+        {
+            if (await reservationService.IsIntervalOccupied(reservation))
+            {
+                return BadRequest("Confirmation not successful");
+            }
+            await reservationService.ConfirmAsync(reservation.ReservationId, User.Identity.Name);
+            return Ok(reservation);
         }
     }
 }

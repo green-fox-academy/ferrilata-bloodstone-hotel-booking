@@ -157,14 +157,13 @@ namespace HotelBookingApp.Services
             var userRoles = await userManager.GetRolesAsync(user);
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Role, userRoles[0])
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(apiSecretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddMinutes(2);
+            var expires = DateTime.Now.AddMonths(1);
 
             var token = new JwtSecurityToken(
                 "Hotel-Booking",
