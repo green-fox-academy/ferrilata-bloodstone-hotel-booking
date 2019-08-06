@@ -50,7 +50,6 @@ namespace HotelBookingApp.Controllers
             return Ok("Registration Successful!");
         }
 
-        //[Authorize(AuthenticationSchemes = authScheme, Roles = "Admin, HotelManager")]
         [AllowAnonymous]
         [HttpGet("hotels")]
         public async Task<IActionResult> Hotels(string city, int currentPage = 1)
@@ -67,7 +66,8 @@ namespace HotelBookingApp.Controllers
             return Ok(hotelService.GetHotelDTOs(paginatedHotels));
         }
 
-        [AllowAnonymous]
+
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "Admin, HotelManager, User")]
         [HttpGet("hotels/{hotelId}/rooms")]
         public async Task<IActionResult> Rooms(int hotelId)
         {
