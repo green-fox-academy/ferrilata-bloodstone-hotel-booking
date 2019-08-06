@@ -83,7 +83,7 @@ namespace HotelBookingApp.Services
             }
             catch (HttpRequestException)
             {
-                Console.WriteLine("{0}", "SendEmailAsync Failed");
+                Console.WriteLine("SendEmailAsync Failed to address: {0}", userEmail); ;
             }
         }
 
