@@ -156,7 +156,7 @@ namespace HotelBookingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(model);
+                return BadRequest(model.ErrorMessages);
             }
             model.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             model.ApplicationUser = await accountService.FindByIdAsync(model.ApplicationUserId);
@@ -166,7 +166,7 @@ namespace HotelBookingApp.Controllers
                 return Ok("Password changed successfully.");
             }
             model.ErrorMessages = errors;
-            return BadRequest(model);
+            return BadRequest(model.ErrorMessages);
         }
     }
 }
