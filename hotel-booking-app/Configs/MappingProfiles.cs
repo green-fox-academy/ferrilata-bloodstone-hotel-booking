@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using HotelBookingApp.Models.API;
 using HotelBookingApp.Models.HotelModels;
 using System.Linq;
@@ -18,6 +18,8 @@ namespace HotelBookingApp.Configs
                 mc.CreateMap<Room, RoomDTO>()
                     .ForMember(dest => dest.PricePerNight, opts => opts.MapFrom(src => src.Price))
                     .ForMember(dest => dest.NumberOfBeds, opts => opts.MapFrom(src => src.RoomBeds.ToList().Count));
+                mc.CreateMap<Reservation, ReservationDTO>()
+                    .ForMember(dest => dest.Room, opts => opts.MapFrom(src => src.Room));
             });
         }
     }
