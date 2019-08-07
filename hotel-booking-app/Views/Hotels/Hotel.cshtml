@@ -81,7 +81,7 @@
 
     <div class="">
         <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@Localizer["Go back"]</a>
-        @if ((Model.Hotel.ApplicationUserId == Model.CurrentUserId) && (User.IsInRole("Admin") || User.IsInRole("HotelManager")))
+        @if ((Model.Hotel.ApplicationUserId == Model.CurrentUserId) && (User.IsInRole("HotelManager")) || User.IsInRole("Admin"))
         {
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @Localizer["Options"]
