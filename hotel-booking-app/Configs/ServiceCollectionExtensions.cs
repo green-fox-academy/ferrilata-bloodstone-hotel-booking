@@ -49,7 +49,10 @@ namespace HotelBookingApp.Configs
                 opt.LoginPath = "/login";
                 opt.AccessDeniedPath = "/access-denied";
             });
-
+        }
+        
+        public static IServiceCollection AddAuthentications(this IServiceCollection services, IConfiguration configuration)
+        {
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
@@ -71,7 +74,6 @@ namespace HotelBookingApp.Configs
                         ClockSkew = TimeSpan.Zero // remove delay of token when expire
                     };
                 });
-
             return services;
         }
 
@@ -94,32 +96,6 @@ namespace HotelBookingApp.Configs
                    var localizer = factory.Create(SHARED_RESOURCE_FOLDER_NAME, assemblyName.Name);
                    o.DataAnnotationLocalizerProvider = (t, f) => localizer;
                });
-            return services;
-        }
-
-        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
-        {
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    
-                })
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.RequireHttpsMetadata = false;
-                    cfg.SaveToken = true;
-                    cfg.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = "Hotel-Booking",
-                        ValidAudience = "Hotel-Booking",
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["APISecretKey"])),
-                        ClockSkew = TimeSpan.Zero // remove delay of token when expire
-                    };
-                });
             return services;
         }
 
