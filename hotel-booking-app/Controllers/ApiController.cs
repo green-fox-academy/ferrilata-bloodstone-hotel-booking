@@ -1,5 +1,7 @@
+﻿using AutoMapper;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
+using HotelBookingApp.Models.API;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
@@ -7,6 +9,8 @@ using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -20,15 +24,17 @@ namespace HotelBookingApp.Controllers
         private readonly IRoomService roomService;
         private readonly IAccountService accountService;
         private readonly IReservationService reservationService;
+        private readonly IMapper mapper;
         private const string authScheme = JwtBearerDefaults.AuthenticationScheme;
 
 
-        public ApiController(IHotelService hotelService, IRoomService roomService, IAccountService accountService, IReservationService reservationService)
+        public ApiController(IHotelService hotelService, IRoomService roomService, IAccountService accountService, IReservationService reservationService, IMapper mapper)
         {
             this.hotelService = hotelService;
             this.roomService = roomService;
             this.accountService = accountService;
             this.reservationService = reservationService;
+            this.mapper = mapper;
         }
 
         [AllowAnonymous]
