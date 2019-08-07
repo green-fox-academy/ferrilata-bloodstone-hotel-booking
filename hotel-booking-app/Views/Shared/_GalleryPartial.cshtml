@@ -105,8 +105,9 @@
         user-select: none;
         -webkit-user-select: none;
     }
+
     a.prev, a.next {
-        color: white!important;
+        color: white !important;
     }
 
     .next {
@@ -128,8 +129,8 @@
     }
 
     .image {
-        width:auto; 
-        max-width: 100%; 
+        width: auto;
+        max-width: 100%;
         max-height: 70vh;
     }
 
@@ -151,7 +152,7 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
-    #myModal  {
+    #myModal {
         align-items: center;
     }
 </style>
@@ -159,32 +160,32 @@
 <h2>@Localizer["Gallery"]</h2>
 
 <div class="row">
-        @if (Model.ImageList.Count() == 0)
-        {
-            <p>@Localizer["No images."]</p>
-        }
+    @if (Model.ImageList.Count() == 0)
+    {
+        <p>@Localizer["No images."]</p>
+    }
 
-        @for (var i = 0; i < Model.ImageList.Count; i++)
-        {
-            <div class="col-md-4 col-lg-3 col-sm-6 hcontainer">
-                <img class="img-fluid my-3 hover-shadow" alt="@Model.ImageList[i].Name" src="@Model.ImageList[i].Path" onclick="openModal(); currentSlide(@i)" />
-                @if (User.IsInRole("Admin") || User.IsInRole("HotelManager"))
-                {
-                    <div class="overlay">
-                        <form asp-action="UpdateThumbnail" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                            <button id="btn-thumbnail" class="btn btn-link" type="submit" name="path" value="@Model.ImageList[i].Path" title="@Localizer["Set as thumbnail"]">
-                                <i id="trash" class="fas fa-thumbtack"></i>
-                            </button>
-                        </form>
-                        <form asp-action="DeleteImage" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
-                            <button id="btn-delete" class="btn btn-link" type="submit" name="path" value="@Model.ImageList[i].Path">
-                                <i id="thumb" class="far fa-trash-alt" title=@Localizer["Delete"]></i>
-                            </button>
-                        </form>
-                    </div>
-                }
-            </div>
-        }
+    @for (var i = 0; i < Model.ImageList.Count; i++)
+    {
+        <div class="col-md-4 col-lg-3 col-sm-6 hcontainer">
+            <img class="img-fluid my-3 hover-shadow" alt="@Model.ImageList[i].Name" src="@Model.ImageList[i].Path" onclick="openModal(); currentSlide(@i)" />
+            @if ((Model.Hotel.ApplicationUserId == Model.CurrentUserId) && (User.IsInRole("HotelManager")) || User.IsInRole("Admin"))
+            {
+                <div class="overlay">
+                    <form asp-action="UpdateThumbnail" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
+                        <button id="btn-thumbnail" class="btn btn-link" type="submit" name="path" value="@Model.ImageList[i].Path" title="@Localizer["Set as thumbnail"]">
+                            <i id="trash" class="fas fa-thumbtack"></i>
+                        </button>
+                    </form>
+                    <form asp-action="DeleteImage" asp-controller="Hotels" asp-route-id="@Model.Hotel.HotelId" method="post">
+                        <button id="btn-delete" class="btn btn-link" type="submit" name="path" value="@Model.ImageList[i].Path">
+                            <i id="thumb" class="far fa-trash-alt" title=@Localizer["Delete"]></i>
+                        </button>
+                    </form>
+                </div>
+            }
+        </div>
+    }
 </div>
 <div id="myModal" class="modal">
     <span class="close cursor" onclick="closeModal()">&times;</span>

@@ -102,12 +102,17 @@ namespace HotelBookingApp.Controllers
         [HttpGet("edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            return View(new HotelViewModel
+            var hotelVM = new HotelViewModel
             {
                 Hotel = await hotelService.FindByIdAsync(id),
                 ImageList = await imageService.GetImageListAsync(id),
                 PropertyTypes = await propertyTypeService.FindAll()
-            });
+            };
+            if (hotelVM.Hotel.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin"))
+            {
+                return View(hotelVM);
+            }
+            return RedirectToAction(nameof(AccountController.AccessDenied), "Account");
         }
 
         [Authorize(Roles = "Admin, HotelManager")]
