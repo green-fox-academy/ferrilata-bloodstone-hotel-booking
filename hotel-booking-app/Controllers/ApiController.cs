@@ -106,7 +106,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
-        [HttpPut("reservation/{reservationId}/confirm")]
+        [HttpPut("user/reservations/{reservationId}/confirm")]
         public async Task<IActionResult> Confirm(int reservationId, [FromBody] Reservation reservation)
         {
             var reservationIntervalOccupied = await reservationService.IsIntervalOccupied(reservation);
