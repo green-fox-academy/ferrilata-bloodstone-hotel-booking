@@ -1,5 +1,6 @@
 ﻿using HotelBookingApp.Models.Account;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,6 +31,7 @@ namespace HotelBookingApp.Models.HotelModels
         public bool IsConfirmed { get; set; }
         public Room Room { get; set; }
         public int RoomId { get; set; }
+        [JsonIgnore]
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
 
