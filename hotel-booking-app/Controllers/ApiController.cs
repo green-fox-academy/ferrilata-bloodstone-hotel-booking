@@ -1,4 +1,4 @@
-﻿using HotelBookingApp.Exceptions;
+using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Pages;
@@ -117,10 +117,24 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
-        [HttpDelete("reservation/{reservationId}/delete")]
-        public async Task<IActionResult> Delete([FromBody] int reservationId)
+        [HttpDelete("user/reservations/{reservationId}/delete")]
+        public async Task<IActionResult> Delete(int reservationId)
         {
             await reservationService.DeleteAsync(reservationId);
+            return NoContent();
+        }
+
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpGet("user/reservations")]
+        public async Task<IActionResult> FindAllReservations()
+        {
+            var reservations = await reservationService.FindAllByUserId(GetUserId());
+            if (reservations != null && reservations.ToList().Count > 0)
+            {
+                var reservationList = reservations.ToList();
+                var dtoList = mapper.Map<List<ReservationDTO>>(reservationList);
+                return Ok(dtoList);
+            }
             return NoContent();
         }
 
