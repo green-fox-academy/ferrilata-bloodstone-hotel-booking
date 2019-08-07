@@ -25,7 +25,7 @@ namespace HotelBookingApp.Models.HotelModels
 
         [DataType(DataType.Date)]
         [Remote(action: "VerifyToDate", controller: "Reservations", AdditionalFields = nameof(FromDate))]
-        public DateTime ToDate { get; set; } = DateTime.Now;
+        public DateTime ToDate { get; set; } = DateTime.Now.AddDays(1);
 
         public bool IsConfirmed { get; set; }
         public Room Room { get; set; }
