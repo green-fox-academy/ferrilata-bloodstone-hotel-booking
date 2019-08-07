@@ -1,0 +1,104 @@
+﻿<h2>API Endpoints</h2><br />
+<table class="table">
+    <thead>
+        <th>No.</th>
+        <th>Type</th>
+        <th>Endpoint</th>
+        <th>Authorized</th>
+        <th>Returntype</th>
+        <th>Description</th>
+    </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>POST</td>
+                <td>/api/register</td>
+                <td>N</td>
+                <td>string</td>
+                <td>Registration.</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>POST</td>
+                <td>/api/login</td>
+                <td>N</td>
+                <td>LoginResponseDTO</td>
+                <td>Login and get Token.</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>POST</td>
+                <td>/api/logout</td>
+                <td>N</td>
+                <td>string</td>
+                <td>Logging out.</td>
+            </tr>
+            <tr>
+                @{string t = "PaginatedList<Hotel>";}
+                <td>4</td>
+                <td>GET</td>
+                <td>/api/hotels</td>
+                <td>N</td>
+                <td>@t</td>
+                <td>Get all the hotels.</td>
+            </tr>
+            <tr>
+                @{t = "List<RoomDTO>";}
+                <td>5</td>
+                <td>GET</td>
+                <td>hotels/{hotelId}/rooms</td>
+                <td>Y</td>
+                <td>@t</td>
+                <td>Listing rooms of a hotel.</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>PUT</td>
+                <td>/api/hotels/{hotelId}/rooms/{roomId}/reserve</td>
+                <td>Y</td>
+                <td>Reservation</td>
+                <td>Reserving a room.</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>PUT</td>
+                <td>/api/user/reservations/{reservationId}/confirm</td>
+                <td>Y</td>
+                <td>Reservation</td>
+                <td>Confirmation of a reservation. Also checking if the datetime interval is already occupied or not.</td>
+            </tr>
+            <tr>
+                @{t = "List<ReservationDTO>>";}
+                <td>8</td>
+                <td>GET</td>
+                <td>/api/user/reservations</td>
+                <td>Y</td>
+                <td>@t</td>
+                <td>Listing reservations.</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>DELETE</td>
+                <td>/api/user/reservations/{reservationId}/delete</td>
+                <td>Y</td>
+                <td>HTTP204: NoContent</td>
+                <td>Deleting a reservation.</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>POST</td>
+                <td>/api/user/resetPassword</td>
+                <td>Y</td>
+                <td>string</td>
+                <td>Returns with message "Email sent."</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>POST</td>
+                <td>/api/user/changePassword</td>
+                <td>Y</td>
+                <td>string</td>
+                <td>Returns with message "Password changed successfully."</td>
+            </tr>
+        </tbody>
+</table>
