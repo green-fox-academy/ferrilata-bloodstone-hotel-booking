@@ -14,6 +14,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace HotelBookingApp.Configs
 {
@@ -119,6 +120,15 @@ namespace HotelBookingApp.Configs
                         ClockSkew = TimeSpan.Zero // remove delay of token when expire
                     };
                 });
+            return services;
+        }
+
+        public static IServiceCollection AddSwaggerDoc(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+            });
             return services;
         }
     }
