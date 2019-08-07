@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.API;
@@ -16,7 +16,8 @@ using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
-    [Route("[controller]/")]
+    [Produces("application/json")]
+    [Route("[controller]")]
     [ApiController]
     public class ApiController : ControllerBase
     {
@@ -37,6 +38,26 @@ namespace HotelBookingApp.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// After successful login attempt returns a token.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /api/login
+        ///     {
+        ///     "Email": "user1@bloodstone.com",
+        ///     "Password": "Password66", 
+        ///     "RememberMe": "false"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <returns>Returns a LoginResponseDTO object. If successful, token will be filled, otherwise see errors.</returns>
+        /// <response code="200">Returns LoginResponseDTO with token. (LoginResponseDTO.token)</response>
+        /// <response code="400">If login attempt is unsuccessful, returns with LoginResponseDTO error list. (LoginResponseDTO.error)</response>    
+        [ProducesResponseType(typeof(LoginResponseDTO), 200)]
+        [ProducesResponseType(typeof(List<string>), 400)]
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
