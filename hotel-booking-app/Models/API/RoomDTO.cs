@@ -1,6 +1,9 @@
-﻿namespace HotelBookingApp.Models.HotelModels
+﻿using HotelBookingApp.Models.HotelModels;
+using System.Collections.Generic;
+
+namespace HotelBookingApp.Models.API
 {
-    public class ApiRoomDTO
+    public class RoomDTO
     {
         public int RoomId { get; set; }
         public string Name { get; set; }

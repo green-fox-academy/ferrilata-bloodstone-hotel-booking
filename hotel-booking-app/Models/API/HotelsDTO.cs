@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace HotelBookingApp.Models.HotelModels
+namespace HotelBookingApp.Models.API
 {
-    public class ApiHotelsDTO
+    public class HotelsDTO
     {
         public int PageCount { get; set; }
         public int CurrentPage { get; set; }
-        public List<ApiHotelDTO> Hotels { get; set; }
+        public List<HotelDTO> Hotels { get; set; }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace HotelBookingApp.Models.HotelModels
+﻿namespace HotelBookingApp.Models.API
 {
-    public class ApiHotelDTO
+    public class HotelDTO
     {
         public int HotelId { get; set; }
         public string Name { get; set; }
