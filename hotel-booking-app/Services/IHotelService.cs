@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Models.API;
 using HotelBookingApp.Utils;
 using System.Threading.Tasks;
 
@@ -15,6 +16,6 @@ namespace HotelBookingApp.Services
         Task<Hotel> Update(Hotel hotel);
         Task<Review> AddReviewAsync(Review review);
         Task DeleteReview(int reviewId);
-        ApiHotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels);
+        HotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels);
     }
 }

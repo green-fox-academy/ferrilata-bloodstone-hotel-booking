@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
+using HotelBookingApp.Models.API;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -144,13 +145,13 @@ namespace HotelBookingApp.Services
             await applicationContext.SaveChangesAsync();
         }
 
-        public ApiHotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)
+        public HotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)
         {
-            return new ApiHotelsDTO
+            return new HotelsDTO
             {
                 PageCount = paginatedHotels.TotalPages,
                 CurrentPage = paginatedHotels.CurrentPage,
-                Hotels = mapper.Map<PaginatedList<Hotel>, List<ApiHotelDTO>>(paginatedHotels)
+                Hotels = mapper.Map<PaginatedList<Hotel>, List<HotelDTO>>(paginatedHotels)
             };
         }
     }

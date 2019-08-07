@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+using AutoMapper;
+using HotelBookingApp.Models.API;
 using HotelBookingApp.Models.HotelModels;
 using System.Linq;
 
@@ -10,11 +11,11 @@ namespace HotelBookingApp.Configs
         {
             return new MapperConfiguration(mc =>
             {
-                mc.CreateMap<Hotel, ApiHotelDTO>()
+                mc.CreateMap<Hotel, HotelDTO>()
                     .ForMember(dest => dest.City, opts => opts.MapFrom(src => src.Location.City))
                     .ForMember(dest => dest.Country, opts => opts.MapFrom(src => src.Location.Country))
                     .ForMember(dest => dest.Address, opts => opts.MapFrom(src => src.Location.Address));
-                mc.CreateMap<Room, ApiRoomDTO>()
+                mc.CreateMap<Room, RoomDTO>()
                     .ForMember(dest => dest.PricePerNight, opts => opts.MapFrom(src => src.Price))
                     .ForMember(dest => dest.NumberOfBeds, opts => opts.MapFrom(src => src.RoomBeds.ToList().Count));
             });
