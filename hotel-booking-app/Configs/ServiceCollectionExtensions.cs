@@ -103,6 +103,8 @@ namespace HotelBookingApp.Configs
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Endpoints", Version = "v1" });
+                c.EnableAnnotations();
+                c.IncludeXmlComments(string.Format(@"{0}\HotelBookingApp.xml", AppDomain.CurrentDomain.BaseDirectory));
             });
             return services;
         }
