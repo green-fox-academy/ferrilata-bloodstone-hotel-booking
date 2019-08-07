@@ -2,7 +2,6 @@
 using HotelBookingApp.Data;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Resources;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Text;
-using Microsoft.OpenApi.Models;
 
 namespace HotelBookingApp.Configs
 {
