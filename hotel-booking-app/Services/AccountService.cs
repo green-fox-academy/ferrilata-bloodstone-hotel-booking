@@ -23,7 +23,6 @@ namespace HotelBookingApp.Services
         private readonly IStringLocalizer<AccountService> localizer;
         private readonly IConfiguration configuration;
         private readonly string apiSecretKey;
-        private readonly RoleManager<ApplicationUser> roleManager;
         private readonly IEmailService emailService;
 
         public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStringLocalizer<AccountService> localizer, IEmailService emailService, IConfiguration configuration)
