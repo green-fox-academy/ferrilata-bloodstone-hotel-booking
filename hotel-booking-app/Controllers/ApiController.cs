@@ -42,7 +42,7 @@ namespace HotelBookingApp.Controllers
             }
             return Ok(response);
         }
-        
+
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] SignupRequest request)
@@ -70,7 +70,6 @@ namespace HotelBookingApp.Controllers
             }
             return Ok(hotelService.GetHotelDTOs(paginatedHotels));
         }
-
 
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpGet("hotels/{hotelId}/rooms")]
@@ -100,7 +99,6 @@ namespace HotelBookingApp.Controllers
             return Ok(reservation);
         }
 
-        
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpPut("reservation/{reservationId}/confirm")]
         public async Task<IActionResult> Confirm(int reservationId, [FromBody] Reservation reservation)
@@ -117,7 +115,7 @@ namespace HotelBookingApp.Controllers
             await reservationService.ConfirmAsync(reservation.ReservationId, User.Identity.Name);
             return Ok(reservation);
         }
-        
+
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpDelete("reservation/{reservationId}/delete")]
         public async Task<IActionResult> Delete([FromBody] int reservationId)
@@ -125,7 +123,7 @@ namespace HotelBookingApp.Controllers
             await reservationService.DeleteAsync(reservationId);
             return NoContent();
         }
-        
+
         [AllowAnonymous]
         [HttpPost("user/resetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] PasswordResetRequest passwordResetRequest)
@@ -146,10 +144,6 @@ namespace HotelBookingApp.Controllers
             return Ok("Signed out successfully.");
         }
 
-        private string GetUserId()
-        {
-            return User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        }
         [HttpPost("user/changePassword")]
         public async Task<IActionResult> ChangePassword(SettingViewModel model)
         {
@@ -166,6 +160,11 @@ namespace HotelBookingApp.Controllers
             }
             model.ErrorMessages = errors;
             return BadRequest(model.ErrorMessages);
+        }
+
+        private string GetUserId()
+        {
+            return User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
     }
 }
