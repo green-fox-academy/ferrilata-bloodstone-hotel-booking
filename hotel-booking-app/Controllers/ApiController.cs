@@ -87,7 +87,7 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
-        [HttpPost("hotels/{hotelId}/rooms/{roomId}/reserve")]
+        [HttpPut("hotels/{hotelId}/rooms/{roomId}/reserve")]
         public async Task<IActionResult> Reserve(int roomId, [FromBody] ReservationViewModel model)
         {
             model.Reservation.ApplicationUserId = GetUserId();
@@ -102,11 +102,11 @@ namespace HotelBookingApp.Controllers
 
         
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
-        [HttpPost("reservation/confirm")]
-        public async Task<IActionResult> Confirm([FromBody] Reservation reservation)
+        [HttpPut("reservation/{reservationId}/confirm")]
+        public async Task<IActionResult> Confirm(int reservationId, [FromBody] Reservation reservation)
         {
             var reservationIntervalOccupied = await reservationService.IsIntervalOccupied(reservation);
-            if (reservationIntervalOccupied && reservation.ApplicationUserId == GetUserId())
+            if (reservationIntervalOccupied)
             {
                 if (reservationIntervalOccupied)
                 {
@@ -119,7 +119,7 @@ namespace HotelBookingApp.Controllers
         }
         
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
-        [HttpDelete("reservation/delete")]
+        [HttpDelete("reservation/{reservationId}/delete")]
         public async Task<IActionResult> Delete([FromBody] int reservationId)
         {
             await reservationService.DeleteAsync(reservationId);
