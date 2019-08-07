@@ -18,5 +18,11 @@ namespace HotelBookingApp.Controllers
         {
             return RedirectToAction(nameof(HotelsController.Index), "Hotels");
         }
+
+        [HttpGet("/documentation/api")]
+        public IActionResult Api()
+        {
+            return View();
+        }
     }
 }
