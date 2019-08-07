@@ -144,6 +144,14 @@ namespace HotelBookingApp.Controllers
             return NoContent();
         }
 
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpGet("user/reservations/cleanup")]
+        public async Task<IActionResult> CleanUp()
+        {
+            await reservationService.CleanUp(GetUserId());
+            return Ok("Old reservation have been removed.");
+        }
+
         [AllowAnonymous]
         [HttpPost("user/resetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] PasswordResetRequest passwordResetRequest)
