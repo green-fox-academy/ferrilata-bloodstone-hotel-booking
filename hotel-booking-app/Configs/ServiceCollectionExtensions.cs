@@ -49,6 +49,7 @@ namespace HotelBookingApp.Configs
                 opt.LoginPath = "/login";
                 opt.AccessDeniedPath = "/access-denied";
             });
+            return services;
         }
         
         public static IServiceCollection AddAuthentications(this IServiceCollection services, IConfiguration configuration)
