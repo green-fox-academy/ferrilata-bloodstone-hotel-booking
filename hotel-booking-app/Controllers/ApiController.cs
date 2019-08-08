@@ -167,12 +167,38 @@ namespace HotelBookingApp.Controllers
             }
         }
 
+        /// <summary>
+        /// A room can be reserved based on room id and given DTO (ReservationViewModel).
+        /// "isConfirmed" property cannot be updated by this, always set to false.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT hotels/2/rooms/11/reserve
+        ///     {
+        ///     "Reservation": {
+        ///         "GuestNames": "John Doe, John Snow",
+        ///         "GuestNumber": "2",
+        ///         "FromDate": "2019.09.29 0:00:00",
+        ///         "ToDate": "2019.09.30 0:00:00",
+        ///         }
+        ///     }
+        ///     
+        /// </remarks>
+        /// <param name="roomId"></param>
+        /// <param name="model"></param>
+        /// <returns>A Reservation object.</returns>
+        /// <response code="200">Returns the newely created Reservation object.</response>
+        /// <response code="400">Returns the ReservationViewModel validation errors.</response>
+        [ProducesResponseType(typeof(Reservation), 200)]
+        [ProducesResponseType(400)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpPut("hotels/{hotelId}/rooms/{roomId}/reserve")]
         public async Task<IActionResult> Reserve(int roomId, [FromBody] ReservationViewModel model)
         {
             model.Reservation.ApplicationUserId = GetUserId();
             model.Reservation.RoomId = roomId;
+            model.Reservation.IsConfirmed = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(model);
