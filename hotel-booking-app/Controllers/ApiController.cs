@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.API;
@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -165,7 +166,7 @@ namespace HotelBookingApp.Controllers
             try
             {
                 var hotel = await hotelService.FindByIdAsync(hotelId, new QueryParams());
-                return Ok(mapper.Map<HotelDTO>(hotel));
+                return Ok(hotel);
             }
             catch (ItemNotFoundException e)
             {
@@ -197,7 +198,7 @@ namespace HotelBookingApp.Controllers
                 var imageList = await imageService.GetImageListAsync(hotelId);
                 return Ok(imageList);
             }
-            catch (Exception e)
+            catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
