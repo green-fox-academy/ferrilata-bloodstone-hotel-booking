@@ -70,7 +70,7 @@ namespace HotelBookingApp.Services
             return hotel;
         }
 
-        private async Task<PaginatedList<Review>> FindAllReviews(int hotelId, QueryParams queryParams)
+        public async Task<PaginatedList<Review>> FindAllReviews(int hotelId, QueryParams queryParams)
         {
             var reviews = applicationContext.Reviews
                 .Include(r => r.ApplicationUser)
