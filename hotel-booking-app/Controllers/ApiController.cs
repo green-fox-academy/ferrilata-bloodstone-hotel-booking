@@ -333,8 +333,15 @@ namespace HotelBookingApp.Controllers
         [HttpDelete("user/reservations/{reservationId}/delete")]
         public async Task<IActionResult> Delete(int reservationId)
         {
-            await reservationService.DeleteAsync(reservationId);
-            return NoContent();
+            try
+            {
+                await reservationService.DeleteAsync(reservationId);
+                return NoContent();
+            }
+            catch (ItemNotFoundException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>
