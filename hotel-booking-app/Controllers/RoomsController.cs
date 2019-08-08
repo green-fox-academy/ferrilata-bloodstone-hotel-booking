@@ -31,7 +31,7 @@ namespace HotelBookingApp.Controllers
             {
                 return View(new Room { HotelId = hotelId });
             }
-            return RedirectToAction(nameof(AccountController.AccessDenied));
+            return RedirectToAction(nameof(AccountController.AccessDenied), "Account");
         }
 
         [HttpPost("new")]
@@ -55,7 +55,7 @@ namespace HotelBookingApp.Controllers
                     HotelId = hotelId
                 });
             }
-            return RedirectToAction(nameof(AccountController.AccessDenied));
+            return RedirectToAction(nameof(AccountController.AccessDenied), "Account");
         }
 
         [HttpPost("{roomId}/beds/new")]
