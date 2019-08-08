@@ -103,12 +103,18 @@ namespace HotelBookingApp.Controllers
             }
             return Ok("Registration Successful!");
         }
-        
+
         /// <summary>
         /// Get a list of hotels, but max. 10 at once.
         /// Current page can be changed with "currentPage" parameter.
         /// Hotels can be filtered with given "city" parameter.
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/hotels
+        ///     
+        /// </remarks>
         /// <param name="city"></param>
         /// <param name="currentPage"></param>
         /// <returns>Returns a paginated list of hotels with required page. Max. 10 hotels/page.</returns>
@@ -132,6 +138,21 @@ namespace HotelBookingApp.Controllers
             return Ok(hotelService.GetHotelDTOs(paginatedHotels));
         }
 
+        /// <summary>
+        /// Rooms of a hotel can be fetched based on hotel id.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET hotels/2/rooms
+        ///     
+        /// </remarks>
+        /// <param name="hotelId"></param>
+        /// <returns>List of RoomDTO.</returns>
+        /// <response code="200">Returns a list of RoomDTO.</response>
+        /// <response code="400">Returns a string with error message.</response>
+        [ProducesResponseType(typeof(List<RoomDTO>), 200)]
+        [ProducesResponseType(typeof(string), 400)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpGet("hotels/{hotelId}/rooms")]
         public async Task<IActionResult> Rooms(int hotelId)
@@ -165,13 +186,10 @@ namespace HotelBookingApp.Controllers
         public async Task<IActionResult> Confirm(int reservationId, [FromBody] Reservation reservation)
         {
             var reservationIntervalOccupied = await reservationService.IsIntervalOccupied(reservation);
+
             if (reservationIntervalOccupied)
             {
-                if (reservationIntervalOccupied)
-                {
-                    return BadRequest("Interval is already occupied.");
-                }
-                return BadRequest("Confirmation is not successful.");
+                return BadRequest("Interval is already occupied.");
             }
             await reservationService.ConfirmAsync(reservation.ReservationId, User.Identity.Name);
             return Ok(reservation);
@@ -279,7 +297,8 @@ namespace HotelBookingApp.Controllers
             try
             {
                 await hotelService.DeleteReview(reviewId);
-            } catch (ItemNotFoundException e)
+            }
+            catch (ItemNotFoundException e)
             {
                 return BadRequest(e.Message);
             }
