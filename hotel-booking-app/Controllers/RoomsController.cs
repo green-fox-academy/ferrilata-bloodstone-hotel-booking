@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize(Roles = "Admin, HotelManager")]
     [Route("hotels/{hotelId}/[controller]")]
     public class RoomsController : Controller

@@ -1,13 +1,17 @@
 ﻿using HotelBookingApp.Models.Account;
+using HotelBookingApp.Models.API;
 using HotelBookingApp.Pages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Services
@@ -17,13 +21,17 @@ namespace HotelBookingApp.Services
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IStringLocalizer<AccountService> localizer;
+        private readonly IConfiguration configuration;
+        private readonly string apiSecretKey;
         private readonly IEmailService emailService;
 
-        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStringLocalizer<AccountService> localizer, IEmailService emailService)
+        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStringLocalizer<AccountService> localizer, IEmailService emailService, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.localizer = localizer;
+            apiSecretKey = configuration.GetSection("APISecretKey").Value;
+            this.configuration = configuration;
             this.emailService = emailService;
         }
 
@@ -31,6 +39,26 @@ namespace HotelBookingApp.Services
         {
             var errors = new List<string>();
             var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, lockoutOnFailure: true);
+            checkLoginErrors(result, errors);
+            return errors;
+        }
+
+        public async Task<LoginResponseDTO> SignInApiAsync(LoginRequest request)
+        {
+            var errors = await SignInAsync(request);
+            var response = new LoginResponseDTO();
+            response.errors = errors;
+
+            if (errors.Count == 0)
+            {
+                var user = await userManager.FindByEmailAsync(request.Email);
+                response.token = await GenerateJwtToken(request.Email, user);
+            }
+            return response;
+        }
+
+        public List<string> checkLoginErrors(SignInResult result, List<string> errors)
+        {
             if (result.IsLockedOut)
             {
                 errors.Add(localizer["User account locked out."]);
@@ -109,7 +137,6 @@ namespace HotelBookingApp.Services
                 .Select(e => e.Description)
                 .ToList();
         }
-
         public async Task<List<string>> ResetPasswordAsync(string email)
         {
             var errors = new List<string>();
@@ -151,7 +178,6 @@ namespace HotelBookingApp.Services
             return new string(chars);
         }
 
-
         public async Task<List<string>> ChangePasswordAsync(SettingViewModel model)
         {
             var errors = new List<string>();
@@ -166,6 +192,29 @@ namespace HotelBookingApp.Services
         public async Task<ApplicationUser> FindByIdAsync(string userId)
         {
             return await userManager.FindByIdAsync(userId);
+        }
+
+        public async Task<string> GenerateJwtToken(string email, ApplicationUser user)
+        {
+            var userRoles = await userManager.GetRolesAsync(user);
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Role, userRoles[0])
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(apiSecretKey));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddMonths(1);
+
+            var token = new JwtSecurityToken(
+                "Hotel-Booking",
+                "Hotel-Booking",
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
