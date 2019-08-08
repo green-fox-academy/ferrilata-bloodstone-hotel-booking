@@ -207,6 +207,36 @@ namespace HotelBookingApp.Controllers
             return Ok(reservation);
         }
 
+        /// <summary>
+        /// Reservation can be confirmed if the date interval is not already occupied.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT hotels/2/rooms/11/reserve
+        ///     {
+        ///         "reservationId": 9050,
+        ///         "guestNumber": 2,
+        ///         "guestNames": "John Doe, John Snow",
+        ///         "fromDate": "2019-09-28T00:00:00",
+        ///         "toDate": "2019-09-29T00:00:00",
+        ///         "isConfirmed": false,
+        ///         "room": null,
+        ///         "roomId": 6,
+        ///         "applicationUser": null,
+        ///         "applicationUserId": "cea5b918-252d-47db-aa00-b057ffab37d4",
+        ///         "numberOfNights": 1,
+        ///         "isCancelable": true
+        ///     }
+        ///     
+        /// </remarks>
+        /// <param name="reservationId"></param>
+        /// <param name="reservation"></param>
+        /// <returns>A confirmed reservation object.</returns>
+        /// <response code="200">Returns the updated Reservation object.</response>
+        /// <response code="400">Returns an error message: "Interval is already occupied." .</response>
+        [ProducesResponseType(typeof(Reservation), 200)]
+        [ProducesResponseType(typeof(string), 400)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpPut("user/reservations/{reservationId}/confirm")]
         public async Task<IActionResult> Confirm(int reservationId, [FromBody] Reservation reservation)
