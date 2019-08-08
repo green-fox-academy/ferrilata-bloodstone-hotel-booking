@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.API;
@@ -55,7 +55,7 @@ namespace HotelBookingApp.Controllers
         /// <param name="request"></param>
         /// <returns>Returns a LoginResponseDTO object. If successful, token will be filled, otherwise see errors.</returns>
         /// <response code="200">Returns LoginResponseDTO with token. (LoginResponseDTO.token)</response>
-        /// <response code="400">If login attempt is unsuccessful, returns with LoginResponseDTO error list. (LoginResponseDTO.error)</response>    
+        /// <response code="400">If login attempt failed, returns with LoginResponseDTO error list. (LoginResponseDTO.error)</response>
         [ProducesResponseType(typeof(LoginResponseDTO), 200)]
         [ProducesResponseType(typeof(List<string>), 400)]
         [AllowAnonymous]
@@ -217,6 +217,18 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpPost("hotels/{hotelId}/reviews")]
+        public async Task<IActionResult> FindAllReviews(int hotelId, [FromBody] QueryParams queryParams)
+        {
+            var paginatedReviews = await hotelService.FindAllReviews(hotelId, queryParams);
+            if (paginatedReviews.TotalPages < paginatedReviews.CurrentPage)
+            {
+                return BadRequest(string.Format("Error: the current page is greater than the number of pages. Max. page: {0}", paginatedReviews.TotalPages));
+            }
+            return Ok(paginatedReviews);
+        }
+
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpPost("hotels/{hotelId}/addReview")]
         public async Task<IActionResult> AddReview(int hotelId, [FromBody] Review review)
         {
@@ -232,7 +244,7 @@ namespace HotelBookingApp.Controllers
 
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpDelete("hotels/{hotelId}/review/{reviewId}/delete")]
-        public async Task<IActionResult> AddReview(int hotelId, int reviewId)
+        public async Task<IActionResult> DeleteReview(int hotelId, int reviewId)
         {
             try
             {
