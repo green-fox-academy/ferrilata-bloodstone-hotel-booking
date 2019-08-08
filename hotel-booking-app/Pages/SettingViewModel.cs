@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Models.Account;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,6 +24,7 @@ namespace HotelBookingApp.Pages
 
         public List<string> ErrorMessages { get; set; } = new List<string>();
 
+        [JsonIgnore]
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
     }
