@@ -263,7 +263,7 @@ namespace HotelBookingApp.Controllers
         /// <param name="reservationId"></param>
         /// <returns>Returns No Content status.</returns>
         /// <response code="204">Returns no content.</response>
-        [ProducesResponseType(typeof(Reservation), 204)]
+        [ProducesResponseType(204)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpDelete("user/reservations/{reservationId}/delete")]
         public async Task<IActionResult> Delete(int reservationId)
@@ -272,6 +272,20 @@ namespace HotelBookingApp.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// [Authorized] Get all the reservations of the logged in user.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/user/reservations
+        ///     
+        /// </remarks>
+        /// <returns>A list of ReservationDTO.</returns>
+        /// <response code="200">Returns a list of ReservationDTO-s.</response>
+        /// <response code="204">Returns no content.</response>
+        [ProducesResponseType(typeof(List<ReservationDTO>), 200)]
+        [ProducesResponseType(204)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpGet("user/reservations")]
         public async Task<IActionResult> FindAllReservations()
