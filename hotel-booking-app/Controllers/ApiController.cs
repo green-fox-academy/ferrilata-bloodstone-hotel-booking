@@ -426,6 +426,8 @@ namespace HotelBookingApp.Controllers
         /// <returns></returns>
         /// <response code="200">Returns a paginated list of Review.</response>
         /// <response code="400">Returns a string error message.</response>
+        [ProducesResponseType(typeof(PaginatedList<Review>), 200)]
+        [ProducesResponseType(typeof(string), 400)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpPost("hotels/{hotelId}/reviews")]
         public async Task<IActionResult> FindAllReviews(int hotelId, [FromBody] QueryParams queryParams)
@@ -438,6 +440,26 @@ namespace HotelBookingApp.Controllers
             return Ok(paginatedReviews);
         }
 
+        /// <summary>
+        /// Add review to a hotel.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/hotels/2/addReview
+        ///     {
+        ///         "Rating": 3,
+        ///         "Comment": "Very nice place!"
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="hotelId"></param>
+        /// <param name="review"></param>
+        /// <returns>Returns a message: "Review added!".</returns>
+        /// <response code="200">Returns a message: "Review added!".".</response>
+        /// <response code="400">Returns validation errors of review.</response>
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(List<string>), 400)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpPost("hotels/{hotelId}/addReview")]
         public async Task<IActionResult> AddReview(int hotelId, [FromBody] Review review)
