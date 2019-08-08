@@ -72,6 +72,7 @@ namespace HotelBookingApp.Controllers
 
         /// <summary>
         /// Registration with email and password as a simple User.
+        /// Option to register as Hotel Manager is not possible.
         /// </summary>
         /// <remarks>
         /// Sample request:
