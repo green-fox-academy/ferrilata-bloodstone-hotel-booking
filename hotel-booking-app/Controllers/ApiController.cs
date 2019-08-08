@@ -477,6 +477,12 @@ namespace HotelBookingApp.Controllers
         /// <summary>
         /// [Authorized] User can delete his review.
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     DETELE /api/hotels/1/review/24/delete
+        /// 
+        /// </remarks>
         /// <param name="hotelId"></param>
         /// <param name="reviewId"></param>
         /// <returns>Returns no content.</returns>
