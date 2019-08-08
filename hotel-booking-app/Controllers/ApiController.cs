@@ -70,12 +70,31 @@ namespace HotelBookingApp.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Registration with email and password as a simple User.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /api/register
+        ///     {
+        ///     "Email": "user1@bloodstone.com",
+        ///     "Password": "Password66", 
+        ///     "VerifyPassword": "Password66",
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <returns>Returns a LoginResponseDTO object. If successful, returns with string message and HTTP200, otherwise with HTTP400 and see errors.</returns>
+        /// <response code="200">Returns a message "Registration Successful!".</response>
+        /// <response code="400">Returns a list of strings of errors.</response>
         [AllowAnonymous]
         [ProducesResponseType(typeof(string), 200)]
         [ProducesResponseType(typeof(List<string>), 400)]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] SignupRequest request)
         {
+            request.IsManager = false;
             var errors = await accountService.SignUpAsync(request);
             if (errors.Count != 0)
             {
