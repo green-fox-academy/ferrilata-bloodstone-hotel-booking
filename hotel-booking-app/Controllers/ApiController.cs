@@ -239,7 +239,7 @@ namespace HotelBookingApp.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     PUT hotels/2/rooms/11/reserve
+        ///     PUT room/11/reserve
         ///     {
         ///     "Reservation": {
         ///         "GuestNames": "John Doe, John Snow",
@@ -258,7 +258,7 @@ namespace HotelBookingApp.Controllers
         [ProducesResponseType(typeof(Reservation), 200)]
         [ProducesResponseType(400)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
-        [HttpPut("hotels/{hotelId}/rooms/{roomId}/reserve")]
+        [HttpPut("room/{roomId}/reserve")]
         public async Task<IActionResult> Reserve(int roomId, [FromBody] ReservationViewModel model)
         {
             model.Reservation.ApplicationUserId = GetUserId();
