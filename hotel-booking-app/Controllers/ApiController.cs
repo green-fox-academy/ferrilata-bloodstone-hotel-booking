@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.API;
@@ -139,7 +139,7 @@ namespace HotelBookingApp.Controllers
         }
 
         /// <summary>
-        /// Rooms of a hotel can be fetched based on hotel id.
+        /// [Authorized] Rooms of a hotel can be fetched based on hotel id.
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -168,7 +168,7 @@ namespace HotelBookingApp.Controllers
         }
 
         /// <summary>
-        /// A room can be reserved based on room id and given DTO (ReservationViewModel).
+        /// [Authorized] A room can be reserved based on room id and given DTO (ReservationViewModel).
         /// "isConfirmed" property cannot be updated by this, always set to false.
         /// </summary>
         /// <remarks>
@@ -208,12 +208,12 @@ namespace HotelBookingApp.Controllers
         }
 
         /// <summary>
-        /// Reservation can be confirmed if the date interval is not already occupied.
+        /// [Authorized] Reservation can be confirmed if the date interval is not already occupied.
         /// </summary>
         /// <remarks>
         /// Sample request:
         ///
-        ///     PUT hotels/2/rooms/11/reserve
+        ///     PUT user/reservations/9050/confirm
         ///     {
         ///         "reservationId": 9050,
         ///         "guestNumber": 2,
@@ -251,6 +251,19 @@ namespace HotelBookingApp.Controllers
             return Ok(reservation);
         }
 
+        /// <summary>
+        /// [Authorized] Reservation can be deleted based on reservation id.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     DELETE /api/user/reservations/9050/delete
+        ///     
+        /// </remarks>
+        /// <param name="reservationId"></param>
+        /// <returns>Returns No Content status.</returns>
+        /// <response code="204">Returns no content.</response>
+        [ProducesResponseType(typeof(Reservation), 204)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpDelete("user/reservations/{reservationId}/delete")]
         public async Task<IActionResult> Delete(int reservationId)
