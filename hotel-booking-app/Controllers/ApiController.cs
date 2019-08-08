@@ -361,6 +361,7 @@ namespace HotelBookingApp.Controllers
         /// </remarks>
         /// <returns>A message: "Signed out successfully.".</returns>
         /// <response code="200">Returns a string message.</response>
+        [ProducesResponseType(typeof(string), 200)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpGet("user/logout")]
         public async Task<IActionResult> Logout()
@@ -369,6 +370,26 @@ namespace HotelBookingApp.Controllers
             return Ok("Signed out successfully.");
         }
 
+        /// <summary>
+        /// User can change their password.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/user/changePassword
+        ///     {
+        ///         "Password": "L14pJNkU4e",
+        ///         "NewPassword": "Password66",
+        ///         "VerifyPassword": "Password66"
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="model"></param>
+        /// <returns>A string message: "Password changed successfully.".</returns>
+        /// <response code="200">Returns a string message: "Password changed successfully.".</response>
+        /// <response code="400">Returns a list of string of validation errors.</response>
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(List<string>), 400)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpPost("user/changePassword")]
         public async Task<IActionResult> ChangePassword(SettingViewModel model)
