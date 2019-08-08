@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.API;
@@ -286,6 +286,14 @@ namespace HotelBookingApp.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// [Authorized] User's reservations - which are older than 1 month - can be deleted (compared to checkout date).
+        /// </summary>
+        /// <returns>A string message.</returns>
+        /// <returns>Returns No Content status.</returns>
+        /// <response code="204">Returns no content.</response>
+        [ProducesResponseType(typeof(Reservation), 200)]
+        [ProducesResponseType(typeof(string), 400)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpGet("user/reservations/cleanup")]
         public async Task<IActionResult> CleanUp()
