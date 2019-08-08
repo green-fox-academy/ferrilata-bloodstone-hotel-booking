@@ -351,6 +351,16 @@ namespace HotelBookingApp.Controllers
             return Ok("Email sent.");
         }
 
+        /// <summary>
+        /// [Authorized] User can logout.
+        /// </summary>
+        /// <remarks>
+        /// 
+        ///     GET /api/user/logout
+        /// 
+        /// </remarks>
+        /// <returns>A message: "Signed out successfully.".</returns>
+        /// <response code="200">Returns a string message.</response>
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpGet("user/logout")]
         public async Task<IActionResult> Logout()
