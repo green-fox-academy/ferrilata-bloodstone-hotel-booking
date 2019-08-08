@@ -103,9 +103,19 @@ namespace HotelBookingApp.Controllers
             }
             return Ok("Registration Successful!");
         }
-
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
+        
+        /// <summary>
+        /// Get a list of hotels, but max. 10 at once.
+        /// Current page can be changed with "currentPage" parameter.
+        /// Hotels can be filtered with given "city" parameter.
+        /// </summary>
+        /// <param name="city"></param>
+        /// <param name="currentPage"></param>
+        /// <returns>Returns a paginated list of hotels with required page. Max. 10 hotels/page.</returns>
+        /// <response code="200">Returns a paginated list of hotels.</response>
+        /// <response code="400">Returns a string with error message.</response>
+        [ProducesResponseType(typeof(PaginatedList<Hotel>), 200)]
+        [ProducesResponseType(typeof(string), 400)]
         [AllowAnonymous]
         [HttpGet("hotels")]
         public async Task<IActionResult> Hotels(string city, int currentPage = 1)
