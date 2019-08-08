@@ -490,7 +490,7 @@ namespace HotelBookingApp.Controllers
         {
             try
             {
-                await hotelService.DeleteReview(reviewId);
+                await hotelService.DeleteReview(reviewId, GetUserId());
             }
             catch (ItemNotFoundException e)
             {

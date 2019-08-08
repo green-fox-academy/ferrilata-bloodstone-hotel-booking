@@ -145,6 +145,15 @@ namespace HotelBookingApp.Services
             await applicationContext.SaveChangesAsync();
         }
 
+        public async Task DeleteReview(int reviewId, string userId)
+        {
+            var review = applicationContext.Reviews
+                .SingleOrDefault(r => r.ReviewId == reviewId && r.ApplicationUserId == userId)
+                ?? throw new ItemNotFoundException(localizer["Review with id: {0} is not found.", reviewId]);
+            applicationContext.Reviews.Remove(review);
+            await applicationContext.SaveChangesAsync();
+        }
+
         public HotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)
         {
             return new HotelsDTO

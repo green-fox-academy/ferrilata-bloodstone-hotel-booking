@@ -16,6 +16,7 @@ namespace HotelBookingApp.Services
         Task<Hotel> Update(Hotel hotel);
         Task<Review> AddReviewAsync(Review review);
         Task DeleteReview(int reviewId);
+        Task DeleteReview(int reviewId, string userId)
         HotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels);
         Task<PaginatedList<Review>> FindAllReviews(int hotelId, QueryParams queryParams);
     }
