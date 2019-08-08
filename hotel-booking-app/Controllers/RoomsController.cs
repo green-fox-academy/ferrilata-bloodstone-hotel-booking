@@ -29,7 +29,7 @@ namespace HotelBookingApp.Controllers
             var room = new Room { HotelId = hotelId };
             if (room.Hotel.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin"))
             {
-                return View(new Room { HotelId = hotelId });
+                return View(room);
             }
             return RedirectToAction(nameof(AccountController.AccessDenied), "Account");
         }
