@@ -70,7 +70,7 @@ namespace HotelBookingApp.Controllers
             var response = await accountService.SignInApiAsync(request);
             if (response.token == null)
             {
-                return BadRequest(string.Join(", ", response.errors.ToArray()));
+                return BadRequest(response.errors);
             }
             return Ok(response);
         }
@@ -104,7 +104,7 @@ namespace HotelBookingApp.Controllers
             var errors = await accountService.SignUpAsync(request);
             if (errors.Count != 0)
             {
-                return BadRequest(string.Join(", ", errors.ToArray()));
+                return BadRequest(errors);
             }
             return Ok("Registration Successful!");
         }
@@ -418,7 +418,7 @@ namespace HotelBookingApp.Controllers
             passwordResetRequest.ErrorMessages = await accountService.ResetPasswordAsync(passwordResetRequest.Email);
             if (passwordResetRequest.ErrorMessages.Count != 0)
             {
-                return BadRequest(string.Join(", ", passwordResetRequest.ErrorMessages.ToArray()));
+                return BadRequest(passwordResetRequest.ErrorMessages);
             }
             return Ok("Email sent.");
         }
