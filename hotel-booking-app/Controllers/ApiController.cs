@@ -371,7 +371,7 @@ namespace HotelBookingApp.Controllers
         }
 
         /// <summary>
-        /// User can change their password.
+        /// [Authorized] User can change their password.
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -409,6 +409,23 @@ namespace HotelBookingApp.Controllers
             return BadRequest(model.ErrorMessages);
         }
 
+        /// <summary>
+        /// [Authorized] Fetch all reviews of a hotel. Max. 10/page.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /api/hotels/1/reviews
+        ///     {
+        ///         "CurrentPage": 1
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="hotelId"></param>
+        /// <param name="queryParams"></param>
+        /// <returns></returns>
+        /// <response code="200">Returns a paginated list of Review.</response>
+        /// <response code="400">Returns a string error message.</response>
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpPost("hotels/{hotelId}/reviews")]
         public async Task<IActionResult> FindAllReviews(int hotelId, [FromBody] QueryParams queryParams)
