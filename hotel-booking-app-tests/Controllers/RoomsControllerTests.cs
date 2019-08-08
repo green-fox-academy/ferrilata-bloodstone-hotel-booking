@@ -4,9 +4,6 @@ using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -16,17 +13,19 @@ namespace HotelBookingAppTests.Controllers
     {
         private readonly Mock<IRoomService> roomServiceMock;
         private readonly Mock<IBedService> bedServiceMock;
+        private readonly Mock<IHotelService> hotelServiceMock;
 
         public RoomControllerTests()
         {
             roomServiceMock = new Mock<IRoomService>();
             bedServiceMock = new Mock<IBedService>();
+            hotelServiceMock = new Mock<IHotelService>();
         }
 
         [Fact]
         public async Task Add_WhenValid_ShouldCallServiceAndRedirect()
         {
-            var controller = new RoomsController(bedServiceMock.Object, roomServiceMock.Object);
+            var controller = new RoomsController(bedServiceMock.Object, roomServiceMock.Object, hotelServiceMock.Object);
             var hotelId = 1;
             var room = new Room();
 
@@ -43,7 +42,7 @@ namespace HotelBookingAppTests.Controllers
         [Fact]
         public async Task AddBed_WhenValid_ShouldCallServiceAndRedirect()
         {
-            var controller = new RoomsController(bedServiceMock.Object, roomServiceMock.Object);
+            var controller = new RoomsController(bedServiceMock.Object, roomServiceMock.Object, hotelServiceMock.Object);
             var hotelId = 1;
             var bedViewModel = new BedViewModel();
 
