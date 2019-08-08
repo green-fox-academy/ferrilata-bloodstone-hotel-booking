@@ -47,6 +47,7 @@ namespace HotelBookingApp.Services
         {
             var errors = await SignInAsync(request);
             var response = new LoginResponseDTO();
+            response.errors = errors;
 
             if (errors.Count == 0)
             {
