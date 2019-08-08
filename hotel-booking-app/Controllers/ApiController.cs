@@ -441,7 +441,7 @@ namespace HotelBookingApp.Controllers
         }
 
         /// <summary>
-        /// Add review to a hotel.
+        /// [Authorized] Add review to a hotel.
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -474,6 +474,16 @@ namespace HotelBookingApp.Controllers
             return Ok("Review added!");
         }
 
+        /// <summary>
+        /// [Authorized] User can delete his review.
+        /// </summary>
+        /// <param name="hotelId"></param>
+        /// <param name="reviewId"></param>
+        /// <returns>Returns no content.</returns>
+        /// <response code="204">Returns no content.</response>
+        /// <response code="400">Returns string error message.</response>
+        [ProducesResponseType(204)]
+        [ProducesResponseType(typeof(string), 400)]
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpDelete("hotels/{hotelId}/review/{reviewId}/delete")]
         public async Task<IActionResult> DeleteReview(int hotelId, int reviewId)
