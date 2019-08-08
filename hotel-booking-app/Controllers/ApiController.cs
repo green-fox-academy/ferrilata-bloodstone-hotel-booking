@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.API;
@@ -71,6 +71,8 @@ namespace HotelBookingApp.Controllers
         }
 
         [AllowAnonymous]
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(List<string>), 400)]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] SignupRequest request)
         {
@@ -82,6 +84,8 @@ namespace HotelBookingApp.Controllers
             return Ok("Registration Successful!");
         }
 
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [AllowAnonymous]
         [HttpGet("hotels")]
         public async Task<IActionResult> Hotels(string city, int currentPage = 1)
@@ -233,7 +237,7 @@ namespace HotelBookingApp.Controllers
                 await hotelService.DeleteReview(reviewId);
             } catch (ItemNotFoundException e)
             {
-                return BadRequest(e.message);
+                return BadRequest(e.Message);
             }
             return NoContent();
         }
