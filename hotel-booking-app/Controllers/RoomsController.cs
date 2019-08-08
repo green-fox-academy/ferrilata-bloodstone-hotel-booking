@@ -24,12 +24,12 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("new")]
-        public IActionResult Add(int hotelId)
+        public async Task<IActionResult> Add(int hotelId)
         {
-            var room = new Room { HotelId = hotelId };
-            if (room.Hotel.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin"))
+            var hotel = await hotelService.FindByIdAsync(hotelId);
+            if (hotel.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin"))
             {
-                return View(room);
+                return View(new Room { HotelId = hotelId });
             }
             return RedirectToAction(nameof(AccountController.AccessDenied), "Account");
         }
