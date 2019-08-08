@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Reflection;
 using System.Text;
@@ -49,7 +50,7 @@ namespace HotelBookingApp.Configs
             });
             return services;
         }
-        
+
         public static IServiceCollection AddAuthentications(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication()
@@ -86,6 +87,7 @@ namespace HotelBookingApp.Configs
         public static IServiceCollection AddMvcWithLocalization(this IServiceCollection services)
         {
             services.AddMvc()
+               .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                .AddDataAnnotationsLocalization(o =>
                {
