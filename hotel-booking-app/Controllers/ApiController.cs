@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.API;
@@ -217,19 +217,21 @@ namespace HotelBookingApp.Controllers
         }
 
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
-        [HttpPost("{hotelId}/addReview")]
+        [HttpPost("hotels/{hotelId}/addReview")]
         public async Task<IActionResult> AddReview(int hotelId, [FromBody] Review review)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(review);
             }
+            review.HotelId = hotelId;
             review.ApplicationUserId = GetUserId();
+            await hotelService.AddReviewAsync(review);
             return Ok("Review added!");
         }
 
         [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
-        [HttpDelete("{hotelId}/review/{reviewId}/delete")]
+        [HttpDelete("hotels/{hotelId}/review/{reviewId}/delete")]
         public async Task<IActionResult> AddReview(int hotelId, int reviewId)
         {
             try
