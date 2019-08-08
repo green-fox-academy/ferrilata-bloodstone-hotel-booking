@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize(Roles = "Admin, HotelManager")]
     [Route("hotels/{hotelId}/[controller]")]
     public class RoomsController : Controller
@@ -24,10 +25,10 @@ namespace HotelBookingApp.Controllers
         }
 
         [HttpGet("new")]
-        public IActionResult Add(int hotelId)
+        public async Task<IActionResult> Add(int hotelId)
         {
-            var room = new Room { HotelId = hotelId };
-            if (room.Hotel.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin"))
+            var hotel = await hotelService.FindByIdAsync(hotelId);
+            if (hotel.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin"))
             {
                 return View(new Room { HotelId = hotelId });
             }

@@ -25,7 +25,9 @@ namespace HotelBookingApp
             services.SetLocalizationSource();
             services.AddMvcWithLocalization();
             services.AddCustomDatabase(Configuration);
-            services.AddCustomIdentity(Configuration);            
+            services.AddCustomIdentity(Configuration);
+            services.AddAuthentications(Configuration);
+            services.AddSwaggerDoc();
             services.AddAutoMapper();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IHotelService, HotelService>();
@@ -56,6 +58,11 @@ namespace HotelBookingApp
             ApplicationUserInitializer.SeedData(userManager, roleManager);
             app.UseStaticFiles();
             app.UseRequestLocalization();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hotel Booking API V1");
+            });
             app.UseMvc();
         }
     }

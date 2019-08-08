@@ -1,5 +1,6 @@
 ﻿using HotelBookingApp.Models.Account;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -25,11 +26,12 @@ namespace HotelBookingApp.Models.HotelModels
 
         [DataType(DataType.Date)]
         [Remote(action: "VerifyToDate", controller: "Reservations", AdditionalFields = nameof(FromDate))]
-        public DateTime ToDate { get; set; } = DateTime.Now;
+        public DateTime ToDate { get; set; } = DateTime.Now.AddDays(1);
 
         public bool IsConfirmed { get; set; }
         public Room Room { get; set; }
         public int RoomId { get; set; }
+        [JsonIgnore]
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
 

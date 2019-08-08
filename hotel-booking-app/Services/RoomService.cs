@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
+using HotelBookingApp.Models.API;
 using HotelBookingApp.Models.HotelModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -49,10 +50,10 @@ namespace HotelBookingApp.Services
                 .FirstOrDefaultAsync() ?? throw new ItemNotFoundException("Room with the provided id not found.");
         }
 
-        public async Task<List<ApiRoomDTO>> GetRoomDTOs(int hotelId)
+        public async Task<List<RoomDTO>> GetRoomDTOs(int hotelId)
         {
             var hotel = await hotelService.FindByIdAsync(hotelId);
-            return mapper.Map<List<Room>, List<ApiRoomDTO>>(hotel.Rooms.ToList());
+            return mapper.Map<List<Room>, List<RoomDTO>>(hotel.Rooms.ToList());
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
+using HotelBookingApp.Models.API;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -69,7 +70,7 @@ namespace HotelBookingApp.Services
             return hotel;
         }
 
-        private async Task<PaginatedList<Review>> FindAllReviews(int hotelId, QueryParams queryParams)
+        public async Task<PaginatedList<Review>> FindAllReviews(int hotelId, QueryParams queryParams)
         {
             var reviews = applicationContext.Reviews
                 .Include(r => r.ApplicationUser)
@@ -144,13 +145,22 @@ namespace HotelBookingApp.Services
             await applicationContext.SaveChangesAsync();
         }
 
-        public ApiHotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)
+        public async Task DeleteReview(int reviewId, string userId)
         {
-            return new ApiHotelsDTO
+            var review = applicationContext.Reviews
+                .SingleOrDefault(r => r.ReviewId == reviewId && r.ApplicationUserId == userId)
+                ?? throw new ItemNotFoundException(localizer["Review with id: {0} is not found.", reviewId]);
+            applicationContext.Reviews.Remove(review);
+            await applicationContext.SaveChangesAsync();
+        }
+
+        public HotelsDTO GetHotelDTOs(PaginatedList<Hotel> paginatedHotels)
+        {
+            return new HotelsDTO
             {
                 PageCount = paginatedHotels.TotalPages,
                 CurrentPage = paginatedHotels.CurrentPage,
-                Hotels = mapper.Map<PaginatedList<Hotel>, List<ApiHotelDTO>>(paginatedHotels)
+                Hotels = mapper.Map<PaginatedList<Hotel>, List<HotelDTO>>(paginatedHotels)
             };
         }
     }

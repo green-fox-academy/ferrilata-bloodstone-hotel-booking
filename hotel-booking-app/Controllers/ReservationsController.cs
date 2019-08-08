@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize]
     [Route("hotels/{hotelId}")]
     public class ReservationsController : Controller
