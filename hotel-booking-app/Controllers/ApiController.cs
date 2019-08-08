@@ -139,6 +139,36 @@ namespace HotelBookingApp.Controllers
         }
 
         /// <summary>
+        /// Fetch a hotel by id.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/hotels/1
+        /// 
+        /// </remarks>
+        /// <param name="hotelId"></param>
+        /// <returns>A Hotel object.</returns>
+        /// <response code="200">Returns a hotel object.</response>
+        /// <response code="400">Returns a string with error message.</response>
+        [ProducesResponseType(typeof(Hotel), 200)]
+        [ProducesResponseType(typeof(string), 400)]
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpGet("hotels/{hotelId}")]
+        public async Task<IActionResult> FindHotel(int hotelId)
+        {
+            try
+            {
+                var hotel = await hotelService.FindByIdAsync(hotelId, new QueryParams());
+                return Ok(mapper.Map<HotelDTO>(hotel));
+            }
+            catch (ItemNotFoundException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
         /// [Authorized] Rooms of a hotel can be fetched based on hotel id.
         /// </summary>
         /// <remarks>
