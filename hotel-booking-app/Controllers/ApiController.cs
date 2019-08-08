@@ -193,6 +193,7 @@ namespace HotelBookingApp.Controllers
             return Ok("Signed out successfully.");
         }
 
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
         [HttpPost("user/changePassword")]
         public async Task<IActionResult> ChangePassword(SettingViewModel model)
         {
@@ -209,6 +210,32 @@ namespace HotelBookingApp.Controllers
             }
             model.ErrorMessages = errors;
             return BadRequest(model.ErrorMessages);
+        }
+
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpPost("{hotelId}/addReview")]
+        public async Task<IActionResult> AddReview(int hotelId, [FromBody] Review review)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(review);
+            }
+            review.ApplicationUserId = GetUserId();
+            return Ok("Review added!");
+        }
+
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpDelete("{hotelId}/review/{reviewId}/delete")]
+        public async Task<IActionResult> AddReview(int hotelId, int reviewId)
+        {
+            try
+            {
+                await hotelService.DeleteReview(reviewId);
+            } catch (ItemNotFoundException e)
+            {
+                return BadRequest(e.message);
+            }
+            return NoContent();
         }
 
         private string GetUserId()
