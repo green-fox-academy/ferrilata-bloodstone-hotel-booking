@@ -3,12 +3,15 @@ using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.API;
 using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Models.Image;
 using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using HotelBookingApp.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -26,16 +29,18 @@ namespace HotelBookingApp.Controllers
         private readonly IAccountService accountService;
         private readonly IReservationService reservationService;
         private readonly IMapper mapper;
+        private readonly IImageService imageService;
         private const string authScheme = JwtBearerDefaults.AuthenticationScheme;
 
 
-        public ApiController(IHotelService hotelService, IRoomService roomService, IAccountService accountService, IReservationService reservationService, IMapper mapper)
+        public ApiController(IHotelService hotelService, IRoomService roomService, IAccountService accountService, IReservationService reservationService, IMapper mapper, IImageService imageService)
         {
             this.hotelService = hotelService;
             this.roomService = roomService;
             this.accountService = accountService;
             this.reservationService = reservationService;
             this.mapper = mapper;
+            this.imageService = imageService;
         }
 
         /// <summary>
@@ -139,7 +144,7 @@ namespace HotelBookingApp.Controllers
         }
 
         /// <summary>
-        /// Fetch a hotel by id.
+        /// [Authorized] Fetch a hotel by id.
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -165,6 +170,36 @@ namespace HotelBookingApp.Controllers
             catch (ItemNotFoundException e)
             {
                 return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get all images of a hotel.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/1/images
+        /// 
+        /// </remarks>
+        /// <param name="hotelId"></param>
+        /// <returns></returns>
+        /// <response code="200">Returns list of imageDetails objects.</response>
+        /// <response code="500">Returns internal server error if image storage not available.</response>
+        [ProducesResponseType(typeof(List<ImageDetails>), 200)]
+        [ProducesResponseType(500)]
+        [Authorize(AuthenticationSchemes = authScheme, Roles = "User")]
+        [HttpGet("hotels/{hotelId}/images")]
+        public async Task<IActionResult> FindAllHotelImages(int hotelId)
+        {
+            try
+            {
+                var imageList = await imageService.GetImageListAsync(hotelId);
+                return Ok(imageList);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
