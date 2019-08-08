@@ -303,7 +303,12 @@ namespace HotelBookingApp.Controllers
         /// <summary>
         /// [Authorized] User's reservations - which are older than 1 month - can be deleted (compared to checkout date).
         /// </summary>
-        /// <returns>A string message.</returns>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/user/reservations/cleanup
+        /// 
+        /// </remarks>
         /// <returns>Returns No Content status.</returns>
         /// <response code="204">Returns no content.</response>
         [ProducesResponseType(typeof(Reservation), 200)]
@@ -316,6 +321,24 @@ namespace HotelBookingApp.Controllers
             return Ok("Old reservation have been removed.");
         }
 
+        /// <summary>
+        /// Forgotten password: User can request a password via email.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/user/resetPassword
+        ///     {
+        ///         "Email": "user1@bloodstone.com"
+        ///     }
+        ///     
+        /// </remarks>
+        /// <param name="passwordResetRequest"></param>
+        /// <returns></returns>
+        /// <response code="200">Returns a message: "Email sent".</response>
+        /// <response code="400">Returns a list of error messages.</response>
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(List<string>), 400)]
         [AllowAnonymous]
         [HttpPost("user/resetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] PasswordResetRequest passwordResetRequest)
