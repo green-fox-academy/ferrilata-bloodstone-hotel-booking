@@ -6,6 +6,7 @@ using HotelBookingAppTests.TestUtils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Moq;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -81,6 +82,41 @@ namespace HotelBookingAppTests.Services
         }
 
         [Fact]
+        public async Task FindByIdAsync_WhenCalled_ShouldReturnHotelWithID()
+        {
+            var id = 0;
+            var name = "findByID hotel";
+            var location = new Location();
+            var pt = new PropertyType();
+            var rooms = new List<Room>();
+            rooms.Add(new Room());
+
+            using (var context = new ApplicationContext(options))
+            {
+                var hotel = context.Add(
+                    new Hotel { Name = name, Location = location, PropertyType = pt, Rooms = rooms }
+                );
+                await context.SaveChangesAsync();
+                id = hotel.Entity.HotelId;
+                 
+            }
+            using (var context = new ApplicationContext(options))
+            {
+                var hotelService = new HotelService(context,
+                    imageServiceMock.Object,
+                    thumbnailServiceMock.Object,
+                    localizerMock.Object,
+                    mapper.Object);
+                var hotel = context.Hotels.SingleOrDefault(h => h.HotelId == id);
+
+                var result = await hotelService.FindByIdAsync(id);
+
+                Assert.Equal(hotel, result);
+                Assert.Equal(name, result.Name);
+            }
+        }
+
+        [Fact]
         public async Task Update_WhenCalled_ShouldUpdateAHotel()
         {
             var id = 0;
@@ -133,6 +169,35 @@ namespace HotelBookingAppTests.Services
                 Assert.Equal(contextLength + 1, context.Reviews.Count());
                 Assert.True(context.Reviews.Contains(review));
                 Assert.Equal(comment, context.Reviews.Find(review.ReviewId).Comment);
+            }
+        }
+
+        [Fact]
+        public async Task DeleteReview_WhenCalled_ShouldDeleteAReview()
+        {
+            var id = 0;
+            using (var context = new ApplicationContext(options))
+            {
+                var review = context.Add(
+                    new Review { Rating = 5 }
+                    );
+                await context.SaveChangesAsync();
+                id = review.Entity.ReviewId;
+            }
+            using (var context = new ApplicationContext(options))
+            {
+                var hotelService = new HotelService(context,
+                    imageServiceMock.Object,
+                    thumbnailServiceMock.Object,
+                    localizerMock.Object,
+                    mapper.Object);
+                var contextLenght = context.Reviews.Count();
+                var review = context.Reviews.SingleOrDefault(h => h.HotelId == id);
+
+                await hotelService.DeleteReview(id);
+
+                Assert.Equal(contextLenght - 1, context.Reviews.Count());
+                Assert.False(context.Reviews.Contains(review));
             }
         }
     }
