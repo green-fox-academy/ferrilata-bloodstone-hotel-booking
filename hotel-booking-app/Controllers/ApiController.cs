@@ -11,8 +11,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -111,7 +109,7 @@ namespace HotelBookingApp.Controllers
         }
 
         /// <summary>
-        /// Get a list of hotels, but max. 10 at once.
+        /// Get a list of hotels, but max. 10 at once. Although it is customizeable with QueryParams properties
         /// Current page can be changed with "currentPage" parameter.
         /// Hotels can be filtered with given "city" parameter.
         /// </summary>
@@ -119,10 +117,11 @@ namespace HotelBookingApp.Controllers
         /// Sample request:
         ///
         ///     GET /api/hotels
+        ///     {
+        ///     }
         ///     
         /// </remarks>
-        /// <param name="city"></param>
-        /// <param name="currentPage"></param>
+        /// <param name="queryParams"></param>
         /// <returns>Returns a paginated list of hotels with required page. Max. 10 hotels/page.</returns>
         /// <response code="200">Returns a paginated list of hotels.</response>
         /// <response code="400">Returns a string with error message.</response>
@@ -130,13 +129,10 @@ namespace HotelBookingApp.Controllers
         [ProducesResponseType(typeof(string), 400)]
         [AllowAnonymous]
         [HttpGet("hotels")]
-        public async Task<IActionResult> Hotels(string city, int currentPage = 1)
+        public async Task<IActionResult> Hotels(QueryParams queryParams)
         {
-            var paginatedHotels = await hotelService.FindWithQuery(new QueryParams
-            {
-                CurrentPage = currentPage,
-                Search = city
-            });
+            var paginatedHotels = await hotelService.FindWithQuery(queryParams);
+            
             if (paginatedHotels.TotalPages < paginatedHotels.CurrentPage)
             {
                 return BadRequest(string.Format("Error: the current page is greater than the number of pages. Max. page: {0}", paginatedHotels.TotalPages));
