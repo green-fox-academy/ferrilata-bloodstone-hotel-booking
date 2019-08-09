@@ -198,5 +198,47 @@ namespace HotelBookingAppTests.Controllers
             // Assert
             Assert.Equal(500, result.StatusCode);
         }
+
+        [Fact]
+        public async Task Rooms_WhenHotelExists_ShouldResponseOkWithRoomDTOS()
+        {
+            // Arrange
+            var hotelId = 1;
+            var roomDTOs = new List<RoomDTO>();
+            roomDTOs.Add(new RoomDTO { Name = "Test room" });
+            roomServiceMock.Setup(h => h.GetRoomDTOs(hotelId))
+                .ReturnsAsync(roomDTOs);
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object);
+
+            // Act
+            var response = await controller.Rooms(hotelId);
+            var result = response as ObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result is OkObjectResult);
+            Assert.IsType<List<RoomDTO>>(result.Value);
+            Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task Rooms_WhenHotelNotExists_ShouldResponseOkWithRoomDTOS()
+        {
+            // Arrange
+            var hotelId = 1;
+            roomServiceMock.Setup(h => h.GetRoomDTOs(hotelId))
+                .Throws(new ItemNotFoundException());
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object);
+
+            // Act
+            var response = await controller.Rooms(hotelId);
+            var result = response as ObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result is BadRequestObjectResult);
+            Assert.IsType<string>(result.Value);
+            Assert.Equal(StatusCodes.Status400BadRequest, result.StatusCode);
+        }
     }
 }
