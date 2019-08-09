@@ -342,7 +342,7 @@ namespace HotelBookingAppTests.Controllers
         }
 
         [Fact]
-        public async Task Confirm_WhenNotOccupied_ShouldResponseOk()
+        public async Task Confirm_WhenNotOccupied_ShouldResponseBadRequest()
         {
             // Arrange
             var reservationId = 1;
