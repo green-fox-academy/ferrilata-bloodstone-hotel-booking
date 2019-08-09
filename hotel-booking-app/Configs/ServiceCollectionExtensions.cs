@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -106,7 +107,12 @@ namespace HotelBookingApp.Configs
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Endpoints", Version = "v1" });
                 c.EnableAnnotations();
-                c.IncludeXmlComments(string.Format(@"{0}\HotelBookingApp.xml", AppDomain.CurrentDomain.BaseDirectory));
+
+                var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                var commentsFileName = Assembly.GetExecutingAssembly().GetName().Name + ".XML";
+                var commentsFile = Path.Combine(baseDirectory, commentsFileName);
+
+                c.IncludeXmlComments(commentsFile);
             });
             return services;
         }
