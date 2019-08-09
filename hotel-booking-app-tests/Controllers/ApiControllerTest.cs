@@ -2,6 +2,7 @@
 using HotelBookingApp.Controllers;
 using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
+using HotelBookingApp.Models.Account;
 using HotelBookingApp.Models.API;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Models.Image;
@@ -16,6 +17,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Xunit;
@@ -411,6 +413,74 @@ namespace HotelBookingAppTests.Controllers
             Assert.True(result is BadRequestObjectResult);
             Assert.IsType<string>(result.Value);
             Assert.Equal(StatusCodes.Status400BadRequest, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task FindAllReservations_WhenExists_ShouldResponseOkWithList()
+        {
+            // Arrange
+            var userId = "6-6";
+            var reservations = new List<Reservation>();
+            reservations.Add(new Reservation { ApplicationUserId = userId, RoomId = 2});
+            reservationServiceMock.Setup(r => r.FindAllByUserId(userId))
+               .ReturnsAsync(reservations);
+
+            var controllerContext = ControllerContextProvider.GetDefault();
+            var user = new ApplicationUser() { UserName = "JohnDoe", Id = userId };
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim("name", user.UserName),
+            };
+            var identity = new ClaimsIdentity(claims, "Test");
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+            controllerContext.HttpContext.User = claimsPrincipal;
+
+            var reservationDTOs = new List<ReservationDTO>();
+            reservationDTOs.Add(new ReservationDTO { RoomId = 2 });
+            mapperMock.Setup(m => m.Map<List<ReservationDTO>>(reservations))
+                .Returns(reservationDTOs);
+
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object)
+            {
+                ControllerContext = controllerContext,
+            };
+
+            // Act
+            var response = await controller.FindAllReservations();
+            var result = response as ObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result is OkObjectResult);
+            Assert.IsType<List<ReservationDTO>>(result.Value);
+            Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task FindAllReservations_WhenNotExistsAny_ShouldResponseNoContent()
+        {
+            // Arrange
+            var userId = "6-6";
+            var reservations = new List<Reservation>();
+            reservationServiceMock.Setup(r => r.FindAllByUserId(userId))
+               .ReturnsAsync(reservations);
+
+            var controllerContext = ControllerContextProvider.GetDefault();
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object)
+            {
+                ControllerContext = controllerContext
+            };
+
+            // Act
+            var response = await controller.FindAllReservations();
+            var result = response as StatusCodeResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result is NoContentResult);
+            Assert.Equal(StatusCodes.Status204NoContent, result.StatusCode);
         }
     }
 }
