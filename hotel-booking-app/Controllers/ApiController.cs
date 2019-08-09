@@ -161,7 +161,7 @@ namespace HotelBookingApp.Controllers
         {
             try
             {
-                var hotel = await hotelService.FindByIdAsync(hotelId, new QueryParams());
+                var hotel = await hotelService.FindByIdAsync(hotelId);
                 return Ok(hotel);
             }
             catch (ItemNotFoundException e)
