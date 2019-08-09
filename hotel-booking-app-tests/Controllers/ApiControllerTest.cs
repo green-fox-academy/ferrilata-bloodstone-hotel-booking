@@ -375,5 +375,42 @@ namespace HotelBookingAppTests.Controllers
             Assert.IsType<Reservation>(result.Value);
             Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
         }
+
+        [Fact]
+        public async Task Delete_WhenReservationExists_ShouldResponseNoContent()
+        {
+            // Arrange
+            var reservationId = 1;
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object);
+
+            // Act
+            var response = await controller.Delete(reservationId);
+            var result = response as StatusCodeResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result is NoContentResult);
+            Assert.Equal(StatusCodes.Status204NoContent, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task Delete_WhenReservationNotExists_ShouldResponseBadRequest()
+        {
+            // Arrange
+            var reservationId = 1;
+            reservationServiceMock.Setup(r => r.DeleteAsync(reservationId))
+                .Throws(new ItemNotFoundException());
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object);
+
+            // Act
+            var response = await controller.Delete(reservationId);
+            var result = response as ObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result is BadRequestObjectResult);
+            Assert.IsType<string>(result.Value);
+            Assert.Equal(StatusCodes.Status400BadRequest, result.StatusCode);
+        }
     }
 }
