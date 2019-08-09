@@ -4,6 +4,7 @@ using HotelBookingApp.Data;
 using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.API;
 using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Models.Image;
 using HotelBookingApp.Services;
 using HotelBookingApp.Utils;
 using HotelBookingAppTests.TestUtils;
@@ -13,7 +14,9 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Xunit;
 
 namespace HotelBookingAppTests.Controllers
@@ -155,6 +158,45 @@ namespace HotelBookingAppTests.Controllers
             Assert.NotNull(badRequestResult);
             Assert.True(badRequestResult is BadRequestObjectResult);
             Assert.Equal(StatusCodes.Status400BadRequest, badRequestResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task FindAllHotelImages_WhichExists_ShouldCallServiceAndResponseOk()
+        {
+            // Arrange
+            var hotelId = 1;
+            var imageDetails = new List<ImageDetails>();
+            imageDetails.Add(new ImageDetails { Name = "Test image" });
+            imageServiceMock.Setup(h => h.GetImageListAsync(hotelId))
+                .ReturnsAsync(imageDetails);
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object);
+
+            // Act
+            var result = await controller.FindAllHotelImages(hotelId);
+            var okResult = result as ObjectResult;
+
+            // Assert
+            Assert.NotNull(okResult);
+            Assert.True(okResult is OkObjectResult);
+            Assert.IsType<List<ImageDetails>>(okResult.Value);
+            Assert.Equal(StatusCodes.Status200OK, okResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task FindAllHotelImages_WhenBlobNotAvailable_ShouldThrowServerError()
+        {
+            // Arrange
+            var hotelId = 1;
+            imageServiceMock.Setup(h => h.GetImageListAsync(hotelId))
+                .Throws(new SocketException());
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object);
+
+            // Act
+            var response = await controller.FindAllHotelImages(hotelId);
+            var result = response as StatusCodeResult;
+
+            // Assert
+            Assert.Equal(500, result.StatusCode);
         }
     }
 }
