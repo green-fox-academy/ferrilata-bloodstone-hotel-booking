@@ -3,18 +3,21 @@ using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Microsoft.Extensions.Localization;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AccountController : Controller
     {
         private readonly IAccountService accountService;
+        private readonly IStringLocalizer<AccountService> localizer;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IStringLocalizer<AccountService> localizer)
         {
             this.accountService = accountService;
+            this.localizer = localizer;
         }
 
         [HttpGet("login")]
@@ -99,6 +102,24 @@ namespace HotelBookingApp.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+
+        [HttpGet("Reset-Password")]
+        public IActionResult ResetPassword()
+        {
+            return View(new PasswordResetRequest());
+        }
+
+        [HttpPost("Reset-Password")]
+        [ActionName("ResetPassword")]
+        public async Task<IActionResult> ResetPasswordRequest(PasswordResetRequest passwordResetRequest)
+        {
+            passwordResetRequest.ErrorMessages = await accountService.ResetPasswordAsync(passwordResetRequest.Email);
+            if (passwordResetRequest.ErrorMessages.Count == 0)
+            {
+                passwordResetRequest.SuccessMessages.Add(localizer["Email sent"]);
+            }
+            return View(passwordResetRequest);
         }
     }
 }

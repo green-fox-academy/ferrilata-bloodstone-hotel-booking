@@ -63,5 +63,37 @@ namespace HotelBookingApp.Services
             });
             return body;
         }
+
+        public async Task SendPasswordResetEmailAsync(string password, string userEmail)
+        {
+            var options = new SendGridClientOptions { ApiKey = apiKey };
+            client = new SendGridClient(options);
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress("hotel-booking@bloodstone.com", "Hotel Booking"),
+                Subject = "Password Reset",
+                PlainTextContent = "Plain text not supported.",
+                HtmlContent = BuildPasswordResetEmailBody(password)
+            };
+            msg.AddTo(new EmailAddress(userEmail));
+            Response response;
+            try
+            {
+                response = await client.SendEmailAsync(msg);
+            }
+            catch (HttpRequestException)
+            {
+                Console.WriteLine("SendEmailAsync Failed to address: {0}", userEmail); ;
+            }
+        }
+
+        public string BuildPasswordResetEmailBody(string password)
+        {
+            var template = "Templates.PasswordReset";
+
+            RazorParser renderer = new RazorParser(typeof(EmailClient).Assembly, memoryCache);
+            var body = renderer.UsingTemplateFromEmbedded(template, password);
+            return body;
+        }
     }
 }

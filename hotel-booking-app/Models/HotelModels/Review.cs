@@ -1,4 +1,5 @@
 ﻿using HotelBookingApp.Models.Account;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotelBookingApp.Models.HotelModels
@@ -20,6 +21,7 @@ namespace HotelBookingApp.Models.HotelModels
         public int Rating { get; set; } = DEFAULT_RATING;
         public Hotel Hotel { get; set; }
         public int HotelId { get; set; }
+        [JsonIgnore]
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
     }

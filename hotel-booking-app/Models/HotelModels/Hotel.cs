@@ -1,6 +1,6 @@
 using HotelBookingApp.Models.Account;
 using HotelBookingApp.Utils;
-using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,6 +23,7 @@ namespace HotelBookingApp.Models.HotelModels
         public PaginatedList<Review> Reviews { get; set; }
         public bool Thumbnail { get; set; } = false;
         public string ThumbnailUrl { get; set; }
+        [JsonIgnore]
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
 

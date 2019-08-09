@@ -8,8 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Reflection;
+using System.Text;
 
 namespace HotelBookingApp.Configs
 {
@@ -31,7 +35,8 @@ namespace HotelBookingApp.Configs
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationContext>();
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(opt =>
             {
@@ -43,7 +48,11 @@ namespace HotelBookingApp.Configs
                 opt.LoginPath = "/login";
                 opt.AccessDeniedPath = "/access-denied";
             });
+            return services;
+        }
 
+        public static IServiceCollection AddAuthentications(this IServiceCollection services, IConfiguration configuration)
+        {
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
@@ -52,8 +61,19 @@ namespace HotelBookingApp.Configs
 
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
+                })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.RequireHttpsMetadata = false;
+                    cfg.SaveToken = true;
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = "Hotel-Booking",
+                        ValidAudience = "Hotel-Booking",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["APISecretKey"])),
+                        ClockSkew = TimeSpan.Zero // remove delay of token when expire
+                    };
                 });
-
             return services;
         }
 
@@ -67,6 +87,7 @@ namespace HotelBookingApp.Configs
         public static IServiceCollection AddMvcWithLocalization(this IServiceCollection services)
         {
             services.AddMvc()
+               .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                .AddDataAnnotationsLocalization(o =>
                {
@@ -76,6 +97,17 @@ namespace HotelBookingApp.Configs
                    var localizer = factory.Create(SHARED_RESOURCE_FOLDER_NAME, assemblyName.Name);
                    o.DataAnnotationLocalizerProvider = (t, f) => localizer;
                });
+            return services;
+        }
+
+        public static IServiceCollection AddSwaggerDoc(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Endpoints", Version = "v1" });
+                c.EnableAnnotations();
+                c.IncludeXmlComments(string.Format(@"{0}\HotelBookingApp.xml", AppDomain.CurrentDomain.BaseDirectory));
+            });
             return services;
         }
     }

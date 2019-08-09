@@ -3,27 +3,36 @@ using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HotelBookingApp.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize(Roles = "Admin, HotelManager")]
     [Route("hotels/{hotelId}/[controller]")]
     public class RoomsController : Controller
     {
         private readonly IRoomService roomService;
         private readonly IBedService bedService;
+        private readonly IHotelService hotelService;
 
-        public RoomsController(IBedService bedService, IRoomService roomService)
+        public RoomsController(IBedService bedService, IRoomService roomService, IHotelService hotelService)
         {
             this.roomService = roomService;
             this.bedService = bedService;
+            this.hotelService = hotelService;
         }
 
         [HttpGet("new")]
-        public IActionResult Add(int hotelId)
+        public async Task<IActionResult> Add(int hotelId)
         {
-            return View(new Room { HotelId = hotelId });
+            var hotel = await hotelService.FindByIdAsync(hotelId);
+            if (hotel.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin"))
+            {
+                return View(new Room { HotelId = hotelId });
+            }
+            return RedirectToAction(nameof(AccountController.AccessDenied), "Account");
         }
 
         [HttpPost("new")]
@@ -37,10 +46,17 @@ namespace HotelBookingApp.Controllers
         public async Task<IActionResult> AddBed(int hotelId, int roomId)
         {
             var beds = await bedService.FindAll();
-            return View(new BedViewModel
+            var hotel = await hotelService.FindByIdAsync(hotelId);
+            if (hotel.ApplicationUserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin"))
             {
-                Beds = beds, RoomId = roomId, HotelId = hotelId
-            });
+                return View(new BedViewModel
+                {
+                    Beds = beds,
+                    RoomId = roomId,
+                    HotelId = hotelId
+                });
+            }
+            return RedirectToAction(nameof(AccountController.AccessDenied), "Account");
         }
 
         [HttpPost("{roomId}/beds/new")]
