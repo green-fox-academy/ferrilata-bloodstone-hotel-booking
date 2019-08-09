@@ -5,6 +5,7 @@ using HotelBookingApp.Exceptions;
 using HotelBookingApp.Models.API;
 using HotelBookingApp.Models.HotelModels;
 using HotelBookingApp.Models.Image;
+using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using HotelBookingApp.Utils;
 using HotelBookingAppTests.TestUtils;
@@ -238,6 +239,70 @@ namespace HotelBookingAppTests.Controllers
             Assert.NotNull(result);
             Assert.True(result is BadRequestObjectResult);
             Assert.IsType<string>(result.Value);
+            Assert.Equal(StatusCodes.Status400BadRequest, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task Reserve_WhenHotelAndRoomExists_ShouldResponseOkWithReservation()
+        {
+            // Arrange
+            var roomId = 1;
+            var model = new ReservationViewModel();
+            var reservation = new Reservation
+            {
+                ReservationId = 1,
+                GuestNames = "Jani Kiss",
+                GuestNumber = 2
+            };
+            model.Reservation = reservation;
+            reservationServiceMock.Setup(h => h.AddAsync(reservation))
+                .ReturnsAsync(reservation);
+            var controllerContext = ControllerContextProvider.GetDefault();
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object)
+            {
+                ControllerContext = controllerContext
+            };
+
+            // Act
+            var response = await controller.Reserve(roomId, model);
+            var result = response as ObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result is OkObjectResult);
+            Assert.IsType<Reservation>(result.Value);
+            Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task Reserve_WhenModelisInvalid_ShouldResponseBadRequest()
+        {
+            // Arrange
+            var roomId = 1;
+            var model = new ReservationViewModel();
+            var reservation = new Reservation
+            {
+                ReservationId = 1,
+                GuestNumber = 1
+            };
+            model.Reservation = reservation;
+            reservationServiceMock.Setup(h => h.AddAsync(reservation))
+                .ReturnsAsync(reservation);
+            var controllerContext = ControllerContextProvider.GetDefault();
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object)
+            {
+                ControllerContext = controllerContext
+            };
+            controller.ModelState.AddModelError("GuestNames", "Required");
+
+            // Act
+            var response = await controller.Reserve(roomId, model);
+            var result = response as ObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result is BadRequestObjectResult);
+            Assert.IsType<ReservationViewModel>(result.Value);
             Assert.Equal(StatusCodes.Status400BadRequest, result.StatusCode);
         }
     }
