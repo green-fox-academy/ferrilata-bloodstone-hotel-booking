@@ -57,10 +57,8 @@ namespace HotelBookingAppTests.Services
         public async Task Delete_WhenCalled_ShouldDeleteAHotel()
         {
             var id = 0;
-            var lenght = 0;
             using (var context = new ApplicationContext(options))
             {
-                lenght = context.Hotels.Count();
                 var hotel = context.Add(new Hotel());
                 await context.SaveChangesAsync();
                 id = hotel.Entity.HotelId;
@@ -74,11 +72,9 @@ namespace HotelBookingAppTests.Services
                     mapper.Object);
                 var contextLenght = context.Hotels.Count();
                 var hotel = context.Hotels.SingleOrDefault(h => h.HotelId == id);
-                Assert.Equal(lenght + 1, context.Hotels.Count());
 
                 await hotelService.Delete(id);
 
-                Assert.Equal(lenght, context.Hotels.Count());
                 Assert.Equal(contextLenght - 1, context.Hotels.Count());
                 Assert.False(context.Hotels.Contains(hotel));
             }
@@ -88,18 +84,14 @@ namespace HotelBookingAppTests.Services
         public async Task Update_WhenCalled_ShouldUpdateAHotel()
         {
             var id = 0;
-            var lenght = 0;
             using (var context = new ApplicationContext(options))
             {
                 var pt = context.PropertyTypes.Add(new PropertyType());
                 var ptId = pt.Entity.PropertyTypeId;
 
-                lenght = context.Hotels.Count();
-
                 var hotel = context.Add(
                     new Hotel {PropertyTypeId = ptId, StarRating = 5});
                 await context.SaveChangesAsync();
-
                 id = hotel.Entity.HotelId;
             }
             using (var context = new ApplicationContext(options))
@@ -109,12 +101,13 @@ namespace HotelBookingAppTests.Services
                     thumbnailServiceMock.Object,
                     localizerMock.Object,
                     mapper.Object);
-                Assert.Equal(lenght + 1, context.Hotels.Count());
+                var contextLenght = context.Hotels.Count();
                 var hotel = context.Hotels.SingleOrDefault(h => h.HotelId == id);
                 hotel.Name = "not new";
 
                 await hotelService.Update(hotel);
 
+                Assert.Equal(contextLenght, context.Hotels.Count());
                 Assert.Equal("not new", hotel.Name);
                 Assert.True(hotel.StarRating == 5);
             }
