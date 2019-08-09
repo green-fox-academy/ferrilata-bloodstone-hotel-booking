@@ -305,5 +305,75 @@ namespace HotelBookingAppTests.Controllers
             Assert.IsType<ReservationViewModel>(result.Value);
             Assert.Equal(StatusCodes.Status400BadRequest, result.StatusCode);
         }
+
+        [Fact]
+        public async Task Confirm_WhenIsOccupied_ShouldResponseOk()
+        {
+            // Arrange
+            var reservationId = 1;
+            var model = new ReservationViewModel();
+            var userName = "John Doe";
+            var reservation = new Reservation
+            {
+                ReservationId = reservationId,
+                GuestNames = "Jani Kiss",
+                GuestNumber = 1
+            };
+            model.Reservation = reservation;
+            reservationServiceMock.Setup(r => r.ConfirmAsync(reservation.ReservationId, userName))
+                .ReturnsAsync(reservation);
+            reservationServiceMock.Setup(r => r.IsIntervalOccupied(reservation))
+                .ReturnsAsync(true);
+            var controllerContext = ControllerContextProvider.GetDefault();
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object)
+            {
+                ControllerContext = controllerContext
+            };
+
+            // Act
+            var response = await controller.Confirm(reservationId, reservation);
+            var result = response as ObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result is BadRequestObjectResult);
+            Assert.IsType<string>(result.Value);
+            Assert.Equal(StatusCodes.Status400BadRequest, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task Confirm_WhenNotOccupied_ShouldResponseOk()
+        {
+            // Arrange
+            var reservationId = 1;
+            var model = new ReservationViewModel();
+            var userName = "John Doe";
+            var reservation = new Reservation
+            {
+                ReservationId = reservationId,
+                GuestNames = "Jani Kiss",
+                GuestNumber = 1
+            };
+            model.Reservation = reservation;
+            reservationServiceMock.Setup(r => r.ConfirmAsync(reservation.ReservationId, userName))
+                .ReturnsAsync(reservation);
+            reservationServiceMock.Setup(r => r.IsIntervalOccupied(reservation))
+                .ReturnsAsync(false);
+            var controllerContext = ControllerContextProvider.GetDefault();
+            var controller = new ApiController(hotelServiceMock.Object, roomServiceMock.Object, accountServiceMock.Object, reservationServiceMock.Object, mapperMock.Object, imageServiceMock.Object)
+            {
+                ControllerContext = controllerContext
+            };
+
+            // Act
+            var response = await controller.Confirm(reservationId, reservation);
+            var result = response as ObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result is OkObjectResult);
+            Assert.IsType<Reservation>(result.Value);
+            Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
+        }
     }
 }
