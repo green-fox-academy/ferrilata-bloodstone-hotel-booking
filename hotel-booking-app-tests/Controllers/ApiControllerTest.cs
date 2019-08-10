@@ -19,7 +19,6 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Xunit;
 
 namespace HotelBookingAppTests.Controllers

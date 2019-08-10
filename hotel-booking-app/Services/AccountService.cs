@@ -46,8 +46,10 @@ namespace HotelBookingApp.Services
         public async Task<LoginResponseDTO> SignInApiAsync(LoginRequest request)
         {
             var errors = await SignInAsync(request);
-            var response = new LoginResponseDTO();
-            response.errors = errors;
+            var response = new LoginResponseDTO
+            {
+                errors = errors
+            };
 
             if (errors.Count == 0)
             {
