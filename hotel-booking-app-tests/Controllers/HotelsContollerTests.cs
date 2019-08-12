@@ -29,7 +29,7 @@ namespace HotelBookingAppTests.Controllers
         }
 
         [Fact]
-        public async Task Add_WhenValid_ShuldCallServieAndRedirect()
+        public async Task Add_WhenValid_ShouldCallServieAndRedirect()
         {
             var hotelVM = new HotelViewModel
             {
