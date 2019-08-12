@@ -55,7 +55,7 @@ namespace HotelBookingAppTests.Controllers
                 int currentPage = 1;
                 int pageSize = 1;
                 paginatedList = await PaginatedList<Hotel>
-                       .CreateAsync(context.Hotels.Take(12), currentPage, pageSize);
+                       .CreateAsync(context.Hotels, currentPage, pageSize);
             }
             paginatedList.Add(hotel);
             var hotelDTOlist = new List<HotelDTO>();
@@ -77,11 +77,11 @@ namespace HotelBookingAppTests.Controllers
 
             // Act
             var result = await controller.Hotels(q);
-            var badRequestResult = result as ObjectResult;
 
             // Assert
-            Assert.NotNull(badRequestResult);
-            Assert.True(badRequestResult is BadRequestObjectResult);
+            Assert.NotNull(result);
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<string>(badRequestResult.Value);
             Assert.Equal(StatusCodes.Status400BadRequest, badRequestResult.StatusCode);
         }
 
