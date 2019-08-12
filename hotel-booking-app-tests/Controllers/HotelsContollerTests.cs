@@ -1,9 +1,12 @@
 ﻿using HotelBookingApp.Controllers;
 using HotelBookingApp.Models.HotelModels;
+using HotelBookingApp.Pages;
 using HotelBookingApp.Services;
 using HotelBookingAppTests.TestUtils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
@@ -23,6 +26,39 @@ namespace HotelBookingAppTests.Controllers
             imageServiceMock = new Mock<IImageService>();
             thumbnailServiceMock = new Mock<IThumbnailService>();
             propertyServiceMock = new Mock<IPropertyTypeService>();
+        }
+
+        [Fact]
+        public async Task Add_WhenValid_ShouldCallServieAndRedirect()
+        {
+            var hotelVM = new HotelViewModel
+            {
+                Hotel = new Hotel
+            {
+                HotelId = 1
+            }
+        };
+            var imageList = new List<IFormFile>();
+            var controllerContext = ControllerContextProvider.GetDefault();
+            hotelServiceMock.Setup(s => s.Add(hotelVM.Hotel))
+                .ReturnsAsync(hotelVM.Hotel);
+            var controller = new HotelsController(hotelServiceMock.Object,
+                imageServiceMock.Object, thumbnailServiceMock.Object, propertyServiceMock.Object)
+            {
+                ControllerContext = controllerContext
+            };
+
+
+            var result = await controller.Add(hotelVM, imageList);
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            var redirectId = (int)redirectResult.RouteValues["id"];
+
+            Assert.Null(redirectResult.ControllerName);
+            Assert.Equal(nameof(controller.Hotel), redirectResult.ActionName);
+            Assert.Equal(controllerContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), hotelVM.Hotel.ApplicationUserId);
+            Assert.Equal(hotelVM.Hotel.HotelId, redirectId);
+            hotelServiceMock.Verify(s => s.Add(hotelVM.Hotel), Times.Once);
+            imageServiceMock.Verify(s => s.UploadImagesAsync(imageList, hotelVM.Hotel.HotelId), Times.Once);
         }
 
         [Fact]
