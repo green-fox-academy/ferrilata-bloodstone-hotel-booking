@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="API endpoints for mobile app development:" xml:space="preserve">
+    <value>API endpoint-ok mobilapplikáció fejlesztéshez:</value>
+  </data>
   <data name="Change password" xml:space="preserve">
     <value>Jelszó módosítás</value>
+  </data>
+  <data name="Developer" xml:space="preserve">
+    <value>Fejlesztő</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Nyelv</value>
