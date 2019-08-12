@@ -48,16 +48,16 @@ namespace HotelBookingAppTests.Controllers
         {
 
             // Arrange
-            var hotel = new Hotel { Name = "Test hotel" };
             var paginatedList = new PaginatedList<Hotel>();
             using (var context = new ApplicationContext(options))
             {
+                var hotel = new Hotel { Name = "Test hotel" };
+                context.Hotels.Add(hotel);
                 int currentPage = 1;
                 int pageSize = 1;
                 paginatedList = await PaginatedList<Hotel>
                        .CreateAsync(context.Hotels, currentPage, pageSize);
             }
-            paginatedList.Add(hotel);
             var hotelDTOlist = new List<HotelDTO>();
             int curPage = 99;
             var hotelsDto = new HotelsDTO
@@ -420,7 +420,7 @@ namespace HotelBookingAppTests.Controllers
             // Arrange
             var userId = "6-6";
             var reservations = new List<Reservation>();
-            reservations.Add(new Reservation { ApplicationUserId = userId, RoomId = 2});
+            reservations.Add(new Reservation { ApplicationUserId = userId, RoomId = 2 });
             reservationServiceMock.Setup(r => r.FindAllByUserId(userId))
                .ReturnsAsync(reservations);
 
